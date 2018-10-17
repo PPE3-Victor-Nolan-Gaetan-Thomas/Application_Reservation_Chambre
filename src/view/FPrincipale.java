@@ -2,19 +2,20 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JList;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class FPrincipale extends JFrame {
 
@@ -58,6 +59,7 @@ public class FPrincipale extends JFrame {
 	JButton btnAnnuler = new JButton("Annuler");
 	JButton btnSupprimer = new JButton("Supprimer");
 	JList list = new JList();
+	DefaultListModel DLM = new DefaultListModel();
 	
 	
 	//Fin d'instantiation des composants
@@ -73,7 +75,7 @@ public class FPrincipale extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		list.setModel(DLM);
 		
 		lblRservation.setFont(new Font("Tahoma", Font.PLAIN, 38));
 		lblRservation.setBounds(12, 13, 235, 48);
@@ -131,9 +133,20 @@ public class FPrincipale extends JFrame {
 		contentPane.add(date);
 		date.setBounds(167,  203, 174, 22);
 		
+		combo_type_chambre.addItem("Suite");
+		combo_type_chambre.addItem("Suite Junior");
+		combo_type_chambre.addItem("Prestige");
+		combo_type_chambre.addItem("Executive");
+		combo_type_chambre.addItem("Classic");
+		combo_type_chambre.addItem("Single");
+		combo_type_chambre.setSelectedItem(null);
 		combo_type_chambre.setBounds(167, 299, 174, 22);
 		contentPane.add(combo_type_chambre);
 		
+		combo_reglement.addItem("Carte bancaire");
+		combo_reglement.addItem("Espèce");
+		combo_reglement.addItem("Chèque");
+		combo_reglement.setSelectedItem(null);
 		combo_reglement.setBounds(167, 331, 174, 22);
 		contentPane.add(combo_reglement);
 		
