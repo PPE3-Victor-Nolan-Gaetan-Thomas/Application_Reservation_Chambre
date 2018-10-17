@@ -71,7 +71,7 @@ public class FPrincipale extends JFrame {
 	public FPrincipale() {
 		setTitle("R\u00E9servation chambre");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 890, 503);
+		setBounds(100, 100, 1074, 503);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -152,7 +152,7 @@ public class FPrincipale extends JFrame {
 		contentPane.add(combo_reglement);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), date.toString(), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
+				ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), date.getDate().toString(), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
 				resetChamps();
 			}
 		});
@@ -167,11 +167,16 @@ public class FPrincipale extends JFrame {
 		});
 		btnAnnuler.setBounds(167, 384, 126, 59);
 		contentPane.add(btnAnnuler);
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DLM.removeElementAt(list.getSelectedIndex());
+			}
+		});
 		
 		btnSupprimer.setBounds(321, 384, 126, 59);
 		contentPane.add(btnSupprimer);
 		
-		list.setBounds(497, 13, 363, 430);
+		list.setBounds(497, 13, 547, 430);
 		contentPane.add(list);
 		
 		
