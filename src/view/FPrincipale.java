@@ -133,6 +133,7 @@ public class FPrincipale extends JFrame {
 		
 		contentPane.add(date);
 		date.setBounds(167,  203, 174, 22);
+	//	date.setDateFormatString("dd/MM/yyyy");
 		
 		combo_type_chambre.addItem("Suite");
 		combo_type_chambre.addItem("Suite Junior");
@@ -152,7 +153,9 @@ public class FPrincipale extends JFrame {
 		contentPane.add(combo_reglement);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), date.getDate().toString(), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
+				java.util.Date jud = date.getDate();
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+				ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), sdf.format(jud), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
 				resetChamps();
 			}
 		});
