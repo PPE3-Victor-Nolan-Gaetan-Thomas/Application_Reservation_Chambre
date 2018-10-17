@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -149,20 +150,19 @@ public class FPrincipale extends JFrame {
 		combo_reglement.setSelectedItem(null);
 		combo_reglement.setBounds(167, 331, 174, 22);
 		contentPane.add(combo_reglement);
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), date.toString(), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
+				resetChamps();
+			}
+		});
 		
 		btnValider.setBounds(12, 384, 126, 59);
 		contentPane.add(btnValider);
 		
 		btnAnnuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				txt_nom.setText(null);
-				txt_prenom.setText(null);
-				txt_num_res.setText(null);
-				txt_nb_jour_res.setText(null);
-				txt_mail.setText(null);
-				date.setDate(null);
-				combo_type_chambre.setSelectedItem(null);
-				combo_reglement.setSelectedItem(null);
+				resetChamps();
 			}
 		});
 		btnAnnuler.setBounds(167, 384, 126, 59);
@@ -177,4 +177,22 @@ public class FPrincipale extends JFrame {
 		
 		
 	}
+	
+	public void resetChamps() {
+		txt_nom.setText(null);
+		txt_prenom.setText(null);
+		txt_num_res.setText(null);
+		txt_nb_jour_res.setText(null);
+		txt_mail.setText(null);
+		date.setDate(null);
+		combo_type_chambre.setSelectedItem(null);
+		combo_reglement.setSelectedItem(null);
+	}
+	
+	public void ajouterReservation(String pNom, String pPrenom, String pNumeroReservation, String dateArrivee, String dureeSejour, String mail, String typeChambre, String typeReglement) {
+		DLM.addElement(pNom + " " + pPrenom + " " + pNumeroReservation + " " + dateArrivee + " " + dureeSejour + " " + mail + " " + typeChambre + " " + typeReglement);
+	}
+	
+	
+	
 }
