@@ -222,7 +222,7 @@ public class FPrincipale extends JFrame {
 		btnSupprimer.setBounds(321, 384, 126, 59);
 		contentPane.add(btnSupprimer);
 		
-		list.setBounds(497, 13, 547, 430);
+		list.setBounds(497, 41, 547, 402);
 		contentPane.add(list);
 		
 		
