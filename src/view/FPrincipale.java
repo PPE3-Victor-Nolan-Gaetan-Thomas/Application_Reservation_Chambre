@@ -4,7 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -104,6 +106,17 @@ public class FPrincipale extends JFrame {
 		txt_num_res = new JTextField();
 		txt_num_res.setColumns(10);
 		txt_num_res.setBounds(167, 168, 174, 22);
+		txt_num_res.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= '0') && (c <= '9') ||
+		           (c == KeyEvent.VK_BACK_SPACE) ||
+		           (c == KeyEvent.VK_DELETE))) {
+		          getToolkit().beep();
+		          e.consume();
+		        }
+		      }
+		    });
 		contentPane.add(txt_num_res);
 		
 		lblDate.setBounds(12, 203, 126, 16);
@@ -115,6 +128,17 @@ public class FPrincipale extends JFrame {
 		txt_nb_jour_res = new JTextField();
 		txt_nb_jour_res.setColumns(10);
 		txt_nb_jour_res.setBounds(167, 232, 174, 22);
+		txt_nb_jour_res.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= '0') && (c <= '9') ||
+		           (c == KeyEvent.VK_BACK_SPACE) ||
+		           (c == KeyEvent.VK_DELETE))) {
+		          getToolkit().beep();
+		          e.consume();
+		        }
+		      }
+		    });
 		contentPane.add(txt_nb_jour_res);
 		
 		lbl_reglement.setBounds(12, 334, 126, 16);
@@ -153,10 +177,16 @@ public class FPrincipale extends JFrame {
 		contentPane.add(combo_reglement);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				java.util.Date jud = date.getDate();
-				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-				ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), sdf.format(jud), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
-				resetChamps();
+				if(txt_nom.getText()==null || txt_prenom.getText()==null || txt_mail.getText() == null || txt_nb_jour_res.getText() == null || txt_num_res.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || date.getDate() == null) {
+					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
+				}else {
+					java.util.Date jud = date.getDate();
+					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+					ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), sdf.format(jud), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
+					resetChamps();
+				}
+				
+				
 			}
 		});
 		
@@ -172,7 +202,13 @@ public class FPrincipale extends JFrame {
 		contentPane.add(btnAnnuler);
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DLM.removeElementAt(list.getSelectedIndex());
+				if(list.getSelectedIndex() == -1) {}else {
+					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
+						DLM.removeElementAt(list.getSelectedIndex());
+					}
+					
+				}
+				
 			}
 		});
 		
