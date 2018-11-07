@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -180,10 +181,16 @@ public class FPrincipale extends JFrame {
 				if(txt_nom.getText()==null || txt_prenom.getText()==null || txt_mail.getText() == null || txt_nb_jour_res.getText() == null || txt_num_res.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || date.getDate() == null) {
 					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
 				}else {
-					java.util.Date jud = date.getDate();
-					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-					ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), sdf.format(jud), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
-					resetChamps();
+					if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", txt_mail.getText()))) 
+					{ 
+						JOptionPane.showMessageDialog(contentPane, "Veuillez entrer un email valide", "Error", JOptionPane.ERROR_MESSAGE); 
+					}else {
+						java.util.Date jud = date.getDate();
+						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+						ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), sdf.format(jud), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
+						resetChamps();
+					}
+					
 				}
 				
 				
