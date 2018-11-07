@@ -1,20 +1,18 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import sun.swing.AccumulativeRunnable;
-
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class FConnexion extends JFrame {
 
@@ -43,6 +41,7 @@ public class FConnexion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	JLabel lblStatutCon = new JLabel("");
 	public FConnexion() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 260);
@@ -68,31 +67,48 @@ public class FConnexion extends JFrame {
 		txtMdp = new JTextField();
 		txtMdp.setColumns(10);
 		txtMdp.setBounds(151, 119, 157, 22);
+		txtMdp.addKeyListener(new KeyListener() {
+
+			
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					conn();
+				}
+				
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+			
+		});
 		contentPane.add(txtMdp);
 		
 		JLabel lblMotDePasse = new JLabel("Mot de passe : ");
 		lblMotDePasse.setBounds(12, 122, 124, 16);
 		contentPane.add(lblMotDePasse);
 		
-		JLabel lblStatutCon = new JLabel("");
+		
 		lblStatutCon.setBounds(101, 165, 124, 16);
 		contentPane.add(lblStatutCon);
 		
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtIdentifiant.getText().equals("admin") && txtMdp.getText().equals("admin")) {
-					lblStatutCon.setText("Accès autorisé");
-					FAccueil acceuil = new FAccueil();
-					acceuil.setVisible(true);
-					setVisible(false);
-				}else {
-					lblStatutCon.setText("Accès refusé");
-				}
+				conn();
 			}
 		});
 		btnValider.setBounds(300, 154, 119, 48);
 		contentPane.add(btnValider);
+	}
+	
+	public void conn() {
+		if(txtIdentifiant.getText().equals("admin") && txtMdp.getText().equals("admin")) {
+			lblStatutCon.setText("Accès autorisé");
+			FAccueil acceuil = new FAccueil();
+			acceuil.setVisible(true);
+			setVisible(false);
+		}else {
+			lblStatutCon.setText("Accès refusé");
+		}
 	}
 
 }

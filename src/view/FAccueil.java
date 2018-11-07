@@ -13,6 +13,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class FAccueil extends JFrame {
 
@@ -40,7 +41,7 @@ public class FAccueil extends JFrame {
 	 */
 	public FAccueil() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 613, 318);
+		setBounds(100, 100, 429, 331);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -48,7 +49,7 @@ public class FAccueil extends JFrame {
 		
 		JLabel lblConnexion = new JLabel("Menu principal");
 		lblConnexion.setFont(new Font("Tahoma", Font.BOLD, 37));
-		lblConnexion.setBounds(147, 0, 297, 74);
+		lblConnexion.setBounds(60, 0, 297, 74);
 		contentPane.add(lblConnexion);
 		
 		JButton btsResChambreMenu = new JButton("R\u00E9servation chambre");
@@ -59,7 +60,7 @@ public class FAccueil extends JFrame {
 				fprincipal.setVisible(true);
 			}
 		});
-		btsResChambreMenu.setBounds(22, 108, 172, 105);
+		btsResChambreMenu.setBounds(24, 87, 172, 105);
 		contentPane.add(btsResChambreMenu);
 		
 		JButton btnFacturationMenu = new JButton("Facturation");
@@ -70,10 +71,11 @@ public class FAccueil extends JFrame {
 				ffac.setVisible(true);
 			}
 		});
-		btnFacturationMenu.setBounds(220, 108, 172, 105);
+		btnFacturationMenu.setBounds(222, 87, 172, 105);
 		contentPane.add(btnFacturationMenu);
 		
-		JButton btnRetourCon = new JButton("Retour connexion");
+		JButton btnRetourCon = new JButton("D\u00E9connexion");
+		btnRetourCon.setIcon(new ImageIcon("D:\\Documents\\2TSSI\\PPE3\\Application_Reservation_Chambre\\img\\exit.jpg"));
 		btnRetourCon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -81,7 +83,7 @@ public class FAccueil extends JFrame {
 				fcon.setVisible(true);
 			}
 		});
-		btnRetourCon.setBounds(411, 108, 172, 105);
+		btnRetourCon.setBounds(24, 205, 370, 66);
 		contentPane.add(btnRetourCon);
 	}
 }
