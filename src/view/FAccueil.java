@@ -75,7 +75,7 @@ public class FAccueil extends JFrame {
 		contentPane.add(btnFacturationMenu);
 		
 		JButton btnRetourCon = new JButton("D\u00E9connexion");
-		btnRetourCon.setIcon(new ImageIcon("D:\\Documents\\2TSSI\\PPE3\\Application_Reservation_Chambre\\img\\exit.jpg"));
+		btnRetourCon.setIcon(new ImageIcon("..\\..\\PPE3\\Application_Reservation_Chambre\\img\\exit.jpg"));
 		btnRetourCon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);

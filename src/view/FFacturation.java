@@ -6,10 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JList;
 
 public class FFacturation extends JFrame {
-
-	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -31,12 +32,16 @@ public class FFacturation extends JFrame {
 	 * Create the frame.
 	 */
 	public FFacturation() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		setBounds(100, 100, 1074, 503);
+		getContentPane().setLayout(null);
+		
+		JLabel lblFacturation = new JLabel("Facturation : ");
+		lblFacturation.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		lblFacturation.setBounds(12, 13, 236, 47);
+		getContentPane().add(lblFacturation);
+		
+		JList list = new JList();
+		list.setBounds(12, 61, 451, 382);
+		getContentPane().add(list);
 	}
-
 }
