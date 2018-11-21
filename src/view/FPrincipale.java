@@ -241,7 +241,7 @@ public class FPrincipale extends JFrame {
 	}
 	
 	public void ajouterReservation(String pNom, String pPrenom, String pNumeroReservation, String dateArrivee, String dureeSejour, String mail, String typeChambre, String typeReglement) {
-		DLM.addElement(pNom + " " + pPrenom + " " + pNumeroReservation + " " + dateArrivee + " " + dureeSejour + " " + mail + " " + typeChambre + " " + typeReglement);
+		DLM.addElement(pNom + " " + pPrenom + " | " + pNumeroReservation + " | " + dateArrivee + " | " + dureeSejour + " | " + mail + " | " + typeChambre + " | " + typeReglement);
 	}
 	
 	
