@@ -6,19 +6,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import model.Connexion;
 
 public class FConnexion extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtIdentifiant;
-	private JTextField txtMdp;
+	public static JTextField txtIdentifiant;
 	final String idtest = "admin";
 	final String mdptest = "admin";
 
@@ -42,6 +48,7 @@ public class FConnexion extends JFrame {
 	 * Create the frame.
 	 */
 	JLabel lblStatutCon = new JLabel("");
+	public static JPasswordField txtMdp;
 	public FConnexion() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 260);
@@ -64,44 +71,48 @@ public class FConnexion extends JFrame {
 		contentPane.add(txtIdentifiant);
 		txtIdentifiant.setColumns(10);
 		
-		txtMdp = new JTextField();
-		txtMdp.setColumns(10);
-		txtMdp.setBounds(151, 119, 157, 22);
-		txtMdp.addKeyListener(new KeyListener() {
-
-			
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					conn();
-				}
-				
-			}
-			public void keyReleased(KeyEvent e) {}
-			public void keyTyped(KeyEvent e) {}
-			
-		});
-		contentPane.add(txtMdp);
-		
 		JLabel lblMotDePasse = new JLabel("Mot de passe : ");
 		lblMotDePasse.setBounds(12, 122, 124, 16);
 		contentPane.add(lblMotDePasse);
 		
 		
-		lblStatutCon.setBounds(101, 165, 124, 16);
+		lblStatutCon.setBounds(28, 166, 124, 16);
 		contentPane.add(lblStatutCon);
 		
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				conn();
+				authentication();
 			}
 		});
-		btnValider.setBounds(300, 154, 119, 48);
+		btnValider.setBounds(171, 152, 119, 48);
 		contentPane.add(btnValider);
+		
+		txtMdp = new JPasswordField();
+		txtMdp.setBounds(151, 119, 157, 22);
+		txtMdp.addKeyListener(new KeyListener() {
+			public void keyTyped(KeyEvent e) {}
+			public void keyReleased(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					authentication();
+				}
+			}
+		});
+		contentPane.add(txtMdp);
+		
+		JButton btnQuitter = new JButton("Quitter");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnQuitter.setBounds(302, 152, 119, 48);
+		contentPane.add(btnQuitter);
 	}
 	
-	public void conn() {
-		if(txtIdentifiant.getText().equals("admin") && txtMdp.getText().equals("admin")) {
+	public void conn() {//plus utile
+		if(txtIdentifiant.getText().equals("admin") && txtMdp.getPassword().equals("admin")) {
 			lblStatutCon.setText("Accès autorisé");
 			FAccueil acceuil = new FAccueil();
 			acceuil.setVisible(true);
@@ -110,5 +121,18 @@ public class FConnexion extends JFrame {
 			lblStatutCon.setText("Accès refusé");
 		}
 	}
-
+	
+	public void authentication() {
+		
+		try {
+			Connexion con = new Connexion();
+			Connection conn = con.getConn();
+			Statement state = conn.createStatement();
+			ResultSet loginbdd = state.executeQuery("SELECT login FROM personnel");
+			ResultSet mdpbdd = state.executeQuery("SELECT mdp FROM personnel");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -1,0 +1,72 @@
+package model;
+
+public class Client {
+	
+	private int id_client;
+	private String nom_client;
+	private String prenom_client;
+	private String cp_client;
+	private String ville_client;
+	private String rue_client;
+	private String mdp_client;
+	
+	
+	public Client(int id_client, String nom_client, String prenom_client, String cp_client, String ville_client,
+			String rue_client) {
+		this.id_client = id_client;
+		this.nom_client = nom_client;
+		this.prenom_client = prenom_client;
+		this.cp_client = cp_client;
+		this.ville_client = ville_client;
+		this.rue_client = rue_client;
+	}
+	
+	
+	
+	
+	
+	
+	public int getId_client() {
+		return id_client;
+	}
+	public void setId_client(int id_client) {
+		this.id_client = id_client;
+	}
+	public String getNom_client() {
+		return nom_client;
+	}
+	public void setNom_client(String nom_client) {
+		this.nom_client = nom_client;
+	}
+	public String getPrenom_client() {
+		return prenom_client;
+	}
+	public void setPrenom_client(String prenom_client) {
+		this.prenom_client = prenom_client;
+	}
+	public String getCp_client() {
+		return cp_client;
+	}
+	public void setCp_client(String cp_client) {
+		this.cp_client = cp_client;
+	}
+	public String getVille_client() {
+		return ville_client;
+	}
+	public void setVille_client(String ville_client) {
+		this.ville_client = ville_client;
+	}
+	public String getRue_client() {
+		return rue_client;
+	}
+	public void setRue_client(String rue_client) {
+		this.rue_client = rue_client;
+	}
+	public String getMdp_client() {
+		return mdp_client;
+	}
+	public void setMdp_client(String mdp_client) {
+		this.mdp_client = mdp_client;
+	}
+
+}
