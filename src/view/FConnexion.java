@@ -14,11 +14,13 @@ import java.sql.Statement;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import model.BCrypt;
 import model.Connexion;
 
 public class FConnexion extends JFrame {
@@ -50,6 +52,8 @@ public class FConnexion extends JFrame {
 	JLabel lblStatutCon = new JLabel("");
 	public static JPasswordField txtMdp;
 	public FConnexion() {
+		String hashed = BCrypt.hashpw("dtuvdjwh", BCrypt.gensalt());
+		System.out.println(hashed);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 260);
 		contentPane = new JPanel();
@@ -123,23 +127,35 @@ public class FConnexion extends JFrame {
 	}
 	
 	public void authentication() {
+		String loginbdd = "";
+		String mdpbdd = "";
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
 		
 		try {
-			Connexion con = new Connexion();
-			Connection conn = con.getConn();
 			Statement state = conn.createStatement();
-			ResultSet loginbdd = state.executeQuery("SELECT login FROM personnel");
-			ResultSet mdpbdd = state.executeQuery("SELECT mdp FROM personnel");
-			if(txtIdentifiant.equals(loginbdd)) {
-				if(txtMdp.getPassword().equals(mdpbdd)) {
+			ResultSet result = state.executeQuery("SELECT * FROM personnel");
+			
+			if(result.first()) {
+				do {
+					loginbdd = result.getString(2);
+					mdpbdd = result.getString(3);
+				}while(result.next());
+			}
+			
+			if(txtIdentifiant.getText().equals(loginbdd)) {
+				if(BCrypt.checkpw(String.valueOf(txtMdp.getPassword()),mdpbdd)) {
 					FAccueil fa = new FAccueil();
 					fa.setVisible(true);
 					dispose();
 				}else {
 					//mdp incorrect
+					JOptionPane.showMessageDialog(contentPane, "Mot de passe incorrect", "Attention", NORMAL);
 				}
 			}else {
 				//identifiant inconnu
+				System.out.println("txt : " + txtIdentifiant.getText() + " bdd : " + String.valueOf(loginbdd));//debug
+				JOptionPane.showMessageDialog(contentPane, "Identifiant inconnu", "Attention", NORMAL);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
