@@ -26,7 +26,7 @@ public class Connexion {
     }
     
     public Connexion() {
-        this.nomBDD = "labogestioncompte";
+        this.nomBDD = "ppe3";
         this.login = "root";
         this.mdp = "";
         this.url = "127.0.0.1";

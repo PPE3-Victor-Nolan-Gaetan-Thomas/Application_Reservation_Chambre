@@ -130,6 +130,17 @@ public class FConnexion extends JFrame {
 			Statement state = conn.createStatement();
 			ResultSet loginbdd = state.executeQuery("SELECT login FROM personnel");
 			ResultSet mdpbdd = state.executeQuery("SELECT mdp FROM personnel");
+			if(txtIdentifiant.equals(loginbdd)) {
+				if(txtMdp.getPassword().equals(mdpbdd)) {
+					FAccueil fa = new FAccueil();
+					fa.setVisible(true);
+					dispose();
+				}else {
+					//mdp incorrect
+				}
+			}else {
+				//identifiant inconnu
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
