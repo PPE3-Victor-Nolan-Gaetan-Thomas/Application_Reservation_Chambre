@@ -5,9 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Login {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
+	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -50,6 +52,54 @@ public class Login {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void recupReservation() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		
+		
+		try {
+			Statement state = conn.createStatement();
+			ResultSet resultat = state.executeQuery("SELECT * FROM client");
+			
+			int id;
+			String nom;
+			String prenom;
+			int numRes;
+			int nbJourRes;
+			String mail;
+			Date date;
+			String typeChambre;
+			String reglement;
+
+			if (resultat.first()) {
+				do {
+					id = resultat.getInt(1);
+					nom = resultat.getString(2);
+					prenom = resultat.getString(3);
+					numRes = resultat.getInt(4);
+					nbJourRes = resultat.getInt(5);
+					mail = resultat.getString(6);
+					date = resultat.getDate(7);
+					typeChambre = resultat.getString(8);
+					reglement = resultat.getString(9);
+					
+					listeReservation.add(new Reservation(id, nom, prenom, numRes, nbJourRes, mail, date, typeChambre, reglement));
+					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void ajouterReservation() {
+		
 	}
 	
 	

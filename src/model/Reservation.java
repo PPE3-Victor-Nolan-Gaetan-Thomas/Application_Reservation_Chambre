@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Reservation {
 	
+	private int id;
 	private String nom;
 	private String prenom;
 	private int numRes;
@@ -19,8 +20,9 @@ public class Reservation {
 		
 	}
 
-	public Reservation(String nom, String prenom, int numRes, int nbJourRes, String mail, Date date, String typeChambre,
+	public Reservation(int id, String nom, String prenom, int numRes, int nbJourRes, String mail, Date date, String typeChambre,
 			String reglement) {
+		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.numRes = numRes;

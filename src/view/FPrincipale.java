@@ -33,8 +33,7 @@ public class FPrincipale extends JFrame {
 	private JTextField txt_num_res;
 	private JTextField txt_nb_jour_res;
 	private JTextField txt_mail;
-	public ArrayList<Client> listReservation = new ArrayList<Client>();
-
+	
 	/**
 	 * Launch the application.
 	 */
