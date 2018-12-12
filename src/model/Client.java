@@ -8,7 +8,6 @@ public class Client {
 	private String cp_client;
 	private String ville_client;
 	private String rue_client;
-	private String mdp_client;
 	
 	
 	public Client(int id_client, String nom_client, String prenom_client, String cp_client, String ville_client,
