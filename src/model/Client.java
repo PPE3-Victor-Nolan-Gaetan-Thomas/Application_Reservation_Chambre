@@ -61,11 +61,5 @@ public class Client {
 	public void setRue_client(String rue_client) {
 		this.rue_client = rue_client;
 	}
-	public String getMdp_client() {
-		return mdp_client;
-	}
-	public void setMdp_client(String mdp_client) {
-		this.mdp_client = mdp_client;
-	}
-
+	
 }

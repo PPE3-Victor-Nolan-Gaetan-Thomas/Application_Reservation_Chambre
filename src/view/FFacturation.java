@@ -1,20 +1,20 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
+
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.Box;
+
+import model.Client;
+import model.Login;
 
 public class FFacturation extends JFrame {
 	private JTextField textField;
@@ -42,6 +42,7 @@ public class FFacturation extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	DefaultListModel DLM = new DefaultListModel();
 	public FFacturation() {
 		setBounds(100, 100, 638, 503);
 		getContentPane().setLayout(null);
@@ -127,5 +128,13 @@ public class FFacturation extends JFrame {
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.setBounds(382, 366, 143, 66);
 		getContentPane().add(btnNewButton);
+		
+		list.setModel(DLM);
+		Login.recupClient();
+		for(Client clienttmp : Login.listeClients) {
+			if(clienttmp.getId_client() != 0) {
+				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
+			}
+		}
 	}
 }

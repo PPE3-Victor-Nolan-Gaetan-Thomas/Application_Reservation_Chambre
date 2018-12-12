@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
@@ -21,6 +22,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import model.Client;
+import model.Login;
+
 public class FPrincipale extends JFrame {
 
 	private JPanel contentPane;
@@ -29,6 +33,7 @@ public class FPrincipale extends JFrame {
 	private JTextField txt_num_res;
 	private JTextField txt_nb_jour_res;
 	private JTextField txt_mail;
+	public ArrayList<Client> listReservation = new ArrayList<Client>();
 
 	/**
 	 * Launch the application.
@@ -181,7 +186,7 @@ public class FPrincipale extends JFrame {
 				if(txt_nom.getText()==null || txt_prenom.getText()==null || txt_mail.getText() == null || txt_nb_jour_res.getText() == null || txt_num_res.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || date.getDate() == null) {
 					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
 				}else {
-					if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", txt_mail.getText()))) 
+					if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", txt_mail.getText()))) //rajouter +[.]{1}+ ??
 					{ 
 						JOptionPane.showMessageDialog(contentPane, "Veuillez entrer un email valide", "Error", JOptionPane.ERROR_MESSAGE); 
 					}else {
@@ -224,6 +229,8 @@ public class FPrincipale extends JFrame {
 		
 		list.setBounds(497, 41, 547, 402);
 		contentPane.add(list);
+		
+		
 		
 		
 		

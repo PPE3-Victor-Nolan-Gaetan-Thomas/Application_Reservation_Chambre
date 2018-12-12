@@ -34,11 +34,11 @@ public class Login {
 			if (resultat.first()) {
 				do {
 					id_Client = resultat.getInt(1);
-					nom_Client = resultat.getString(3);
-					prenom_Client = resultat.getString(4);
-					adresseCP_Client = resultat.getString(6);
-					adresseVille_Client = resultat.getString(7);
-					adresseRue_Client = resultat.getString(8);
+					nom_Client = resultat.getString(2);
+					prenom_Client = resultat.getString(3);
+					adresseCP_Client = resultat.getString(4);
+					adresseVille_Client = resultat.getString(5);
+					adresseRue_Client = resultat.getString(6);
 					
 					listeClients.add(new Client(id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client));
 					
