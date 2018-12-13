@@ -65,31 +65,25 @@ public class Login {
 		
 		try {
 			Statement state = conn.createStatement();
-			ResultSet resultat = state.executeQuery("SELECT * FROM client");
+			ResultSet resultat = state.executeQuery("SELECT * FROM reservation");
 			
 			int id;
-			String nom;
-			String prenom;
 			int numRes;
 			int nbJourRes;
-			String mail;
-			Date date;
+			String date;
 			String typeChambre;
 			String reglement;
 
 			if (resultat.first()) {
 				do {
 					id = resultat.getInt(1);
-					nom = resultat.getString(2);
-					prenom = resultat.getString(3);
-					numRes = resultat.getInt(4);
-					nbJourRes = resultat.getInt(5);
-					mail = resultat.getString(6);
-					date = resultat.getDate(7);
-					typeChambre = resultat.getString(8);
-					reglement = resultat.getString(9);
+					numRes = resultat.getInt(2);
+					nbJourRes = resultat.getInt(3);
+					date = resultat.getString(4);
+					typeChambre = resultat.getString(5);
+					reglement = resultat.getString(6);
 					
-					listeReservation.add(new Reservation(id, nom, prenom, numRes, nbJourRes, mail, date, typeChambre, reglement));
+					listeReservation.add(new Reservation(id, numRes, nbJourRes, date, typeChambre, reglement));
 					
 				} while (resultat.next());
 
@@ -101,24 +95,19 @@ public class Login {
 		}
 	}
 	
-	public static void ajouterReservation(int id, String nom, String prenom, int numRes, int nbJourRes, String mail, Date date, String typeChambre, String reglement, int idClient) {
+	public static void ajouterReservation(int nbJourRes, String date, String typeChambre, String reglement, int idClient) {
 		//faire une requete preparer
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {//regarder comment faire une requete preparer
-			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (nom, prenom, numres, nbjourres, mail, date, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (nbjourres, date, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?)");
 			
-		//	state.setInt(1,  id);
-			state.setString(1,  nom);
-			state.setString(2, prenom);
-			state.setInt(3,  numRes);
-			state.setInt(4, nbJourRes);
-			state.setString(5, mail);
-			state.setDate(6, (java.sql.Date) date); 
-			state.setString(7, typeChambre);
-			state.setString(8, reglement);
-			state.setInt(9, idClient);
+			state.setInt(1, nbJourRes);
+			state.setString(2, date);
+			state.setString(3, typeChambre);
+			state.setString(4, reglement);
+			state.setInt(5, idClient);
 			
 			state.execute();
 			

@@ -21,6 +21,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import model.Login;
+
 public class FPrincipale extends JFrame {
 
 	private JPanel contentPane;
@@ -153,9 +155,9 @@ public class FPrincipale extends JFrame {
 				}else {
 					java.util.Date jud = date.getDate();
 					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+					Login.ajouterReservation(Integer.valueOf(txt_nb_jour_res.getText()), String.valueOf(sdf.format(jud)), String.valueOf(combo_type_chambre.getSelectedItem()), String.valueOf(combo_reglement.getSelectedItem()), Integer.valueOf(txtIdClient.getText()));
+					
 					resetChamps();
-					
-					
 				}
 				
 				
@@ -177,6 +179,7 @@ public class FPrincipale extends JFrame {
 				if(list.getSelectedIndex() == -1) {}else {
 					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
 						DLM.removeElementAt(list.getSelectedIndex());
+						//rajouter la suppression bdd
 					}
 					
 				}
@@ -197,11 +200,8 @@ public class FPrincipale extends JFrame {
 	}
 	
 	public void resetChamps() {
-		txt_nom.setText(null);
-		txt_prenom.setText(null);
 		txtIdClient.setText(null);
 		txt_nb_jour_res.setText(null);
-		txt_mail.setText(null);
 		date.setDate(null);
 		combo_type_chambre.setSelectedItem(null);
 		combo_reglement.setSelectedItem(null);
@@ -209,8 +209,7 @@ public class FPrincipale extends JFrame {
 	
 	public void ajouterReservation(String pNom, String pPrenom, String pNumeroReservation, String dateArrivee, String dureeSejour, String mail, String typeChambre, String typeReglement) {
 		//ajouter l'envoie dans la bdd
-		DLM.addElement(pNom + " " + pPrenom + " | " + pNumeroReservation + " | " + dateArrivee + " | " + dureeSejour + " | " + mail + " | " + typeChambre + " | " + typeReglement);
-	}
+		}
 	
 	
 	
