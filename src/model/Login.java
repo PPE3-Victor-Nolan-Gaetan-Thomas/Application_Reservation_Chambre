@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,6 +33,7 @@ public class Login {
 			String adresseVille_Client;
 			String adresseRue_Client;
 			String mdpClient;
+			String mailClient;
 
 			if (resultat.first()) {
 				do {
@@ -41,8 +43,9 @@ public class Login {
 					adresseCP_Client = resultat.getString(4);
 					adresseVille_Client = resultat.getString(5);
 					adresseRue_Client = resultat.getString(6);
+					mailClient = resultat.getString(7);
 					
-					listeClients.add(new Client(id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client));
+					listeClients.add(new Client(id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
 					
 				} while (resultat.next());
 
@@ -98,7 +101,37 @@ public class Login {
 		}
 	}
 	
-	public static void ajouterReservation() {
+	public static void ajouterReservation(int id, String nom, String prenom, int numRes, int nbJourRes, String mail, Date date, String typeChambre, String reglement, int idClient) {
+		//faire une requete preparer
+		Connexion con = new Connexion();
+	Connection conn = con.getConn();
+		
+		try {//regarder comment faire une requete preparer
+			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation VALUES(?, \"?\", \"?\", ?, ?, \"?\", \"?\", \"?\", \"?\", ?");
+			
+			state.setInt(1,  id);
+			state.setString(2,  nom);
+			state.setString(3, prenom);
+			state.setInt(4,  numRes);
+			state.setInt(5, nbJourRes);
+			state.setString(6, mail);
+			state.setDate(7, (java.sql.Date) date); 
+			state.setString(8, typeChambre);
+			state.setString(9, reglement);
+			state.setInt(10, idClient);
+			
+			state.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Erreur lors de l'ajout d'une réservation dans la base de données");
+		}
+		
+	}
+	
+	
+	public static void modifierReservation() {
 		
 	}
 	

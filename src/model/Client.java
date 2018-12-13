@@ -8,16 +8,18 @@ public class Client {
 	private String cp_client;
 	private String ville_client;
 	private String rue_client;
+	private String mail;
 	
 	
 	public Client(int id_client, String nom_client, String prenom_client, String cp_client, String ville_client,
-			String rue_client) {
+			String rue_client, String mail) {
 		this.id_client = id_client;
 		this.nom_client = nom_client;
 		this.prenom_client = prenom_client;
 		this.cp_client = cp_client;
 		this.ville_client = ville_client;
 		this.rue_client = rue_client;
+		this.mail = mail;
 	}
 	
 	
@@ -60,6 +62,12 @@ public class Client {
 	}
 	public void setRue_client(String rue_client) {
 		this.rue_client = rue_client;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	
 }

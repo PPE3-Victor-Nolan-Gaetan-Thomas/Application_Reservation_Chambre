@@ -191,6 +191,7 @@ public class FPrincipale extends JFrame {
 					}else {
 						java.util.Date jud = date.getDate();
 						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+						//Login.ajouterReservation(null, txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), txt_nb_jour_res.getText(), txt_mail.getText(), date.getDate(), combo_type_chambre.getSelectedItem(), combo_reglement.getSelectedItem(), idClient);
 						ajouterReservation(txt_nom.getText(), txt_prenom.getText(), txt_num_res.getText(), sdf.format(jud), txt_nb_jour_res.getText(), txt_mail.getText(), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString());
 						resetChamps();
 					}
@@ -247,6 +248,7 @@ public class FPrincipale extends JFrame {
 	}
 	
 	public void ajouterReservation(String pNom, String pPrenom, String pNumeroReservation, String dateArrivee, String dureeSejour, String mail, String typeChambre, String typeReglement) {
+		//ajouter l'envoie dans la bdd
 		DLM.addElement(pNom + " " + pPrenom + " | " + pNumeroReservation + " | " + dateArrivee + " | " + dureeSejour + " | " + mail + " | " + typeChambre + " | " + typeReglement);
 	}
 	
