@@ -104,28 +104,52 @@ public class Login {
 	public static void ajouterReservation(int id, String nom, String prenom, int numRes, int nbJourRes, String mail, Date date, String typeChambre, String reglement, int idClient) {
 		//faire une requete preparer
 		Connexion con = new Connexion();
-	Connection conn = con.getConn();
+		Connection conn = con.getConn();
 		
 		try {//regarder comment faire une requete preparer
-			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation VALUES(?, \"?\", \"?\", ?, ?, \"?\", \"?\", \"?\", \"?\", ?");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (nom, prenom, numres, nbjourres, mail, date, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
-			state.setInt(1,  id);
-			state.setString(2,  nom);
-			state.setString(3, prenom);
-			state.setInt(4,  numRes);
-			state.setInt(5, nbJourRes);
-			state.setString(6, mail);
-			state.setDate(7, (java.sql.Date) date); 
-			state.setString(8, typeChambre);
-			state.setString(9, reglement);
-			state.setInt(10, idClient);
+		//	state.setInt(1,  id);
+			state.setString(1,  nom);
+			state.setString(2, prenom);
+			state.setInt(3,  numRes);
+			state.setInt(4, nbJourRes);
+			state.setString(5, mail);
+			state.setDate(6, (java.sql.Date) date); 
+			state.setString(7, typeChambre);
+			state.setString(8, reglement);
+			state.setInt(9, idClient);
 			
 			state.execute();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Erreur lors de l'ajout d'une réservation dans la base de données");
+			System.err.println("Erreur lors de l'ajout d'une réservation dans la base de données");
+		}
+		
+	}
+	
+	public static void ajouterClient(String nom_client, String prenom_client, String cp_client, String ville_client, String rue_client, String mail) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("INSERT INTO client (nomclient, prenomclient, cpclient, villeclient, rueclient, mail) VALUES (?, ?, ?, ?, ?, ?)");
+		
+			
+			state.setString(1, nom_client);
+			state.setString(2, prenom_client);
+			state.setString(3, cp_client);
+			state.setString(4, ville_client);
+			state.setString(5, rue_client);
+			state.setString(6, mail);
+			
+			state.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("Erreur lors de l'ajout d'un client dans la base de données");
 		}
 		
 	}
