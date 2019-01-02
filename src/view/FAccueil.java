@@ -41,7 +41,7 @@ public class FAccueil extends JFrame {
 	 */
 	public FAccueil() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 429, 331);
+		setBounds(100, 100, 616, 331);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,7 +83,18 @@ public class FAccueil extends JFrame {
 				fcon.setVisible(true);
 			}
 		});
-		btnRetourCon.setBounds(24, 205, 370, 66);
+		btnRetourCon.setBounds(24, 205, 562, 66);
 		contentPane.add(btnRetourCon);
+		
+		JButton btnAjouterClient = new JButton("Ajouter client");
+		btnAjouterClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FClient fc = new FClient();
+				fc.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnAjouterClient.setBounds(414, 87, 172, 105);
+		contentPane.add(btnAjouterClient);
 	}
 }

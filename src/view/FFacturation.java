@@ -17,6 +17,9 @@ import com.toedter.calendar.JDateChooser;
 
 import model.Client;
 import model.Login;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FFacturation extends JFrame {
 	private JTextField txtNom;
@@ -48,6 +51,7 @@ public class FFacturation extends JFrame {
 	public FFacturation() {
 		setBounds(100, 100, 638, 503);
 		getContentPane().setLayout(null);
+		setResizable(false);
 		
 		JLabel lblFacturation = new JLabel("Facturation : ");
 		lblFacturation.setFont(new Font("Tahoma", Font.PLAIN, 38));
@@ -136,6 +140,18 @@ public class FFacturation extends JFrame {
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.setBounds(465, 364, 143, 66);
 		getContentPane().add(btnSupprimer);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				FAccueil fa = new FAccueil();
+				fa.setVisible(true);
+			}
+		});
+		btnRetour.setBackground(Color.ORANGE);
+		btnRetour.setBounds(493, 13, 118, 35);
+		getContentPane().add(btnRetour);
 		Login.recupClient();
 		for(Client clienttmp : Login.listeClients) {
 			if(clienttmp.getId_client() != 0) {

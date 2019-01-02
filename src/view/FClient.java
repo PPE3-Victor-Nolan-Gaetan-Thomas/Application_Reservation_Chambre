@@ -1,22 +1,20 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.Login;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class FClient extends JFrame {
 
@@ -64,14 +62,26 @@ public class FClient extends JFrame {
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
+				FPrincipale fp = new FPrincipale();
+				if(fp.newClientByButtonAdd) {
+					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
+					}else {
+						Login.ajouterClient(txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+					}
+					setVisible(false);
+					fp.setVisible(true);
 				}else {
-					Login.ajouterClient(txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
+					}else {
+						Login.ajouterClient(txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+					}
 				}
+				dispose();
 			}
 		});
-		btnAjouter.setBounds(329, 233, 171, 56);
+		btnAjouter.setBounds(147, 227, 171, 56);
 		contentPane.add(btnAjouter);
 		
 		JLabel lblNom = new JLabel("Nom : ");
@@ -127,5 +137,47 @@ public class FClient extends JFrame {
 		txtMail.setColumns(10);
 		txtMail.setBounds(122, 198, 255, 22);
 		contentPane.add(txtMail);
+		
+		JButton btnAnnuler = new JButton("Annuler la saisie");
+		btnAnnuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtNom.setText(null);
+				txtPrenom.setText(null);
+				txtCP.setText(null);
+				txtVille.setText(null);
+				txtRue.setText(null);
+				txtMail.setText(null);
+			}
+		});
+		btnAnnuler.setBounds(329, 227, 171, 56);
+		contentPane.add(btnAnnuler);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.setBackground(Color.ORANGE);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FPrincipale fp = new FPrincipale();
+				
+				if(!fp.newClientByButtonAdd) {
+					setVisible(false);
+					FAccueil fa = new FAccueil();
+					fa.setVisible(true);
+				}else {
+					setVisible(false);
+				}
+				clearChamps();
+			}
+		});
+		btnRetour.setBounds(377, 11, 123, 30);
+		contentPane.add(btnRetour);
+	}
+	
+	public void clearChamps() {
+		txtNom.setText(null);
+		txtPrenom.setText(null);
+		txtCP.setText(null);
+		txtVille.setText(null);
+		txtRue.setText(null);
+		txtMail.setText(null);
 	}
 }

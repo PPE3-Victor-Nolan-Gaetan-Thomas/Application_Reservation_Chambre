@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,12 +21,14 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import model.Login;
+import java.awt.Color;
 
 public class FPrincipale extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtIdClient;
 	private JTextField txt_nb_jour_res;
+	public static boolean newClientByButtonAdd = false;
 	
 	/**
 	 * Launch the application.
@@ -60,6 +61,7 @@ public class FPrincipale extends JFrame {
 	JButton btnSupprimer = new JButton("Supprimer");
 	JList list = new JList();
 	DefaultListModel DLM = new DefaultListModel();
+	private final JButton btnRetour = new JButton("Retour");
 	
 	
 	//Fin d'instantiation des composants
@@ -105,7 +107,7 @@ public class FPrincipale extends JFrame {
 		
 		lblNbJourRes.setBounds(12, 171, 126, 16);
 		contentPane.add(lblNbJourRes);
-		
+	
 		txt_nb_jour_res = new JTextField();
 		txt_nb_jour_res.setColumns(10);
 		txt_nb_jour_res.setBounds(167, 168, 174, 22);
@@ -130,7 +132,6 @@ public class FPrincipale extends JFrame {
 		
 		contentPane.add(date);
 		date.setBounds(167,  139, 174, 22);
-	//	date.setDateFormatString("dd/MM/yyyy");
 		
 		combo_type_chambre.addItem("Suite");
 		combo_type_chambre.addItem("Suite Junior");
@@ -193,9 +194,27 @@ public class FPrincipale extends JFrame {
 		list.setBounds(497, 41, 547, 311);
 		contentPane.add(list);
 		
+		JButton btnNouveauClient = new JButton("...");
+		btnNouveauClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				newClientByButtonAdd = true;
+				FClient fc = new FClient();
+				fc.setVisible(true);
+			}
+		});
+		btnNouveauClient.setBounds(350, 106, 32, 25);
+		contentPane.add(btnNouveauClient);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				FAccueil fa = new FAccueil();
+				fa.setVisible(true);
+			}
+		});
+		btnRetour.setBackground(Color.ORANGE);
+		btnRetour.setBounds(918, 3, 126, 35);
 		
-		
-		
+		contentPane.add(btnRetour);
 		
 	}
 	
@@ -206,11 +225,8 @@ public class FPrincipale extends JFrame {
 		combo_type_chambre.setSelectedItem(null);
 		combo_reglement.setSelectedItem(null);
 	}
-	
-	public void ajouterReservation(String pNom, String pPrenom, String pNumeroReservation, String dateArrivee, String dureeSejour, String mail, String typeChambre, String typeReglement) {
-		//ajouter l'envoie dans la bdd
-		}
-	
-	
-	
+
+	public void setNewClientByButtonAdd(boolean newClientByButtonAdd) {
+		this.newClientByButtonAdd = newClientByButtonAdd;
+	}
 }

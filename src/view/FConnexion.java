@@ -52,7 +52,7 @@ public class FConnexion extends JFrame {
 	JLabel lblStatutCon = new JLabel("");
 	public static JPasswordField txtMdp;
 	public FConnexion() {
-		String hashed = BCrypt.hashpw("dtuvdjwh", BCrypt.gensalt());
+		String hashed = BCrypt.hashpw("dtuvdjwh", BCrypt.gensalt());//retirer
 		System.out.println(hashed);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 260);

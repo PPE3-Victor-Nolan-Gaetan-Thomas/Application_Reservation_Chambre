@@ -96,11 +96,10 @@ public class Login {
 	}
 	
 	public static void ajouterReservation(int nbJourRes, String date, String typeChambre, String reglement, int idClient) {
-		//faire une requete preparer
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
-		try {//regarder comment faire une requete preparer
+		try {
 			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (nbjourres, date, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?)");
 			
 			state.setInt(1, nbJourRes);
@@ -112,7 +111,6 @@ public class Login {
 			state.execute();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println("Erreur lors de l'ajout d'une réservation dans la base de données");
 		}
