@@ -78,6 +78,8 @@ public class FPrincipale extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		list.setModel(DLM);
+		setResizable(false);
+		 System.out.println(Login.recupNombbreClient());//debug
 		
 		lblRservation.setFont(new Font("Tahoma", Font.PLAIN, 38));
 		lblRservation.setBounds(12, 13, 235, 48);
@@ -98,7 +100,13 @@ public class FPrincipale extends JFrame {
 		          getToolkit().beep();
 		          e.consume();
 		        }
+		       
 		      }
+		    //verification de si le num existe ou pas 
+		    
+		    
+		    
+		    
 		    });
 		contentPane.add(txtIdClient);
 		

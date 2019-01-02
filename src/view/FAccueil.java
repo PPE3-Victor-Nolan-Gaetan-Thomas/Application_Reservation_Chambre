@@ -46,7 +46,7 @@ public class FAccueil extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setResizable(false);
 		JLabel lblConnexion = new JLabel("Menu principal");
 		lblConnexion.setFont(new Font("Tahoma", Font.BOLD, 37));
 		lblConnexion.setBounds(60, 0, 297, 74);

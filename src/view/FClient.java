@@ -53,6 +53,7 @@ public class FClient extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblAjouterUnClient = new JLabel("Ajouter un client : ");
 		lblAjouterUnClient.setFont(new Font("Tahoma", Font.PLAIN, 22));

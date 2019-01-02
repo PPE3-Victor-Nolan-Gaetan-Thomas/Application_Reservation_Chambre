@@ -16,6 +16,7 @@ public class Login {
 	public static String leTitulaire ="";
 	public static int idClient=0;
 	
+	
 	public static void recupClient() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
@@ -55,6 +56,27 @@ public class Login {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static int recupNombbreClient() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		int nbreClient = 0;
+		
+		try {
+			Statement state = conn.createStatement();
+			ResultSet resultat = state.executeQuery("SELECT COUNT(*) FROM client");
+			if(resultat.first()) {
+				do {
+					nbreClient = resultat.getInt(1);
+				}while(resultat.next());
+			}
+			
+			//con.fermerConnexion();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nbreClient;
 	}
 	
 	public static void recupReservation() {
