@@ -27,26 +27,27 @@ public class Login {
 			Statement state = conn.createStatement();
 			ResultSet resultat = state.executeQuery("SELECT * FROM client");
 
-			int id_Client;
+			int id;
+			String id_Client;
 			String nom_Client;
 			String prenom_Client;
 			String adresseCP_Client;
 			String adresseVille_Client;
 			String adresseRue_Client;
-			String mdpClient;
 			String mailClient;
 
 			if (resultat.first()) {
 				do {
-					id_Client = resultat.getInt(1);
-					nom_Client = resultat.getString(2);
-					prenom_Client = resultat.getString(3);
-					adresseCP_Client = resultat.getString(4);
-					adresseVille_Client = resultat.getString(5);
-					adresseRue_Client = resultat.getString(6);
-					mailClient = resultat.getString(7);
+					id = resultat.getInt(1);
+					id_Client = resultat.getString(2);
+					nom_Client = resultat.getString(3);
+					prenom_Client = resultat.getString(4);
+					adresseCP_Client = resultat.getString(5);
+					adresseVille_Client = resultat.getString(6);
+					adresseRue_Client = resultat.getString(7);
+					mailClient = resultat.getString(8);
 					
-					listeClients.add(new Client(id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
+					listeClients.add(new Client(id, id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
 					
 				} while (resultat.next());
 
@@ -139,26 +140,57 @@ public class Login {
 		
 	}
 	
-	public static void ajouterClient(String nom_client, String prenom_client, String cp_client, String ville_client, String rue_client, String mail) {
+	public static void ajouterClient(String idclient, String nom_client, String prenom_client, String cp_client, String ville_client, String rue_client, String mail) {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("INSERT INTO client (nomclient, prenomclient, cpclient, villeclient, rueclient, mail) VALUES (?, ?, ?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO client (idclient, nomclient, prenomclient, cpclient, villeclient, rueclient, mail) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		
-			
-			state.setString(1, nom_client);
-			state.setString(2, prenom_client);
-			state.setString(3, cp_client);
-			state.setString(4, ville_client);
-			state.setString(5, rue_client);
-			state.setString(6, mail);
+			state.setString(1, idclient);
+			state.setString(2, nom_client);
+			state.setString(3, prenom_client);
+			state.setString(4, cp_client);
+			state.setString(5, ville_client);
+			state.setString(6, rue_client);
+			state.setString(7, mail);
 			
 			state.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println("Erreur lors de l'ajout d'un client dans la base de données");
+		}
+		
+	}
+	
+	public static void ajouterIdClient(int idclient, String prenom_client, String nom_client) {//en cours
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("UPDATE client SET idclient=\"?\" WHERE id=?");
+		
+			state.setString(1, prenom_client+"."+nom_client+Math.random()*1000);
+			state.setInt(2, idclient);
+			
+			
+			state.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("Erreur lors de l'ajout d'un client dans la base de données");
+		}
+	}
+	
+	public static void supprimerClient(int pId) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("DELETE FROM client WHERE idclient=" + pId);
+			state.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("Erreur lors de la suppression d'un client de la bdd");
 		}
 		
 	}

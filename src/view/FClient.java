@@ -68,7 +68,8 @@ public class FClient extends JFrame {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
 					}else {
-						Login.ajouterClient(txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
+						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
 					}
 					setVisible(false);
 					fp.setVisible(true);
@@ -76,7 +77,8 @@ public class FClient extends JFrame {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
 					}else {
-						Login.ajouterClient(txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
+						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
 					}
 				}
 				dispose();
@@ -161,8 +163,8 @@ public class FClient extends JFrame {
 				
 				if(!fp.newClientByButtonAdd) {
 					setVisible(false);
-					FAccueil fa = new FAccueil();
-					fa.setVisible(true);
+					FMenuClient fmc = new FMenuClient();
+					fmc.setVisible(true);
 				}else {
 					setVisible(false);
 				}

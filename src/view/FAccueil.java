@@ -86,15 +86,15 @@ public class FAccueil extends JFrame {
 		btnRetourCon.setBounds(24, 205, 562, 66);
 		contentPane.add(btnRetourCon);
 		
-		JButton btnAjouterClient = new JButton("Ajouter client");
-		btnAjouterClient.addActionListener(new ActionListener() {
+		JButton btnClient = new JButton("Client");
+		btnClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FClient fc = new FClient();
-				fc.setVisible(true);
+				FMenuClient fmc = new FMenuClient();
+				fmc.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnAjouterClient.setBounds(414, 87, 172, 105);
-		contentPane.add(btnAjouterClient);
+		btnClient.setBounds(414, 87, 172, 105);
+		contentPane.add(btnClient);
 	}
 }
