@@ -88,6 +88,7 @@ public class FFacturation extends JFrame {
 		txtNumRes.setColumns(10);
 		txtNumRes.setBounds(437, 125, 174, 22);
 		getContentPane().add(txtNumRes);
+		//a faire, si on saisie le num de réservation, ca affiche les informations manquantes comme le client etc 
 		
 		JLabel label_3 = new JLabel("Date arriv\u00E9e : ");
 		label_3.setBounds(282, 160, 126, 16);
@@ -110,6 +111,7 @@ public class FFacturation extends JFrame {
 		txtMail.setColumns(10);
 		txtMail.setBounds(437, 221, 174, 22);
 		getContentPane().add(txtMail);
+		//a faire controle de saisie format mail
 		
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setBounds(437, 160, 174, 22);

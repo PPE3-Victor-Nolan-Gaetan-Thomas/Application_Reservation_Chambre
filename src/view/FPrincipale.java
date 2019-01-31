@@ -102,6 +102,7 @@ public class FPrincipale extends JFrame {
 		        }
 		       
 		      }
+		    //a faire
 		    //verification de si le num existe ou pas 
 		    
 		    

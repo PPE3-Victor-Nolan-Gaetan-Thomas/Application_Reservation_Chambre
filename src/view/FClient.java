@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -125,6 +127,17 @@ public class FClient extends JFrame {
 		txtCP.setColumns(10);
 		txtCP.setBounds(122, 111, 116, 22);
 		contentPane.add(txtCP);
+		txtCP.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= '0') && (c <= '9') ||
+		           (c == KeyEvent.VK_BACK_SPACE) ||
+		           (c == KeyEvent.VK_DELETE)) && txtCP.getText().length() <=5) {
+		          getToolkit().beep();
+		          e.consume();
+		        }
+		      }
+		    });
 		
 		txtVille = new JTextField();
 		txtVille.setColumns(10);
