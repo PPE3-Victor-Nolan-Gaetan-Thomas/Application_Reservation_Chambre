@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -30,6 +31,7 @@ public class FPrincipale extends JFrame {
 	private JTextField txtIdClient;
 	private JTextField txt_nb_jour_res;
 	public static boolean newClientByButtonAdd = false;
+	public static boolean exist = true;
 	
 	/**
 	 * Launch the application.
@@ -60,10 +62,10 @@ public class FPrincipale extends JFrame {
 	JButton btnValider = new JButton("Valider");
 	JButton btnAnnuler = new JButton("Annuler");
 	JButton btnSupprimer = new JButton("Supprimer");
-	JComboBox comboBox = new JComboBox();
 	JList list = new JList();
 	DefaultListModel DLM = new DefaultListModel();
 	private final JButton btnRetour = new JButton("Retour");
+	private JTextField textField;
 	
 	
 	//Fin d'instantiation des composants
@@ -205,27 +207,23 @@ public class FPrincipale extends JFrame {
 		
 		contentPane.add(btnRetour);
 		
-		
-		comboBox.setBounds(167, 107, 174, 22);
-		comboBox.addItem("");
-		if(newClientByButtonAdd == false) {
-			Login.recupClient();
-			for(Client tmp : Login.listeClients) {
-				if(tmp.getId_client() != null) {
-					comboBox.addItem(tmp.getId_client());
+		textField = new JTextField();
+		textField.setBounds(167, 107, 174, 22);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		textField.addKeyListener(new KeyListener() {
+			public void keyTyped(KeyEvent e) {}
+			public void keyReleased(KeyEvent e) {}
+			public void keyPressed(KeyEvent e) {
+				Login.recupIdClients();
+				for(String str : Login.listeNumClient) {
+					if(str != textField.getText()) {
+						exist = false;
+					}
 				}
+				Login.listeNumClient.clear();
 			}
-		}else {
-			comboBox.removeAllItems();
-			Login.recupClient();
-			for(Client tmp : Login.listeClients) {
-				if(tmp.getId_client() != null) {
-					comboBox.addItem(tmp.getId_client());
-				}
-			}
-		}
-		
-		contentPane.add(comboBox);
+		});
 		
 	}
 	

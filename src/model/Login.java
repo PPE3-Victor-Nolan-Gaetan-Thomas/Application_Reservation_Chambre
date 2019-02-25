@@ -11,6 +11,7 @@ import java.util.Date;
 public class Login {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
 	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
+	public static ArrayList<String> listeNumClient = new ArrayList<String>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -78,6 +79,31 @@ public class Login {
 			e.printStackTrace();
 		}
 		return nbreClient;
+	}
+	
+	public static void recupIdClients() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			Statement state = conn.createStatement();
+			ResultSet resultat = state.executeQuery("SELECT idclient FROM client");
+
+			String id_Client;
+
+			if (resultat.first()) {
+				do {
+					id_Client = resultat.getString(1);
+					listeNumClient.add(id_Client.toString());
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void recupReservation() {
