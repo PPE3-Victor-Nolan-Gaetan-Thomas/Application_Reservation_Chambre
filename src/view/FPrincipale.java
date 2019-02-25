@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -20,8 +21,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import model.Client;
 import model.Login;
-import java.awt.Color;
 
 public class FPrincipale extends JFrame {
 
@@ -59,6 +60,7 @@ public class FPrincipale extends JFrame {
 	JButton btnValider = new JButton("Valider");
 	JButton btnAnnuler = new JButton("Annuler");
 	JButton btnSupprimer = new JButton("Supprimer");
+	JComboBox comboBox = new JComboBox();
 	JList list = new JList();
 	DefaultListModel DLM = new DefaultListModel();
 	private final JButton btnRetour = new JButton("Retour");
@@ -202,8 +204,26 @@ public class FPrincipale extends JFrame {
 		
 		contentPane.add(btnRetour);
 		
-		JComboBox comboBox = new JComboBox();
+		
 		comboBox.setBounds(167, 107, 174, 22);
+		comboBox.addItem("");
+		if(newClientByButtonAdd == false) {
+			Login.recupClient();
+			for(Client tmp : Login.listeClients) {
+				if(tmp.getId_client() != null) {
+					comboBox.addItem(tmp.getId_client());
+				}
+			}
+		}else {
+			comboBox.removeAllItems();
+			Login.recupClient();
+			for(Client tmp : Login.listeClients) {
+				if(tmp.getId_client() != null) {
+					comboBox.addItem(tmp.getId_client());
+				}
+			}
+		}
+		
 		contentPane.add(comboBox);
 		
 	}
