@@ -1,1 +1,2 @@
-modifier le btn valider pour qu'il s'adapte soit en ajout soit en modif
+lors de l'ajout d'un client, cp a limiter a 5 caractères
+ajouter une reservation : changer la txtbox de num client en liste déroulante

@@ -7,8 +7,17 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.Element;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
 
 import model.Client;
 import model.Connexion;
@@ -163,12 +172,22 @@ public class FRetirerClient extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!list.isSelectionEmpty()) {
 					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
+						
+						Login.supprimerClient(Integer.parseInt(lblIdAffichage.getText()));
 						Login.listeClients.clear();
-						FRetirerClient frc = new FRetirerClient();
-						frc.setVisible(true);
+						list.setModel(new DefaultListModel());
+						DLM.clear();
+						loadProfile();
+						list.setModel(DLM);
+						
+						/*Login.listeClients.clear();
 						dispose();
-						/*DLM.removeElementAt(list.getSelectedIndex());
-						Login.supprimerClient(Integer.parseInt(lblIdAffichage.getText()));*/
+						FRetirerClient frc = new FRetirerClient();
+						frc.setVisible(true);*/
+						
+						
+						//DLM.removeElementAt(list.getSelectedIndex());
+						
 					}
 				}
 			}
@@ -185,7 +204,7 @@ public class FRetirerClient extends JFrame {
 			}
 		});
 		button.setBackground(Color.ORANGE);
-		button.setBounds(567, 10, 97, 43);
+		button.setBounds(559, 13, 97, 43);
 		contentPane.add(button);
 		
 		

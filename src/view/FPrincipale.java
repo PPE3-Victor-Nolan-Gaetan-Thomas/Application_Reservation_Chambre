@@ -88,29 +88,6 @@ public class FPrincipale extends JFrame {
 		lblNumClient.setBounds(12, 110, 143, 16);
 		contentPane.add(lblNumClient);
 		
-		txtIdClient = new JTextField();
-		txtIdClient.setColumns(10);
-		txtIdClient.setBounds(167, 107, 174, 22);
-		txtIdClient.addKeyListener(new KeyAdapter() {
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!((c >= '0') && (c <= '9') ||
-		           (c == KeyEvent.VK_BACK_SPACE) ||
-		           (c == KeyEvent.VK_DELETE))) {
-		          getToolkit().beep();
-		          e.consume();
-		        }
-		       
-		      }
-		    //a faire
-		    //verification de si le num existe ou pas 
-		    
-		    
-		    
-		    
-		    });
-		contentPane.add(txtIdClient);
-		
 		lblDate.setBounds(12, 139, 126, 16);
 		contentPane.add(lblDate);
 		
@@ -224,6 +201,10 @@ public class FPrincipale extends JFrame {
 		btnRetour.setBounds(918, 3, 126, 35);
 		
 		contentPane.add(btnRetour);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(167, 107, 174, 22);
+		contentPane.add(comboBox);
 		
 	}
 	

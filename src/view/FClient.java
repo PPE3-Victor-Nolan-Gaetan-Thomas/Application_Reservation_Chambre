@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,10 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.Login;
-import java.awt.Color;
 
 public class FClient extends JFrame {
 
@@ -48,14 +49,16 @@ public class FClient extends JFrame {
 	 * Create the frame.
 	 */
 	public FClient() {
+		setAlwaysOnTop(true);
 		setTitle("Ajout d'un client");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 530, 343);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false);
+		//setUndecorated(true);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
 		JLabel lblAjouterUnClient = new JLabel("Ajouter un client : ");
 		lblAjouterUnClient.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -83,7 +86,8 @@ public class FClient extends JFrame {
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
 					}
 				}
-				dispose();
+				clearChamps();
+				//dispose();
 			}
 		});
 		btnAjouter.setBounds(147, 227, 171, 56);

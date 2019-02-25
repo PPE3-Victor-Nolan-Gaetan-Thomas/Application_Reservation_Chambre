@@ -49,7 +49,7 @@ public class FAccueil extends JFrame {
 		setResizable(false);
 		JLabel lblConnexion = new JLabel("Menu principal");
 		lblConnexion.setFont(new Font("Tahoma", Font.BOLD, 37));
-		lblConnexion.setBounds(60, 0, 297, 74);
+		lblConnexion.setBounds(160, 0, 297, 74);
 		contentPane.add(lblConnexion);
 		
 		JButton btsResChambreMenu = new JButton("R\u00E9servation chambre");
@@ -71,7 +71,7 @@ public class FAccueil extends JFrame {
 				ffac.setVisible(true);
 			}
 		});
-		btnFacturationMenu.setBounds(222, 87, 172, 105);
+		btnFacturationMenu.setBounds(220, 87, 172, 105);
 		contentPane.add(btnFacturationMenu);
 		
 		JButton btnRetourCon = new JButton("D\u00E9connexion");

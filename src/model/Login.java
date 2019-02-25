@@ -186,7 +186,8 @@ public class Login {
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("DELETE FROM client WHERE idclient=" + pId);
+			String idclient = "\"" + pId + "\"";
+			PreparedStatement state = conn.prepareStatement("DELETE FROM client WHERE idclient=" + idclient);
 			state.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
