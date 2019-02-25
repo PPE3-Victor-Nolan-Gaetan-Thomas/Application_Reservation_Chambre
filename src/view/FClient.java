@@ -76,7 +76,7 @@ public class FClient extends JFrame {
 						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
 					}
-					setVisible(false);
+					dispose();
 					fp.setVisible(true);
 				}else {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {

@@ -188,6 +188,7 @@ public class FPrincipale extends JFrame {
 				newClientByButtonAdd = true;
 				FClient fc = new FClient();
 				fc.setVisible(true);
+				dispose();
 			}
 		});
 		btnNouveauClient.setBounds(350, 106, 32, 25);
