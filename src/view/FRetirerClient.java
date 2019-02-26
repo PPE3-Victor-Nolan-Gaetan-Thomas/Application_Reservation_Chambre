@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -86,6 +87,7 @@ public class FRetirerClient extends JFrame {
 		JLabel lblNom = new JLabel("Nom : ");
 		lblNom.setBounds(335, 79, 56, 16);
 		contentPane.add(lblNom);
+		contentPane.add(new JScrollPane(list));
 		
 		JLabel lblPrenom = new JLabel("Prenom : ");
 		lblPrenom.setBounds(335, 108, 69, 16);
