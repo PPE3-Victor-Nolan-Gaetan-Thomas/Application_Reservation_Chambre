@@ -68,24 +68,23 @@ public class FClient extends JFrame {
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FPrincipale fp = new FPrincipale();
-				if(fp.newClientByButtonAdd) {
+				//FPrincipale fp = new FPrincipale();
+				if(FPrincipale.newClientByButtonAdd) {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
 					}else {
 						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
-						FPrincipale.idclienttmp = sub;
+						FPrincipale.setTxtIdClient(sub);
 					}
 					dispose();
-					fp.setVisible(true);
 				}else {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
 					}else {
 						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
-						FPrincipale.idclienttmp = sub;
+						
 					}
 				}
 				clearChamps();

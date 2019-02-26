@@ -31,7 +31,6 @@ public class FPrincipale extends JFrame {
 	private JTextField txt_nb_jour_res;
 	public static boolean newClientByButtonAdd = false;
 	public static boolean exist = true;
-	public static String idclienttmp = "";
 	
 	/**
 	 * Launch the application.
@@ -65,7 +64,7 @@ public class FPrincipale extends JFrame {
 	JList list = new JList();
 	DefaultListModel DLM = new DefaultListModel();
 	private final JButton btnRetour = new JButton("Retour");
-	private JTextField txtNumClient;
+	private static JTextField txtNumClient;
 	
 	
 	//Fin d'instantiation des composants
@@ -227,9 +226,6 @@ public class FPrincipale extends JFrame {
 		txtNumClient.setBounds(167, 107, 174, 22);
 		contentPane.add(txtNumClient);
 		txtNumClient.setColumns(10);
-		if(!idclienttmp.equals("")) {
-			txtNumClient.setText(idclienttmp);
-		}
 		
 		
 	}
@@ -244,5 +240,9 @@ public class FPrincipale extends JFrame {
 
 	public void setNewClientByButtonAdd(boolean newClientByButtonAdd) {
 		this.newClientByButtonAdd = newClientByButtonAdd;
+	}
+	
+	public static void setTxtIdClient(String pIdClient) {
+		txtNumClient.setText(pIdClient);
 	}
 }
