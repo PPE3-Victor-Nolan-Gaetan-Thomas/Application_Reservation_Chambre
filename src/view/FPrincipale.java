@@ -28,10 +28,10 @@ import model.Login;
 public class FPrincipale extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtIdClient;
 	private JTextField txt_nb_jour_res;
 	public static boolean newClientByButtonAdd = false;
 	public static boolean exist = true;
+	public static String idclienttmp = "";
 	
 	/**
 	 * Launch the application.
@@ -65,7 +65,7 @@ public class FPrincipale extends JFrame {
 	JList list = new JList();
 	DefaultListModel DLM = new DefaultListModel();
 	private final JButton btnRetour = new JButton("Retour");
-	private JTextField textField;
+	private JTextField txtNumClient;
 	
 	
 	//Fin d'instantiation des composants
@@ -141,14 +141,31 @@ public class FPrincipale extends JFrame {
 		contentPane.add(combo_reglement);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(txt_nb_jour_res.getText() == null || txtIdClient.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || date.getDate() == null) {
+				Login.recupIdClients();
+				
+				if(txt_nb_jour_res.getText() == null || txtNumClient.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || date.getDate() == null) {
 					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
 				}else {
-					java.util.Date jud = date.getDate();
-					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-					Login.ajouterReservation(Integer.valueOf(txt_nb_jour_res.getText()), String.valueOf(sdf.format(jud)), String.valueOf(combo_type_chambre.getSelectedItem()), String.valueOf(combo_reglement.getSelectedItem()), Integer.valueOf(txtIdClient.getText()));
+					for(String str : Login.listeNumClient) {
+						if(!str.equals(txtNumClient.getText())) {
+							exist = false;
+							System.out.println("Client inconnu");//debug
+						}else {
+							exist = true;
+							java.util.Date jud = date.getDate();
+							java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+							Login.ajouterReservation(Integer.valueOf(txt_nb_jour_res.getText()), String.valueOf(sdf.format(jud)), String.valueOf(combo_type_chambre.getSelectedItem()), String.valueOf(combo_reglement.getSelectedItem()), Integer.valueOf(txtNumClient.getText()));
+							break;
+						}
+					}
 					
-					resetChamps();
+					if(exist == false) {
+						JOptionPane.showMessageDialog(contentPane, "Client inconnu", "Attention", NORMAL);
+					}else {
+						resetChamps();
+					}
+					
+					
 				}
 				
 				
@@ -190,7 +207,6 @@ public class FPrincipale extends JFrame {
 				newClientByButtonAdd = true;
 				FClient fc = new FClient();
 				fc.setVisible(true);
-				dispose();
 			}
 		});
 		btnNouveauClient.setBounds(350, 106, 32, 25);
@@ -207,28 +223,19 @@ public class FPrincipale extends JFrame {
 		
 		contentPane.add(btnRetour);
 		
-		textField = new JTextField();
-		textField.setBounds(167, 107, 174, 22);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		textField.addKeyListener(new KeyListener() {
-			public void keyTyped(KeyEvent e) {}
-			public void keyReleased(KeyEvent e) {}
-			public void keyPressed(KeyEvent e) {
-				Login.recupIdClients();
-				for(String str : Login.listeNumClient) {
-					if(str != textField.getText()) {
-						exist = false;
-					}
-				}
-				Login.listeNumClient.clear();
-			}
-		});
+		txtNumClient = new JTextField();
+		txtNumClient.setBounds(167, 107, 174, 22);
+		contentPane.add(txtNumClient);
+		txtNumClient.setColumns(10);
+		if(!idclienttmp.equals("")) {
+			txtNumClient.setText(idclienttmp);
+		}
+		
 		
 	}
 	
 	public void resetChamps() {
-		txtIdClient.setText(null);
+		txtNumClient.setText(null);
 		txt_nb_jour_res.setText(null);
 		date.setDate(null);
 		combo_type_chambre.setSelectedItem(null);

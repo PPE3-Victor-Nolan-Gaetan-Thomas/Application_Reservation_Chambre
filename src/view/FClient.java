@@ -75,6 +75,7 @@ public class FClient extends JFrame {
 					}else {
 						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+						FPrincipale.idclienttmp = sub;
 					}
 					dispose();
 					fp.setVisible(true);
@@ -84,6 +85,7 @@ public class FClient extends JFrame {
 					}else {
 						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+						FPrincipale.idclienttmp = sub;
 					}
 				}
 				clearChamps();
