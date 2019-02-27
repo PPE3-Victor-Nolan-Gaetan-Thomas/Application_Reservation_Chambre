@@ -80,14 +80,17 @@ public class FRetirerClient extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JScrollPane scrollPane = new JScrollPane();//ajout
 		JList list = new JList();
-		list.setBounds(12, 13, 311, 337);
-		contentPane.add(list);
+		scrollPane.setViewportView(list);//ajout
+		contentPane.add(scrollPane);
+		scrollPane.setBounds(12, 13, 311, 322);
+		list.setBounds(12, 13, 311, 322);
+		//contentPane.add(list);
 		list.setModel(DLM);
 		JLabel lblNom = new JLabel("Nom : ");
 		lblNom.setBounds(335, 79, 56, 16);
 		contentPane.add(lblNom);
-		contentPane.add(new JScrollPane(list));
 		
 		JLabel lblPrenom = new JLabel("Prenom : ");
 		lblPrenom.setBounds(335, 108, 69, 16);
