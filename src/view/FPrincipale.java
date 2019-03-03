@@ -61,7 +61,6 @@ public class FPrincipale extends JFrame {
 	JButton btnValider = new JButton("Valider");
 	JButton btnAnnuler = new JButton("Annuler");
 	JButton btnSupprimer = new JButton("Supprimer");
-	JList list = new JList();
 	DefaultListModel DLM = new DefaultListModel();
 	private final JButton btnRetour = new JButton("Retour");
 	private static JTextField txtNumClient;
@@ -75,12 +74,11 @@ public class FPrincipale extends JFrame {
 	public FPrincipale() {
 		setTitle("R\u00E9servation chambre");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1074, 408);
+		setBounds(100, 100, 468, 408);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		list.setModel(DLM);
 		setResizable(false);
 		 System.out.println(Login.recupNombbreClient());//debug
 		
@@ -197,9 +195,6 @@ public class FPrincipale extends JFrame {
 		btnSupprimer.setBounds(321, 290, 126, 59);
 		contentPane.add(btnSupprimer);
 		
-		list.setBounds(497, 41, 547, 311);
-		contentPane.add(list);
-		
 		JButton btnNouveauClient = new JButton("...");
 		btnNouveauClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -218,7 +213,7 @@ public class FPrincipale extends JFrame {
 			}
 		});
 		btnRetour.setBackground(Color.ORANGE);
-		btnRetour.setBounds(918, 3, 126, 35);
+		btnRetour.setBounds(321, 26, 126, 35);
 		
 		contentPane.add(btnRetour);
 		

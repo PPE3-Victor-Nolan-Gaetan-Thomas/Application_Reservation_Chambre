@@ -55,9 +55,9 @@ public class FAccueil extends JFrame {
 		JButton btsResChambreMenu = new JButton("R\u00E9servation chambre");
 		btsResChambreMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FPrincipale fprincipal = new FPrincipale();
+				FMenuReservation fmr = new FMenuReservation();
 				setVisible(false);
-				fprincipal.setVisible(true);
+				fmr.setVisible(true);
 			}
 		});
 		btsResChambreMenu.setBounds(24, 87, 172, 105);
