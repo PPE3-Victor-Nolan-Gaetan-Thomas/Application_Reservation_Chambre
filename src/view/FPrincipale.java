@@ -103,12 +103,16 @@ public class FPrincipale extends JFrame {
 		contentPane.add(dateDebutSejour);
 		dateDebutSejour.setBounds(167,  139, 174, 22);
 		
-		combo_type_chambre.addItem("Suite");
+		//goto insert
+		
+		remplirChampsTypeChambre();
+		
+		/*combo_type_chambre.addItem("Suite");
 		combo_type_chambre.addItem("Suite Junior");
 		combo_type_chambre.addItem("Prestige");
 		combo_type_chambre.addItem("Executive");
 		combo_type_chambre.addItem("Classic");
-		combo_type_chambre.addItem("Single");
+		combo_type_chambre.addItem("Single");*/
 		combo_type_chambre.setSelectedItem(null);
 		combo_type_chambre.setBounds(167, 200, 174, 22);
 		contentPane.add(combo_type_chambre);
@@ -176,8 +180,8 @@ public class FPrincipale extends JFrame {
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				FAccueil fa = new FAccueil();
-				fa.setVisible(true);
+				FMenuReservation fmr = new FMenuReservation();
+				fmr.setVisible(true);
 			}
 		});
 		btnRetour.setBackground(Color.ORANGE);
@@ -194,6 +198,52 @@ public class FPrincipale extends JFrame {
 		dateFinSejour.setBounds(167, 171, 174, 22);
 		contentPane.add(dateFinSejour);
 		
+		
+	}
+	
+	public void remplirChampsTypeChambre() {//goto
+		Login.recupInfoChambre();
+		if(Login.listInfoChambres.get(0).getNbChambresRestantes() != 0) {
+			System.out.println("Suite" + Login.listInfoChambres.get(0).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Suite (" + Login.listInfoChambres.get(0).getNbChambresRestantes() + ")");
+		}else {
+			System.err.println("INFORMATION : euh y a plus de place sorry (suite)");//debug
+		}
+		
+		if(Login.listInfoChambres.get(1).getNbChambresRestantes() != 0) {
+			System.out.println("Suite junior" + Login.listInfoChambres.get(1).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Suite junior (" + Login.listInfoChambres.get(1).getNbChambresRestantes() + ")");
+		}else {
+			System.err.println("INFORMATION : euh y a plus de place sorry (suite junior)");//debug
+		}
+		
+		if(Login.listInfoChambres.get(2).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre prestige" + Login.listInfoChambres.get(2).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre prestige (" + Login.listInfoChambres.get(2).getNbChambresRestantes() + ")");
+		}else {
+			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre prestige)");//debug
+		}
+		
+		if(Login.listInfoChambres.get(3).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre executive" + Login.listInfoChambres.get(3).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre executive (" + Login.listInfoChambres.get(3).getNbChambresRestantes() + ")");
+		}else {
+			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre executive)");//debug
+		}
+		
+		if(Login.listInfoChambres.get(4).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre classique" + Login.listInfoChambres.get(4).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre classique (" + Login.listInfoChambres.get(4).getNbChambresRestantes() + ")");
+		}else {
+			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre classique)");//debug
+		}
+		
+		if(Login.listInfoChambres.get(5).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre single" + Login.listInfoChambres.get(5).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre single (" + Login.listInfoChambres.get(5).getNbChambresRestantes() + ")");
+		}else {
+			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre single)");//debug
+		}
 		
 	}
 	

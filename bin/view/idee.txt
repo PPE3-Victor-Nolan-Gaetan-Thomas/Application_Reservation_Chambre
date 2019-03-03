@@ -1,4 +1,8 @@
 lors de l'ajout d'un client, cp a limiter a 5 caractères
 ATTENTION : quand on a trop de client/réservation, la jlist est trop petite il faut ajouter une scroolbar
 
-dans la reservation, afficher les réservation du client
+dans la reservation, afficher les réservation du clien
+
+
+
+changer l'interface en fonction des chambres restantes + afficher le nombre de chambres restantes
