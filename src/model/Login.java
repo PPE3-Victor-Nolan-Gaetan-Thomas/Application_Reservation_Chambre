@@ -12,8 +12,7 @@ public class Login {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
 	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
 	public static ArrayList<String> listeNumClient = new ArrayList<String>();
-	public static ArrayList<String> listQuantiteChambresRestantes = new ArrayList<String>();
-	public static ArrayList<String> listInfoChambres = new ArrayList<String>();
+	public static ArrayList<Chambre> listInfoChambres = new ArrayList<Chambre>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -116,7 +115,7 @@ public class Login {
 			Statement state = conn.createStatement();
 			ResultSet resultat = state.executeQuery("SELECT * FROM chambre");
 
-			String chambreid;
+			int chambreid;
 			String typechambre;
 			int nbChambreMax;
 			int nbChambresRestantes;
@@ -124,12 +123,13 @@ public class Login {
 
 			if (resultat.first()) {
 				do {
-					chambreid = resultat.getString(1);
+					chambreid = resultat.getInt(1);
 					typechambre = resultat.getString(2);
 					nbChambreMax = resultat.getInt(3);
 					nbChambresRestantes = resultat.getInt(4);
 					prixChambre = resultat.getInt(5);
-					listeNumClient.add(id_Client.toString());
+					
+					listInfoChambres.add(new Chambre(chambreid, typechambre, nbChambreMax, nbChambresRestantes, prixChambre));
 				} while (resultat.next());
 
 			}
