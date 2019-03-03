@@ -28,7 +28,6 @@ import model.Login;
 public class FPrincipale extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txt_nb_jour_res;
 	public static boolean newClientByButtonAdd = false;
 	public static boolean exist = true;
 	
@@ -52,10 +51,11 @@ public class FPrincipale extends JFrame {
 	JLabel lblRservation = new JLabel("R\u00E9servation : ");
 	JLabel lblNumClient = new JLabel("Num\u00E9ro client : ");
 	JLabel lblDate = new JLabel("Date arriv\u00E9e : ");
-	JLabel lblNbJourRes = new JLabel("Dur\u00E9e s\u00E9jour : ");
+	JLabel lblDateFin = new JLabel("Date de fin : ");
 	JLabel lbl_reglement = new JLabel("Type de r\u00E9glement : ");
 	JLabel type_chambre = new JLabel("Type de chambre : ");
-	JDateChooser date = new JDateChooser();
+	JDateChooser dateDebutSejour = new JDateChooser();
+	JDateChooser dateFinSejour = new JDateChooser();
 	JComboBox combo_type_chambre = new JComboBox();
 	JComboBox combo_reglement = new JComboBox();
 	JButton btnValider = new JButton("Valider");
@@ -91,24 +91,8 @@ public class FPrincipale extends JFrame {
 		lblDate.setBounds(12, 139, 126, 16);
 		contentPane.add(lblDate);
 		
-		lblNbJourRes.setBounds(12, 171, 126, 16);
-		contentPane.add(lblNbJourRes);
-	
-		txt_nb_jour_res = new JTextField();
-		txt_nb_jour_res.setColumns(10);
-		txt_nb_jour_res.setBounds(167, 168, 174, 22);
-		txt_nb_jour_res.addKeyListener(new KeyAdapter() {
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!((c >= '0') && (c <= '9') ||
-		           (c == KeyEvent.VK_BACK_SPACE) ||
-		           (c == KeyEvent.VK_DELETE))) {
-		          getToolkit().beep();
-		          e.consume();
-		        }
-		      }
-		    });
-		contentPane.add(txt_nb_jour_res);
+		lblDateFin.setBounds(12, 171, 126, 16);
+		contentPane.add(lblDateFin);
 		
 		lbl_reglement.setBounds(12, 235, 126, 16);
 		contentPane.add(lbl_reglement);
@@ -116,8 +100,8 @@ public class FPrincipale extends JFrame {
 		type_chambre.setBounds(12, 203, 126, 16);
 		contentPane.add(type_chambre);
 		
-		contentPane.add(date);
-		date.setBounds(167,  139, 174, 22);
+		contentPane.add(dateDebutSejour);
+		dateDebutSejour.setBounds(167,  139, 174, 22);
 		
 		combo_type_chambre.addItem("Suite");
 		combo_type_chambre.addItem("Suite Junior");
@@ -139,7 +123,7 @@ public class FPrincipale extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Login.recupIdClients();
 				
-				if(txt_nb_jour_res.getText() == null || txtNumClient.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || date.getDate() == null) {
+				if(dateFinSejour.getDate() == null || txtNumClient.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || dateDebutSejour.getDate() == null) {
 					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
 				}else {
 					for(String str : Login.listeNumClient) {
@@ -148,9 +132,9 @@ public class FPrincipale extends JFrame {
 							System.out.println("Client inconnu");//debug
 						}else {
 							exist = true;
-							java.util.Date jud = date.getDate();
+							java.util.Date jud = dateDebutSejour.getDate();
 							java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-							Login.ajouterReservation(Integer.valueOf(txt_nb_jour_res.getText()), String.valueOf(sdf.format(jud)), String.valueOf(combo_type_chambre.getSelectedItem()), String.valueOf(combo_reglement.getSelectedItem()), Integer.valueOf(txtNumClient.getText()));
+							Login.ajouterReservation(Integer.valueOf(dateFinSejour.getDateFormatString()), String.valueOf(sdf.format(jud)), String.valueOf(combo_type_chambre.getSelectedItem()), String.valueOf(combo_reglement.getSelectedItem()), Integer.valueOf(txtNumClient.getText()));
 							break;
 						}
 					}
@@ -207,12 +191,16 @@ public class FPrincipale extends JFrame {
 		txtNumClient.setColumns(10);
 		
 		
+		dateFinSejour.setBounds(167, 171, 174, 22);
+		contentPane.add(dateFinSejour);
+		
+		
 	}
 	
 	public void resetChamps() {
 		txtNumClient.setText(null);
-		txt_nb_jour_res.setText(null);
-		date.setDate(null);
+		dateFinSejour.setDate(null);
+		dateDebutSejour.setDate(null);
 		combo_type_chambre.setSelectedItem(null);
 		combo_reglement.setSelectedItem(null);
 	}
