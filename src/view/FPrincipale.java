@@ -60,7 +60,6 @@ public class FPrincipale extends JFrame {
 	JComboBox combo_reglement = new JComboBox();
 	JButton btnValider = new JButton("Valider");
 	JButton btnAnnuler = new JButton("Annuler");
-	JButton btnSupprimer = new JButton("Supprimer");
 	DefaultListModel DLM = new DefaultListModel();
 	private final JButton btnRetour = new JButton("Retour");
 	private static JTextField txtNumClient;
@@ -74,7 +73,7 @@ public class FPrincipale extends JFrame {
 	public FPrincipale() {
 		setTitle("R\u00E9servation chambre");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 468, 408);
+		setBounds(100, 100, 468, 386);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -169,7 +168,7 @@ public class FPrincipale extends JFrame {
 			}
 		});
 		
-		btnValider.setBounds(12, 290, 126, 59);
+		btnValider.setBounds(12, 279, 203, 59);
 		contentPane.add(btnValider);
 		
 		btnAnnuler.addActionListener(new ActionListener() {
@@ -177,23 +176,8 @@ public class FPrincipale extends JFrame {
 				resetChamps();
 			}
 		});
-		btnAnnuler.setBounds(167, 290, 126, 59);
+		btnAnnuler.setBounds(244, 279, 203, 59);
 		contentPane.add(btnAnnuler);
-		btnSupprimer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(list.getSelectedIndex() == -1) {}else {
-					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
-						DLM.removeElementAt(list.getSelectedIndex());
-						//rajouter la suppression bdd
-					}
-					
-				}
-				
-			}
-		});
-		
-		btnSupprimer.setBounds(321, 290, 126, 59);
-		contentPane.add(btnSupprimer);
 		
 		JButton btnNouveauClient = new JButton("...");
 		btnNouveauClient.addActionListener(new ActionListener() {

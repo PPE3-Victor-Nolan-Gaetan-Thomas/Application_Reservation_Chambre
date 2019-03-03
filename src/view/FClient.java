@@ -51,14 +51,15 @@ public class FClient extends JFrame {
 	public FClient() {
 		setAlwaysOnTop(true);
 		setTitle("Ajout d'un client");
-		setBounds(100, 100, 530, 343);
+		setBounds(100, 100, 410, 343);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false);
 		//setUndecorated(true);
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		//setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		JLabel lblAjouterUnClient = new JLabel("Ajouter un client : ");
 		lblAjouterUnClient.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -73,7 +74,20 @@ public class FClient extends JFrame {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
 					}else {
-						String sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
+						boolean exist = false;
+						String sub = null;
+						do {
+							sub = String.valueOf((int) (Math.random()*1000000000/4*5)).substring(0, 8);
+							for(String ver : Login.listeNumClient) {
+								if(sub != ver) {
+									exist = false;
+								}else {
+									exist = true;
+									break;
+								}
+						}
+						}while(exist == true);
+						
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
 						FPrincipale.setTxtIdClient(sub);
 					}
@@ -91,7 +105,7 @@ public class FClient extends JFrame {
 				//dispose();
 			}
 		});
-		btnAjouter.setBounds(147, 227, 171, 56);
+		btnAjouter.setBounds(22, 239, 171, 56);
 		contentPane.add(btnAjouter);
 		
 		JLabel lblNom = new JLabel("Nom : ");
@@ -170,7 +184,7 @@ public class FClient extends JFrame {
 				txtMail.setText(null);
 			}
 		});
-		btnAnnuler.setBounds(329, 227, 171, 56);
+		btnAnnuler.setBounds(221, 239, 171, 56);
 		contentPane.add(btnAnnuler);
 		
 		JButton btnRetour = new JButton("Retour");
@@ -189,7 +203,7 @@ public class FClient extends JFrame {
 				clearChamps();
 			}
 		});
-		btnRetour.setBounds(377, 11, 123, 30);
+		btnRetour.setBounds(269, 13, 123, 30);
 		contentPane.add(btnRetour);
 	}
 	
