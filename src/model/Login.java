@@ -114,7 +114,7 @@ public class Login {
 		try {
 			Statement state = conn.createStatement();
 			ResultSet resultat = state.executeQuery("SELECT * FROM chambre");
-
+			
 			int chambreid;
 			String typechambre;
 			int nbChambreMax;
@@ -134,6 +134,8 @@ public class Login {
 
 			}
 			//con.fermerConnexion();
+			state.close();
+			resultat.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
