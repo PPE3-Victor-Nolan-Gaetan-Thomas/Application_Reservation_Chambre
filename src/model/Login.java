@@ -12,6 +12,8 @@ public class Login {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
 	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
 	public static ArrayList<String> listeNumClient = new ArrayList<String>();
+	public static ArrayList<String> listQuantiteChambresRestantes = new ArrayList<String>();
+	public static ArrayList<String> listInfoChambres = new ArrayList<String>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -94,6 +96,39 @@ public class Login {
 			if (resultat.first()) {
 				do {
 					id_Client = resultat.getString(1);
+					listeNumClient.add(id_Client.toString());
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void recupInfoChambre() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			Statement state = conn.createStatement();
+			ResultSet resultat = state.executeQuery("SELECT * FROM chambre");
+
+			String chambreid;
+			String typechambre;
+			int nbChambreMax;
+			int nbChambresRestantes;
+			int prixChambre;
+
+			if (resultat.first()) {
+				do {
+					chambreid = resultat.getString(1);
+					typechambre = resultat.getString(2);
+					nbChambreMax = resultat.getInt(3);
+					nbChambresRestantes = resultat.getInt(4);
+					prixChambre = resultat.getInt(5);
 					listeNumClient.add(id_Client.toString());
 				} while (resultat.next());
 
