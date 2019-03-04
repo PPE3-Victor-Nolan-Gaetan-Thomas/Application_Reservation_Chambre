@@ -138,7 +138,10 @@ public class FPrincipale extends JFrame {
 							exist = true;
 							java.util.Date jud = dateDebutSejour.getDate();
 							java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-							Login.ajouterReservation(Integer.valueOf(dateFinSejour.getDateFormatString()), String.valueOf(sdf.format(jud)), String.valueOf(combo_type_chambre.getSelectedItem()), String.valueOf(combo_reglement.getSelectedItem()), Integer.valueOf(txtNumClient.getText()));
+							java.util.Date jud2 = dateFinSejour.getDate();
+							java.text.SimpleDateFormat sdf2 = new java.text.SimpleDateFormat("dd/MM/yyyy");
+							
+							Login.ajouterReservation(String.valueOf(sdf.format(jud)), String.valueOf(sdf2.format(jud2)), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString(), Integer.parseInt(txtNumClient.getText()));
 							break;
 						}
 					}

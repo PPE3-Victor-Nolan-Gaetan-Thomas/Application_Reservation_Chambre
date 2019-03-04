@@ -120,6 +120,7 @@ public class Login {
 			int nbChambreMax;
 			int nbChambresRestantes;
 			int prixChambre;
+			int numerochambre;
 
 			if (resultat.first()) {
 				do {
@@ -128,8 +129,9 @@ public class Login {
 					nbChambreMax = resultat.getInt(3);
 					nbChambresRestantes = resultat.getInt(4);
 					prixChambre = resultat.getInt(5);
+					numerochambre = resultat.getInt(6);
 					
-					listInfoChambres.add(new Chambre(chambreid, typechambre, nbChambreMax, nbChambresRestantes, prixChambre));
+					listInfoChambres.add(new Chambre(chambreid, typechambre, nbChambreMax, nbChambresRestantes, prixChambre, numerochambre));
 				} while (resultat.next());
 
 			}
@@ -231,23 +233,25 @@ public class Login {
 			Statement state = conn.createStatement();
 			ResultSet resultat = state.executeQuery("SELECT * FROM reservation");
 			
-			int id;
-			int numRes;
-			int nbJourRes;
-			String date;
+			int idRes;
+			String dateFin;
+			String dateDebut;
 			String typeChambre;
 			String reglement;
+			int idclient;
+			int nbJourRes;
 
 			if (resultat.first()) {
 				do {
-					id = resultat.getInt(1);
-					numRes = resultat.getInt(2);
-					nbJourRes = resultat.getInt(3);
-					date = resultat.getString(4);
-					typeChambre = resultat.getString(5);
-					reglement = resultat.getString(6);
+					idRes = resultat.getInt(1);
+					dateFin = resultat.getString(2);
+					dateDebut = resultat.getString(3);
+					typeChambre = resultat.getString(4);
+					reglement = resultat.getString(5);
+					idclient = resultat.getInt(6);
+					nbJourRes = resultat.getInt(7);
 					
-					listeReservation.add(new Reservation(id, numRes, nbJourRes, date, typeChambre, reglement));
+					listeReservation.add(new Reservation(idRes, nbJourRes, dateDebut, dateFin, typeChambre, reglement, idclient));
 					
 				} while (resultat.next());
 
@@ -259,15 +263,15 @@ public class Login {
 		}
 	}
 	
-	public static void ajouterReservation(int nbJourRes, String date, String typeChambre, String reglement, int idClient) {
+	public static void ajouterReservation(String dateDebut, String dateFin, String typeChambre, String reglement, int idClient) {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (nbjourres, date, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (dateFin, dateDebut, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?)");
 			
-			state.setInt(1, nbJourRes);
-			state.setString(2, date);
+			state.setString(1, dateFin);
+			state.setString(2,  dateDebut);
 			state.setString(3, typeChambre);
 			state.setString(4, reglement);
 			state.setInt(5, idClient);

@@ -6,15 +6,17 @@ public class Chambre {
 	private int nbChambreMax;
 	private int nbChambresRestantes;
 	private int prixChambre;
+	private int numerochambre;
 	
 	public Chambre() {}
 	
-	public Chambre(int chambreid, String typeChambre, int nbChambreMax, int nbChambresRestantes, int prixChambre) {
+	public Chambre(int chambreid, String typeChambre, int nbChambreMax, int nbChambresRestantes, int prixChambre, int numerochambre) {
 		this.chambreid = chambreid;
 		this.typeChambre = typeChambre;
 		this.nbChambreMax = nbChambreMax;
 		this.nbChambresRestantes = nbChambresRestantes;
 		this.prixChambre = prixChambre;
+		this.numerochambre = numerochambre;
 	}
 	
 	public int getChambreid() {
@@ -46,6 +48,14 @@ public class Chambre {
 	}
 	public void setPrixChambre(int prixChambre) {
 		this.prixChambre = prixChambre;
+	}
+
+	public int getNumerochambre() {
+		return numerochambre;
+	}
+
+	public void setNumerochambre(int numerochambre) {
+		this.numerochambre = numerochambre;
 	}
 
 }

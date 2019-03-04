@@ -5,36 +5,27 @@ import java.util.Date;
 
 public class Reservation {
 	
-	private int id;
-	private int numRes;
+	private int idRes;
 	private int nbJourRes;
-	private String date;
+	private String dateDebut;
+	private String dateFin;
 	private String typeChambre;
 	private String reglement;
+	private int idclient;
 	
 	
+	public Reservation() {}
 
-
-	public Reservation() {
-		
-	}
-
-	public Reservation(int id, int numRes, int nbJourRes, String date, String typeChambre,
-			String reglement) {
-		this.id = id;
-		this.numRes = numRes;
+	public Reservation(int idRes, int nbJourRes, String dateDebut, String dateFin, String typeChambre,
+			String reglement, int pidclient) {
+		super();
+		this.idRes = idRes;
 		this.nbJourRes = nbJourRes;
-		this.date = date;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
 		this.typeChambre = typeChambre;
 		this.reglement = reglement;
-	}
-
-	public int getNumRes() {
-		return numRes;
-	}
-
-	public void setNumRes(int numRes) {
-		this.numRes = numRes;
+		this.idclient = pidclient;
 	}
 
 	public int getNbJourRes() {
@@ -45,12 +36,12 @@ public class Reservation {
 		this.nbJourRes = nbJourRes;
 	}
 
-	public int getId() {
-		return id;
+	public int getIdRes() {
+		return idRes;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdRes(int id) {
+		this.idRes = id;
 	}
 
 	public String getTypeChambre() {
@@ -68,12 +59,28 @@ public class Reservation {
 	public void setReglement(String reglement) {
 		this.reglement = reglement;
 	}
-	
-	public void setDate(String date) {
-		this.date = date;
+
+	public String getDateDebut() {
+		return dateDebut;
 	}
-	
-	public String getDate() {
-		return date;
+
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public String getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(String dateFin) {
+		this.dateFin = dateFin;
+	}
+
+	public int getIdclient() {
+		return idclient;
+	}
+
+	public void setIdclient(int idclient) {
+		this.idclient = idclient;
 	}
 }
