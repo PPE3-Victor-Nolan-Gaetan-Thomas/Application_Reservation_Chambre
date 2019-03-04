@@ -143,6 +143,84 @@ public class Login {
 		
 	}
 	
+	public static void mettreCompteurAJour(int pChambreId, String pTypeChambre, int pNbChambresRestantes) {//goto
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		if(pTypeChambre.equals("Suite")) {
+			try {
+				Statement state = conn.createStatement();
+				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
+				
+				listInfoChambres.clear();
+				recupInfoChambre();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}else if(pTypeChambre.equals("Suite junior")) {
+			try {
+				Statement state = conn.createStatement();
+				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
+				
+				listInfoChambres.clear();
+				recupInfoChambre();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(pTypeChambre.equals("Chambre prestige")) {
+			try {
+				Statement state = conn.createStatement();
+				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
+				
+				listInfoChambres.clear();
+				recupInfoChambre();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(pTypeChambre.equals("Chambre executive")) {
+			try {
+				Statement state = conn.createStatement();
+				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
+				
+				listInfoChambres.clear();
+				recupInfoChambre();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(pTypeChambre.equals("Chambre classique")) {
+			try {
+				Statement state = conn.createStatement();
+				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
+				
+				listInfoChambres.clear();
+				recupInfoChambre();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(pTypeChambre.equals("Chambre single")) {
+			try {
+				Statement state = conn.createStatement();
+				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
+				
+				listInfoChambres.clear();
+				recupInfoChambre();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else {
+			System.err.println("Problème lors de la mise a jour du nombres de chambres restantes");
+		}
+		
+		
+	}
+	
 	public static void recupReservation() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();

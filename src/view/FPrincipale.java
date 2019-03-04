@@ -202,6 +202,7 @@ public class FPrincipale extends JFrame {
 	}
 	
 	public void remplirChampsTypeChambre() {//goto
+		Login.listInfoChambres.clear();
 		Login.recupInfoChambre();
 		if(Login.listInfoChambres.get(0).getNbChambresRestantes() != 0) {
 			System.out.println("Suite" + Login.listInfoChambres.get(0).getNbChambresRestantes());//debug
