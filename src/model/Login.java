@@ -12,7 +12,7 @@ public class Login {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
 	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
 	public static ArrayList<String> listeNumClient = new ArrayList<String>();
-	public static ArrayList<Chambre> listInfoChambres = new ArrayList<Chambre>();
+	public static ArrayList<TypeChambre> listInfoChambres = new ArrayList<TypeChambre>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -107,6 +107,103 @@ public class Login {
 		
 	}
 	
+	public static void remplirTypeChambreBDD() { //goto en
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		for(int i = 0; i<1;i++) {
+			try {
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				
+				state.setInt(1, i);
+				state.setInt(2, 1);
+				
+				state.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Erreur lors de l'ajout d'un type de chambre dans la base de données");
+			}
+		}
+		
+		for(int i = 1; i<5;i++) {
+			try {
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				
+				state.setInt(1, i);
+				state.setInt(2, 2);
+				
+				state.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Erreur lors de l'ajout d'un type de chambre dans la base de données");
+			}
+		}
+		
+		for(int i = 6; i<21;i++) {
+			try {
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				
+				state.setInt(1, i);
+				state.setInt(2, 3);
+				
+				state.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Erreur lors de l'ajout d'un type de chambre dans la base de données");
+			}
+		}
+		
+		for(int i = 22; i<57;i++) {
+			try {
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				
+				state.setInt(1, i);
+				state.setInt(2, 4);
+				
+				state.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Erreur lors de l'ajout d'un type de chambre dans la base de données");
+			}
+		}
+		
+		for(int i = 58; i<93;i++) {
+			try {
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				
+				state.setInt(1, i);
+				state.setInt(2, 5);
+				
+				state.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Erreur lors de l'ajout d'un type de chambre dans la base de données");
+			}
+		}
+		
+		for(int i = 94; i<119;i++) {
+			try {
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				
+				state.setInt(1, i);
+				state.setInt(2, 6);
+				
+				state.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Erreur lors de l'ajout d'un type de chambre dans la base de données");
+			}
+		}
+		
+		
+	}
+	
 	public static void recupInfoChambre() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
@@ -131,7 +228,7 @@ public class Login {
 					prixChambre = resultat.getInt(5);
 					numerochambre = resultat.getInt(6);
 					
-					listInfoChambres.add(new Chambre(chambreid, typechambre, nbChambreMax, nbChambresRestantes, prixChambre, numerochambre));
+					listInfoChambres.add(new TypeChambre(chambreid, typechambre, nbChambreMax, nbChambresRestantes, prixChambre));
 				} while (resultat.next());
 
 			}
