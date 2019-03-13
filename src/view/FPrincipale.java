@@ -105,14 +105,19 @@ public class FPrincipale extends JFrame {
 		
 		//goto insert
 		
-		remplirChampsTypeChambre();
+		//remplirChampsTypeChambre();
 		
-		/*combo_type_chambre.addItem("Suite");
+		//TEMPORAIRE
+		
+		combo_type_chambre.addItem("Suite");
 		combo_type_chambre.addItem("Suite Junior");
 		combo_type_chambre.addItem("Prestige");
 		combo_type_chambre.addItem("Executive");
 		combo_type_chambre.addItem("Classic");
-		combo_type_chambre.addItem("Single");*/
+		combo_type_chambre.addItem("Single");
+		
+		
+		
 		combo_type_chambre.setSelectedItem(null);
 		combo_type_chambre.setBounds(167, 200, 174, 22);
 		contentPane.add(combo_type_chambre);

@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import java.sql.CallableStatement;
 
 public class Login {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
@@ -61,14 +64,56 @@ public class Login {
 		}
 	}
 	
+	public static void recupClienttest() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		
+		
+		try {
+			CallableStatement state = conn.prepareCall("{CALL recup_client_test()}");
+			ResultSet resultat = state.executeQuery();
+
+			int id;
+			String id_Client;
+			String nom_Client;
+			String prenom_Client;
+			String adresseCP_Client;
+			String adresseVille_Client;
+			String adresseRue_Client;
+			String mailClient;
+
+			if (resultat.first()) {
+				do {
+					id = resultat.getInt(1);
+					id_Client = resultat.getString(2);
+					nom_Client = resultat.getString(3);
+					prenom_Client = resultat.getString(4);
+					adresseCP_Client = resultat.getString(5);
+					adresseVille_Client = resultat.getString(6);
+					adresseRue_Client = resultat.getString(7);
+					mailClient = resultat.getString(8);
+					
+					listeClients.add(new Client(id, id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
+					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static int recupNombbreClient() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		int nbreClient = 0;
 		
 		try {
-			Statement state = conn.createStatement();
-			ResultSet resultat = state.executeQuery("SELECT COUNT(*) FROM client");
+			PreparedStatement state = conn.prepareStatement("{CALL recupNombreClient()}");
+			ResultSet resultat = state.executeQuery();
 			if(resultat.first()) {
 				do {
 					nbreClient = resultat.getInt(1);
@@ -107,7 +152,65 @@ public class Login {
 		
 	}
 	
-	public static void remplirTypeChambreBDD() { //goto en
+	public static void recupChambre() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupChambre()}");
+			ResultSet resultat = state.executeQuery();
+
+			int idchambre;
+			int numerochambre;
+			int idtypechambre;
+			
+
+			if (resultat.first()) {
+				do {
+					idchambre = resultat.getInt(1);
+					numerochambre = resultat.getInt(2);
+					idtypechambre = resultat.getInt(3);
+					Chambre.listChambre.add(new Chambre(idchambre, numerochambre, idtypechambre));
+				} while (resultat.next());
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void recupTypeChambre() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupTypeChambre()}");
+			ResultSet resultat = state.executeQuery();
+
+			int id;
+			String typeChambre;
+			int nbChambreMax;
+			int prixChambre;
+			
+
+			if (resultat.first()) {
+				do {
+					id = resultat.getInt(1);
+					typeChambre = resultat.getString(2);
+					nbChambreMax = resultat.getInt(3);
+					prixChambre = resultat.getInt(4);
+					TypeChambre.listTypeChambre.add(new TypeChambre(id, typeChambre, nbChambreMax, prixChambre));
+				} while (resultat.next());
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void remplirTypeChambreBDD() { //goto fill
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
@@ -213,22 +316,16 @@ public class Login {
 			ResultSet resultat = state.executeQuery("SELECT * FROM chambre");
 			
 			int chambreid;
-			String typechambre;
-			int nbChambreMax;
-			int nbChambresRestantes;
-			int prixChambre;
 			int numerochambre;
-
+			int typechambre;
+			
 			if (resultat.first()) {
 				do {
 					chambreid = resultat.getInt(1);
-					typechambre = resultat.getString(2);
-					nbChambreMax = resultat.getInt(3);
-					nbChambresRestantes = resultat.getInt(4);
-					prixChambre = resultat.getInt(5);
-					numerochambre = resultat.getInt(6);
+					numerochambre = resultat.getInt(2);
+					typechambre = resultat.getInt(3);
 					
-					listInfoChambres.add(new TypeChambre(chambreid, typechambre, nbChambreMax, nbChambresRestantes, prixChambre));
+					Chambre.listChambre.add(new Chambre(chambreid, numerochambre, typechambre));
 				} while (resultat.next());
 
 			}
@@ -242,7 +339,25 @@ public class Login {
 		
 	}
 	
-	public static void mettreCompteurAJour(int pChambreId, String pTypeChambre, int pNbChambresRestantes) {//goto
+	public static float nbJourReservation(String dateDeb, String dateFin) {
+		
+		System.out.println(dateDeb);//debug
+		
+		   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		   float res = 0;
+		   try {
+		       Date dateAvant = sdf.parse(dateDeb);
+		       Date dateApres = sdf.parse(dateFin);
+		       long diff = dateApres.getTime() - dateAvant.getTime();
+		       res = (diff / (1000*60*60*24));
+		       System.out.println("Nombre de jours entre les deux dates est: "+res);
+		   } catch (Exception e) {
+		         e.printStackTrace();
+		   }
+		   return res;
+	}
+	
+	public static void mettreCompteurAJour(int pChambreId, String pTypeChambre, int pNbChambresRestantes) {//goto //procedure
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
@@ -258,61 +373,6 @@ public class Login {
 				e.printStackTrace();
 			}
 			
-		}else if(pTypeChambre.equals("Suite junior")) {
-			try {
-				Statement state = conn.createStatement();
-				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
-				
-				listInfoChambres.clear();
-				recupInfoChambre();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(pTypeChambre.equals("Chambre prestige")) {
-			try {
-				Statement state = conn.createStatement();
-				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
-				
-				listInfoChambres.clear();
-				recupInfoChambre();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(pTypeChambre.equals("Chambre executive")) {
-			try {
-				Statement state = conn.createStatement();
-				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
-				
-				listInfoChambres.clear();
-				recupInfoChambre();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(pTypeChambre.equals("Chambre classique")) {
-			try {
-				Statement state = conn.createStatement();
-				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
-				
-				listInfoChambres.clear();
-				recupInfoChambre();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(pTypeChambre.equals("Chambre single")) {
-			try {
-				Statement state = conn.createStatement();
-				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
-				
-				listInfoChambres.clear();
-				recupInfoChambre();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}else {
 			System.err.println("Problème lors de la mise a jour du nombres de chambres restantes");
 		}
@@ -327,8 +387,8 @@ public class Login {
 		
 		
 		try {
-			Statement state = conn.createStatement();
-			ResultSet resultat = state.executeQuery("SELECT * FROM reservation");
+			PreparedStatement state = conn.prepareStatement("{CALL recupReservation()}");
+			ResultSet resultat = state.executeQuery();
 			
 			int idRes;
 			String dateFin;

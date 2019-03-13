@@ -218,7 +218,7 @@ public class FRetirerClient extends JFrame {
 		
 	}
 	public static void loadProfile() {
-		Login.recupClient();
+		Login.recupClienttest();
 		for(Client clienttmp : Login.listeClients) {
 			if(clienttmp.getId_client() != "0") {
 				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());

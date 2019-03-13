@@ -1,6 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 public class TypeChambre {
+	
+	public static ArrayList<TypeChambre> listTypeChambre = new ArrayList<TypeChambre>();
+	
 	private int chambreid;
 	private String typeChambre;
 	private int nbChambreMax;
@@ -9,11 +14,10 @@ public class TypeChambre {
 	
 	public TypeChambre() {}
 	
-	public TypeChambre(int chambreid, String typeChambre, int nbChambreMax, int nbChambresRestantes, int prixChambre) {
+	public TypeChambre(int chambreid, String typeChambre, int nbChambreMax, int prixChambre) {
 		this.chambreid = chambreid;
 		this.typeChambre = typeChambre;
 		this.nbChambreMax = nbChambreMax;
-		this.nbChambresRestantes = nbChambresRestantes;
 		this.prixChambre = prixChambre;
 	}
 	

@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JDateChooser;
 
 import model.Login;
 
@@ -32,25 +35,38 @@ public class Debug extends JFrame {
 			}
 		});
 	}
+	
+	JDateChooser dateDebut = new JDateChooser();
+	JDateChooser dateFin = new JDateChooser();
 
 	/**
 	 * Create the frame.
 	 */
 	public Debug() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 669, 362);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		JButton btnDebug = new JButton("debug");
+		JButton btnDebug = new JButton("Remplir bdd chambre");
+		btnDebug.setBounds(12, 13, 243, 129);
 		btnDebug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Login.remplirTypeChambreBDD();
 			}
 		});
-		btnDebug.setBounds(57, 34, 243, 129);
+		contentPane.setLayout(null);
 		contentPane.add(btnDebug);
+		
+		JButton btnTestNbJour = new JButton("test nb jour entre deux dates");
+		
+		btnTestNbJour.setBounds(267, 38, 340, 73);
+		contentPane.add(btnTestNbJour);
+		contentPane.add(dateDebut);
+		contentPane.add(dateFin);
+		dateDebut.setBounds(267, 148, 174, 22);
+		dateFin.setBounds(267, 170, 174, 22);
+		
 	}
 }
