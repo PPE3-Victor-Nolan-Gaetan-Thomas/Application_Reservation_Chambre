@@ -29,48 +29,6 @@ public class Login {
 		
 		
 		try {
-			Statement state = conn.createStatement();
-			ResultSet resultat = state.executeQuery("SELECT * FROM client");
-
-			int id;
-			String id_Client;
-			String nom_Client;
-			String prenom_Client;
-			String adresseCP_Client;
-			String adresseVille_Client;
-			String adresseRue_Client;
-			String mailClient;
-
-			if (resultat.first()) {
-				do {
-					id = resultat.getInt(1);
-					id_Client = resultat.getString(2);
-					nom_Client = resultat.getString(3);
-					prenom_Client = resultat.getString(4);
-					adresseCP_Client = resultat.getString(5);
-					adresseVille_Client = resultat.getString(6);
-					adresseRue_Client = resultat.getString(7);
-					mailClient = resultat.getString(8);
-					
-					listeClients.add(new Client(id, id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
-					
-				} while (resultat.next());
-
-			}
-			//con.fermerConnexion();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void recupClienttest() {
-		Connexion con = new Connexion();
-		Connection conn = con.getConn();
-		
-		
-		
-		try {
 			CallableStatement state = conn.prepareCall("{CALL recup_client_test()}");
 			ResultSet resultat = state.executeQuery();
 
@@ -498,10 +456,6 @@ public class Login {
 		
 	}
 	
-	
-	public static void modifierReservation() {
-		
-	}
 	
 	
 	/*public static void loginClient(int pID) {
