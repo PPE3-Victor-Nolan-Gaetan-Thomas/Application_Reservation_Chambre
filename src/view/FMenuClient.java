@@ -50,6 +50,7 @@ public class FMenuClient extends JFrame {
 		contentPane.add(lblClient);
 		
 		JButton btnNewButton = new JButton("Ajouter client");
+		btnNewButton.setBackground(Color.GREEN);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -61,6 +62,7 @@ public class FMenuClient extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnSupprimerClient = new JButton("Supprimer/modifier client");
+		btnSupprimerClient.setBackground(Color.YELLOW);
 		btnSupprimerClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);

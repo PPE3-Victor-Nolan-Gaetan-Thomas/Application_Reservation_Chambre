@@ -11,6 +11,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class FMenuReservation extends JFrame {
 
@@ -37,7 +38,7 @@ public class FMenuReservation extends JFrame {
 	 */
 	public FMenuReservation() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 470, 267);
+		setBounds(100, 100, 470, 318);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -49,6 +50,7 @@ public class FMenuReservation extends JFrame {
 		contentPane.add(lblMenuRservation);
 		
 		JButton btnVisuReservation = new JButton("Visualiser/modifier");
+		btnVisuReservation.setBackground(Color.YELLOW);
 		btnVisuReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FVisuModifReserv fvmr = new FVisuModifReserv();
@@ -60,6 +62,7 @@ public class FMenuReservation extends JFrame {
 		contentPane.add(btnVisuReservation);
 		
 		JButton btnAjouterReservation = new JButton("Ajouter");
+		btnAjouterReservation.setBackground(Color.GREEN);
 		btnAjouterReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FPrincipale fp = new FPrincipale();
@@ -69,5 +72,17 @@ public class FMenuReservation extends JFrame {
 		});
 		btnAjouterReservation.setBounds(23, 84, 201, 115);
 		contentPane.add(btnAjouterReservation);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FAccueil fa = new FAccueil();
+				fa.setVisible(true);
+				dispose();
+			}
+		});
+		btnRetour.setBackground(Color.ORANGE);
+		btnRetour.setBounds(23, 216, 414, 42);
+		contentPane.add(btnRetour);
 	}
 }

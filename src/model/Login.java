@@ -85,6 +85,7 @@ public class Login {
 		return nbreClient;
 	}
 	
+	//a voir
 	public static void recupIdClients() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
@@ -265,7 +266,7 @@ public class Login {
 		
 	}
 	
-	public static void recupInfoChambre() {
+	/*public static void recupInfoChambre() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
@@ -295,7 +296,7 @@ public class Login {
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 	
 	public static float nbJourReservation(String dateDeb, String dateFin) {
 		
@@ -325,8 +326,8 @@ public class Login {
 				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
 				
 				listInfoChambres.clear();
-				recupInfoChambre();
-
+				//recupInfoChambre();
+				recupChambre();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

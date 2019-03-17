@@ -24,6 +24,7 @@ import com.toedter.calendar.JDateChooser;
 
 import model.Client;
 import model.Login;
+import model.TypeChambre;
 
 public class FPrincipale extends JFrame {
 
@@ -108,7 +109,7 @@ public class FPrincipale extends JFrame {
 		//remplirChampsTypeChambre();
 		
 		//TEMPORAIRE
-		
+		/*
 		combo_type_chambre.addItem("Suite");
 		combo_type_chambre.addItem("Suite Junior");
 		combo_type_chambre.addItem("Prestige");
@@ -116,12 +117,17 @@ public class FPrincipale extends JFrame {
 		combo_type_chambre.addItem("Classic");
 		combo_type_chambre.addItem("Single");
 		
-		
+		*/
+		Login.recupTypeChambre();
+		for(TypeChambre tp : TypeChambre.listTypeChambre) {
+			combo_type_chambre.addItem(tp.getTypeChambre());
+		}
 		
 		combo_type_chambre.setSelectedItem(null);
 		combo_type_chambre.setBounds(167, 200, 174, 22);
 		contentPane.add(combo_type_chambre);
 		
+		//a modif
 		combo_reglement.addItem("Carte bancaire");
 		combo_reglement.addItem("Espèce");
 		combo_reglement.addItem("Chèque");
@@ -211,7 +217,7 @@ public class FPrincipale extends JFrame {
 	
 	public void remplirChampsTypeChambre() {//goto
 		Login.listInfoChambres.clear();
-		Login.recupInfoChambre();
+		Login.recupChambre();
 		if(Login.listInfoChambres.get(0).getNbChambresRestantes() != 0) {
 			System.out.println("Suite" + Login.listInfoChambres.get(0).getNbChambresRestantes());//debug
 			combo_type_chambre.addItem("Suite (" + Login.listInfoChambres.get(0).getNbChambresRestantes() + ")");
