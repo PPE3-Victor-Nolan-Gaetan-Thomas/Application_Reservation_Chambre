@@ -1,8 +1,5 @@
 package model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Reservation {
 	
 	private int idRes;
@@ -10,7 +7,6 @@ public class Reservation {
 	private String dateDebut;
 	private String dateFin;
 	private String typeChambre;
-	private String reglement;
 	private int idclient;
 	
 	
@@ -24,7 +20,15 @@ public class Reservation {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.typeChambre = typeChambre;
-		this.reglement = reglement;
+		this.idclient = pidclient;
+	}
+	
+	public Reservation(int idRes, int nbJourRes, String typeChambre,
+			String reglement, int pidclient) {
+		super();
+		this.idRes = idRes;
+		this.nbJourRes = nbJourRes;
+		this.typeChambre = typeChambre;
 		this.idclient = pidclient;
 	}
 
@@ -50,14 +54,6 @@ public class Reservation {
 
 	public void setTypeChambre(String typeChambre) {
 		this.typeChambre = typeChambre;
-	}
-
-	public String getReglement() {
-		return reglement;
-	}
-
-	public void setReglement(String reglement) {
-		this.reglement = reglement;
 	}
 
 	public String getDateDebut() {

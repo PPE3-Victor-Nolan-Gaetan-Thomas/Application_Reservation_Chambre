@@ -169,6 +169,34 @@ public class Login {
 		}
 	}
 	
+	
+	
+	public static int nombreChambresRestanteSuiteJunior() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		int reponse = 0;
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupTypeChambre()}");
+			ResultSet resultat = state.executeQuery();
+			
+
+			if (resultat.first()) {
+				do {
+					
+					
+				} while (resultat.next());
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return reponse;
+		
+	}
+	
 	public static void remplirTypeChambreBDD() { //goto fill
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
@@ -379,17 +407,16 @@ public class Login {
 		}
 	}
 	
-	public static void ajouterReservation(String dateDebut, String dateFin, String typeChambre, String reglement, int idClient) {
+	public static void ajouterReservation(String dateDebut, String dateFin, String typeChambre, int idClient) {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (dateFin, dateDebut, typechambre, reglement, id_client) VALUES(?, ?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (dateFin, dateDebut, typechambre, id_client) VALUES(?, ?, ?, ?)");
 			
 			state.setString(1, dateFin);
 			state.setString(2,  dateDebut);
 			state.setString(3, typeChambre);
-			state.setString(4, reglement);
 			state.setInt(5, idClient);
 			
 			state.execute();

@@ -65,7 +65,7 @@ public class FMenuReservation extends JFrame {
 		btnAjouterReservation.setBackground(Color.GREEN);
 		btnAjouterReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FPrincipale fp = new FPrincipale();
+				FReservation fp = new FReservation();
 				setVisible(false);
 				fp.setVisible(true);
 			}

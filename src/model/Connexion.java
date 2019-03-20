@@ -26,7 +26,7 @@ public class Connexion {
     }
     
     public Connexion() {
-        this.nomBDD = "ppe3";
+        this.nomBDD = "eastmaster";
         this.login = "root";
         this.mdp = "";
         this.url = "127.0.0.1";

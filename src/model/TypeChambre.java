@@ -9,7 +9,6 @@ public class TypeChambre {
 	private int chambreid;
 	private String typeChambre;
 	private int nbChambreMax;
-	private int nbChambresRestantes;
 	private int prixChambre;
 	
 	public TypeChambre() {}
@@ -38,12 +37,6 @@ public class TypeChambre {
 	}
 	public void setNbChambreMax(int nbChambreMax) {
 		this.nbChambreMax = nbChambreMax;
-	}
-	public int getNbChambresRestantes() {
-		return nbChambresRestantes;
-	}
-	public void setNbChambresRestantes(int nbChambresRestantes) {
-		this.nbChambresRestantes = nbChambresRestantes;
 	}
 	public int getPrixChambre() {
 		return prixChambre;

@@ -26,7 +26,7 @@ import model.Client;
 import model.Login;
 import model.TypeChambre;
 
-public class FPrincipale extends JFrame {
+public class FReservation extends JFrame {
 
 	private JPanel contentPane;
 	public static boolean newClientByButtonAdd = false;
@@ -39,7 +39,7 @@ public class FPrincipale extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FPrincipale frame = new FPrincipale();
+					FReservation frame = new FReservation();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,12 +53,10 @@ public class FPrincipale extends JFrame {
 	JLabel lblNumClient = new JLabel("Num\u00E9ro client : ");
 	JLabel lblDate = new JLabel("Date arriv\u00E9e : ");
 	JLabel lblDateFin = new JLabel("Date de fin : ");
-	JLabel lbl_reglement = new JLabel("Type de r\u00E9glement : ");
 	JLabel type_chambre = new JLabel("Type de chambre : ");
 	JDateChooser dateDebutSejour = new JDateChooser();
 	JDateChooser dateFinSejour = new JDateChooser();
 	JComboBox combo_type_chambre = new JComboBox();
-	JComboBox combo_reglement = new JComboBox();
 	JButton btnValider = new JButton("Valider");
 	JButton btnAnnuler = new JButton("Annuler");
 	DefaultListModel DLM = new DefaultListModel();
@@ -71,10 +69,10 @@ public class FPrincipale extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FPrincipale() {
+	public FReservation() {
 		setTitle("R\u00E9servation chambre");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 468, 386);
+		setBounds(100, 100, 468, 339);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -94,9 +92,6 @@ public class FPrincipale extends JFrame {
 		
 		lblDateFin.setBounds(12, 171, 126, 16);
 		contentPane.add(lblDateFin);
-		
-		lbl_reglement.setBounds(12, 235, 126, 16);
-		contentPane.add(lbl_reglement);
 		
 		type_chambre.setBounds(12, 203, 126, 16);
 		contentPane.add(type_chambre);
@@ -126,19 +121,11 @@ public class FPrincipale extends JFrame {
 		combo_type_chambre.setSelectedItem(null);
 		combo_type_chambre.setBounds(167, 200, 174, 22);
 		contentPane.add(combo_type_chambre);
-		
-		//a modif
-		combo_reglement.addItem("Carte bancaire");
-		combo_reglement.addItem("Espèce");
-		combo_reglement.addItem("Chèque");
-		combo_reglement.setSelectedItem(null);
-		combo_reglement.setBounds(167, 232, 174, 22);
-		contentPane.add(combo_reglement);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Login.recupIdClients();
 				
-				if(dateFinSejour.getDate() == null || txtNumClient.getText() == null || combo_reglement.getSelectedIndex() == -1 || combo_type_chambre.getSelectedIndex() == -1 || dateDebutSejour.getDate() == null) {
+				if(dateFinSejour.getDate() == null || txtNumClient.getText() == null || combo_type_chambre.getSelectedIndex() == -1 || dateDebutSejour.getDate() == null) {
 					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
 				}else {
 					for(String str : Login.listeNumClient) {
@@ -152,7 +139,7 @@ public class FPrincipale extends JFrame {
 							java.util.Date jud2 = dateFinSejour.getDate();
 							java.text.SimpleDateFormat sdf2 = new java.text.SimpleDateFormat("dd/MM/yyyy");
 							
-							Login.ajouterReservation(String.valueOf(sdf.format(jud)), String.valueOf(sdf2.format(jud2)), combo_type_chambre.getSelectedItem().toString(), combo_reglement.getSelectedItem().toString(), Integer.parseInt(txtNumClient.getText()));
+							Login.ajouterReservation(String.valueOf(sdf.format(jud)), String.valueOf(sdf2.format(jud2)), combo_type_chambre.getSelectedItem().toString(), Integer.parseInt(txtNumClient.getText()));
 							break;
 						}
 					}
@@ -170,7 +157,7 @@ public class FPrincipale extends JFrame {
 			}
 		});
 		
-		btnValider.setBounds(12, 279, 203, 59);
+		btnValider.setBounds(12, 232, 203, 59);
 		contentPane.add(btnValider);
 		
 		btnAnnuler.addActionListener(new ActionListener() {
@@ -178,7 +165,7 @@ public class FPrincipale extends JFrame {
 				resetChamps();
 			}
 		});
-		btnAnnuler.setBounds(244, 279, 203, 59);
+		btnAnnuler.setBounds(244, 232, 203, 59);
 		contentPane.add(btnAnnuler);
 		
 		JButton btnNouveauClient = new JButton("...");
@@ -218,44 +205,45 @@ public class FPrincipale extends JFrame {
 	public void remplirChampsTypeChambre() {//goto
 		Login.listInfoChambres.clear();
 		Login.recupChambre();
-		if(Login.listInfoChambres.get(0).getNbChambresRestantes() != 0) {
-			System.out.println("Suite" + Login.listInfoChambres.get(0).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Suite (" + Login.listInfoChambres.get(0).getNbChambresRestantes() + ")");
+		int nbChambresRestantes = 0;
+		if(TypeChambre.listTypeChambre.get(0).getNbChambresRestantes() != 0) {
+			System.out.println("Suite" + TypeChambre.listTypeChambre.get(0).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Suite (" + TypeChambre.listTypeChambre.get(0).getNbChambresRestantes() + ")");
 		}else {
 			System.err.println("INFORMATION : euh y a plus de place sorry (suite)");//debug
 		}
 		
-		if(Login.listInfoChambres.get(1).getNbChambresRestantes() != 0) {
-			System.out.println("Suite junior" + Login.listInfoChambres.get(1).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Suite junior (" + Login.listInfoChambres.get(1).getNbChambresRestantes() + ")");
+		if(TypeChambre.listTypeChambre.get(1).getNbChambresRestantes() != 0) {
+			System.out.println("Suite junior" + TypeChambre.listTypeChambre.get(1).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Suite junior (" + TypeChambre.listTypeChambre.get(1).getNbChambresRestantes() + ")");
 		}else {
 			System.err.println("INFORMATION : euh y a plus de place sorry (suite junior)");//debug
 		}
 		
-		if(Login.listInfoChambres.get(2).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre prestige" + Login.listInfoChambres.get(2).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre prestige (" + Login.listInfoChambres.get(2).getNbChambresRestantes() + ")");
+		if(TypeChambre.listTypeChambre.get(2).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre prestige" + TypeChambre.listTypeChambre.get(2).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre prestige (" + TypeChambre.listTypeChambre.get(2).getNbChambresRestantes() + ")");
 		}else {
 			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre prestige)");//debug
 		}
 		
-		if(Login.listInfoChambres.get(3).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre executive" + Login.listInfoChambres.get(3).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre executive (" + Login.listInfoChambres.get(3).getNbChambresRestantes() + ")");
+		if(TypeChambre.listTypeChambre.get(3).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre executive" + TypeChambre.listTypeChambre.get(3).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre executive (" + TypeChambre.listTypeChambre.get(3).getNbChambresRestantes() + ")");
 		}else {
 			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre executive)");//debug
 		}
 		
-		if(Login.listInfoChambres.get(4).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre classique" + Login.listInfoChambres.get(4).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre classique (" + Login.listInfoChambres.get(4).getNbChambresRestantes() + ")");
+		if(TypeChambre.listTypeChambre.get(4).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre classique" + TypeChambre.listTypeChambre.get(4).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre classique (" + TypeChambre.listTypeChambre.get(4).getNbChambresRestantes() + ")");
 		}else {
 			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre classique)");//debug
 		}
 		
-		if(Login.listInfoChambres.get(5).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre single" + Login.listInfoChambres.get(5).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre single (" + Login.listInfoChambres.get(5).getNbChambresRestantes() + ")");
+		if(TypeChambre.listTypeChambre.get(5).getNbChambresRestantes() != 0) {
+			System.out.println("Chambre single" + TypeChambre.listTypeChambre.get(5).getNbChambresRestantes());//debug
+			combo_type_chambre.addItem("Chambre single (" + TypeChambre.listTypeChambre.get(5).getNbChambresRestantes() + ")");
 		}else {
 			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre single)");//debug
 		}
@@ -267,7 +255,6 @@ public class FPrincipale extends JFrame {
 		dateFinSejour.setDate(null);
 		dateDebutSejour.setDate(null);
 		combo_type_chambre.setSelectedItem(null);
-		combo_reglement.setSelectedItem(null);
 	}
 
 	public void setNewClientByButtonAdd(boolean newClientByButtonAdd) {

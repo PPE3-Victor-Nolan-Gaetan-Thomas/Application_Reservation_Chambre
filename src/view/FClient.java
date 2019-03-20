@@ -70,7 +70,7 @@ public class FClient extends JFrame {
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//FPrincipale fp = new FPrincipale();
-				if(FPrincipale.newClientByButtonAdd) {
+				if(FReservation.newClientByButtonAdd) {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
 					}else {
@@ -89,7 +89,7 @@ public class FClient extends JFrame {
 						}while(exist == true);
 						
 						Login.ajouterClient(sub, txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
-						FPrincipale.setTxtIdClient(sub);
+						FReservation.setTxtIdClient(sub);
 					}
 					dispose();
 				}else {
@@ -191,7 +191,7 @@ public class FClient extends JFrame {
 		btnRetour.setBackground(Color.ORANGE);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FPrincipale fp = new FPrincipale();
+				FReservation fp = new FReservation();
 				
 				if(!fp.newClientByButtonAdd) {
 					setVisible(false);
