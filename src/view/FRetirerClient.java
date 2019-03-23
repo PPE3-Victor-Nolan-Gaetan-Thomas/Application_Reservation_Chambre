@@ -165,22 +165,7 @@ public class FRetirerClient extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!list.isSelectionEmpty()) {
 					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
-						
-						Login.supprimerClient(Integer.parseInt(lblIdAffichage.getText()));
-						Login.listeClients.clear();
-						list.setModel(new DefaultListModel());
-						DLM.clear();
-						loadProfile();
-						list.setModel(DLM);
-						
-						/*Login.listeClients.clear();
-						dispose();
-						FRetirerClient frc = new FRetirerClient();
-						frc.setVisible(true);*/
-						
-						
-						//DLM.removeElementAt(list.getSelectedIndex());
-						
+						//a faire
 					}
 				}
 			}
@@ -204,13 +189,13 @@ public class FRetirerClient extends JFrame {
 		
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				lblIdAffichage.setText(String.valueOf(Login.listeClients.get(list.getSelectedIndex()).getId_client()));
-				txtNom.setText(Login.listeClients.get(list.getSelectedIndex()).getNom_client().toUpperCase());
-				txtPrenom.setText(Login.listeClients.get(list.getSelectedIndex()).getPrenom_client());
-				txtCP.setText(Login.listeClients.get(list.getSelectedIndex()).getCp_client());
-				txtVille.setText(Login.listeClients.get(list.getSelectedIndex()).getVille_client());
-				txtRue.setText(Login.listeClients.get(list.getSelectedIndex()).getRue_client());
-				txtMail.setText(Login.listeClients.get(list.getSelectedIndex()).getMail());
+				lblIdAffichage.setText(String.valueOf(Client.listeClients.get(list.getSelectedIndex()).getId_client()));
+				txtNom.setText(Client.listeClients.get(list.getSelectedIndex()).getNom_client().toUpperCase());
+				txtPrenom.setText(Client.listeClients.get(list.getSelectedIndex()).getPrenom_client());
+				txtCP.setText(Client.listeClients.get(list.getSelectedIndex()).getCp_client());
+				txtVille.setText(Client.listeClients.get(list.getSelectedIndex()).getVille_client());
+				txtRue.setText(Client.listeClients.get(list.getSelectedIndex()).getRue_client());
+				txtMail.setText(Client.listeClients.get(list.getSelectedIndex()).getMail());
 			}
 		});
 		
@@ -219,7 +204,7 @@ public class FRetirerClient extends JFrame {
 	}
 	public static void loadProfile() {
 		Login.recupClient();
-		for(Client clienttmp : Login.listeClients) {
+		for(Client clienttmp : Client.listeClients) {
 			if(clienttmp.getId_client() != "0") {
 				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
 			}

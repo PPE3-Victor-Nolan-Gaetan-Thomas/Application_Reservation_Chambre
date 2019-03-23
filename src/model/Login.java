@@ -12,9 +12,6 @@ import java.util.Date;
 import java.sql.CallableStatement;
 
 public class Login {
-	public static ArrayList<Client> listeClients = new ArrayList<Client>();
-	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
-	public static ArrayList<String> listeNumClient = new ArrayList<String>();
 	public static ArrayList<TypeChambre> listInfoChambres = new ArrayList<TypeChambre>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
@@ -52,7 +49,7 @@ public class Login {
 					adresseRue_Client = resultat.getString(7);
 					mailClient = resultat.getString(8);
 					
-					listeClients.add(new Client(id, id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
+					Client.listeClients.add(new Client(id, id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
 					
 				} while (resultat.next());
 
@@ -99,7 +96,7 @@ public class Login {
 			if (resultat.first()) {
 				do {
 					id_Client = resultat.getString(1);
-					listeNumClient.add(id_Client.toString());
+					Client.listeNumClient.add(id_Client.toString());
 				} while (resultat.next());
 
 			}
@@ -203,7 +200,7 @@ public class Login {
 		
 		for(int i = 0; i<1;i++) {
 			try {
-				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, id_typechambre) VALUES(?, ?)");
 				
 				state.setInt(1, i);
 				state.setInt(2, 1);
@@ -218,7 +215,7 @@ public class Login {
 		
 		for(int i = 1; i<5;i++) {
 			try {
-				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, id_typechambre) VALUES(?, ?)");
 				
 				state.setInt(1, i);
 				state.setInt(2, 2);
@@ -233,7 +230,7 @@ public class Login {
 		
 		for(int i = 6; i<21;i++) {
 			try {
-				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, id_typechambre) VALUES(?, ?)");
 				
 				state.setInt(1, i);
 				state.setInt(2, 3);
@@ -248,7 +245,7 @@ public class Login {
 		
 		for(int i = 22; i<57;i++) {
 			try {
-				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, id_typechambre) VALUES(?, ?)");
 				
 				state.setInt(1, i);
 				state.setInt(2, 4);
@@ -263,7 +260,7 @@ public class Login {
 		
 		for(int i = 58; i<93;i++) {
 			try {
-				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, id_typechambre) VALUES(?, ?)");
 				
 				state.setInt(1, i);
 				state.setInt(2, 5);
@@ -278,7 +275,7 @@ public class Login {
 		
 		for(int i = 94; i<119;i++) {
 			try {
-				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, idtypechambre) VALUES(?, ?)");
+				PreparedStatement state = conn.prepareStatement("INSERT INTO chambre (numerochambre, id_typechambre) VALUES(?, ?)");
 				
 				state.setInt(1, i);
 				state.setInt(2, 6);
@@ -326,7 +323,7 @@ public class Login {
 		
 	}*/
 	
-	public static float nbJourReservation(String dateDeb, String dateFin) {
+	/*public static float nbJourReservation(String dateDeb, String dateFin) {
 		
 		System.out.println(dateDeb);//debug
 		
@@ -342,9 +339,9 @@ public class Login {
 		         e.printStackTrace();
 		   }
 		   return res;
-	}
+	}*/
 	
-	public static void mettreCompteurAJour(int pChambreId, String pTypeChambre, int pNbChambresRestantes) {//goto //procedure
+	/*public static void mettreCompteurAJour(int pChambreId, String pTypeChambre, int pNbChambresRestantes) {//goto //procedure
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
@@ -365,7 +362,7 @@ public class Login {
 		}
 		
 		
-	}
+	}*/
 	
 	public static void recupReservation() {
 		Connexion con = new Connexion();
@@ -395,7 +392,7 @@ public class Login {
 					idclient = resultat.getInt(6);
 					nbJourRes = resultat.getInt(7);
 					
-					listeReservation.add(new Reservation(idRes, nbJourRes, dateDebut, dateFin, typeChambre, reglement, idclient));
+					Reservation.listeReservation.add(new Reservation(idRes, nbJourRes, dateDebut, dateFin, typeChambre, reglement, idclient));
 					
 				} while (resultat.next());
 
@@ -407,17 +404,17 @@ public class Login {
 		}
 	}
 	
-	public static void ajouterReservation(String dateDebut, String dateFin, String typeChambre, int idClient) {
+	public static void ajouterReservation(String dateDebut, String dateFin, int id_client, int id_chambre) {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (dateFin, dateDebut, typechambre, id_client) VALUES(?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (datedebutoccupation, datefinoccupation, id_client, id_chambre) VALUES(?, ?, ?, ?)");
 			
-			state.setString(1, dateFin);
-			state.setString(2,  dateDebut);
-			state.setString(3, typeChambre);
-			state.setInt(5, idClient);
+			state.setString(1, dateDebut);
+			state.setString(2, dateFin);
+			state.setInt(3, id_client);
+			state.setInt(5, id_chambre);
 			
 			state.execute();
 			
@@ -428,12 +425,43 @@ public class Login {
 		
 	}
 	
+	public static void recupChambreDispo() {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupChambreDispo()}");
+			ResultSet resultat = state.executeQuery();
+			
+			int id_chambre;
+			int numerochambre;
+			int id_typechambre;
+			
+
+			if (resultat.first()) {
+				do {
+					id_chambre = resultat.getInt(1);
+					numerochambre = resultat.getInt(2);
+					id_typechambre = resultat.getInt(3);
+					
+					
+					Chambre.listChambreDispo.add(new Chambre(id_chambre, numerochambre, id_typechambre));
+					
+				} while (resultat.next());
+
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void ajouterClient(String idclient, String nom_client, String prenom_client, String cp_client, String ville_client, String rue_client, String mail) {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("INSERT INTO client (idclient, nomclient, prenomclient, cpclient, villeclient, rueclient, mail) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("INSERT INTO client (id_client, nom_client, prenom_client, cp_client, ville_client, rue_client, mail_client) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		
 			state.setString(1, idclient);
 			state.setString(2, nom_client);
@@ -456,7 +484,7 @@ public class Login {
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("UPDATE client SET idclient=\"?\" WHERE id=?");
+			PreparedStatement state = conn.prepareStatement("UPDATE client SET id_client=\"?\" WHERE id=?");
 		
 			state.setString(1, prenom_client+"."+nom_client+Math.random()*1000);
 			state.setInt(2, idclient);
@@ -475,7 +503,7 @@ public class Login {
 		
 		try {
 			String idclient = "\"" + pId + "\"";
-			PreparedStatement state = conn.prepareStatement("DELETE FROM client WHERE idclient=" + idclient);
+			PreparedStatement state = conn.prepareStatement("DELETE FROM client WHERE id_client=" + idclient);
 			state.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -1,6 +1,12 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Reservation {
+	
+
+	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
+	
 	
 	private int idRes;
 	private int nbJourRes;

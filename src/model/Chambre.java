@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Chambre {
 	public static ArrayList<Chambre> listChambre = new ArrayList<Chambre>();
-	public static int chambresRestantes[][] = {{1, 2, 3, 4, 5, 6}, {1, 4, 15, 35, 35, 25}};
+	//public static int chambresRestantes[][] = {{1, 2, 3, 4, 5, 6}, {1, 4, 15, 35, 35, 25}};
+	public static ArrayList<Chambre> listChambreDispo = new ArrayList<Chambre>();
 	
 	private int chambreid;
 	private int numerochambre;

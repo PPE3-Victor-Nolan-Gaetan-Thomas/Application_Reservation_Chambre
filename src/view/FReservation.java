@@ -111,8 +111,8 @@ public class FReservation extends JFrame {
 		combo_type_chambre.addItem("Executive");
 		combo_type_chambre.addItem("Classic");
 		combo_type_chambre.addItem("Single");
-		
 		*/
+		
 		Login.recupTypeChambre();
 		for(TypeChambre tp : TypeChambre.listTypeChambre) {
 			combo_type_chambre.addItem(tp.getTypeChambre());
@@ -139,7 +139,7 @@ public class FReservation extends JFrame {
 							java.util.Date jud2 = dateFinSejour.getDate();
 							java.text.SimpleDateFormat sdf2 = new java.text.SimpleDateFormat("dd/MM/yyyy");
 							
-							Login.ajouterReservation(String.valueOf(sdf.format(jud)), String.valueOf(sdf2.format(jud2)), combo_type_chambre.getSelectedItem().toString(), Integer.parseInt(txtNumClient.getText()));
+							//Login.ajouterReservation(String.valueOf(sdf.format(jud)), String.valueOf(sdf2.format(jud2)), Integer.parseInt(txtNumClient.getText(), //numchambre));
 							break;
 						}
 					}
@@ -202,7 +202,7 @@ public class FReservation extends JFrame {
 		
 	}
 	
-	public void remplirChampsTypeChambre() {//goto
+	/*public void remplirChampsTypeChambre() {//goto
 		Login.listInfoChambres.clear();
 		Login.recupChambre();
 		int nbChambresRestantes = 0;
@@ -248,7 +248,7 @@ public class FReservation extends JFrame {
 			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre single)");//debug
 		}
 		
-	}
+	}*/
 	
 	public void resetChamps() {
 		txtNumClient.setText(null);

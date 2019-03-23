@@ -1,6 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Client {
+	
+	public static ArrayList<Client> listeClients = new ArrayList<Client>();
+	public static ArrayList<String> listeNumClient = new ArrayList<String>();
 	
 	private int id;
 	private String id_client;
