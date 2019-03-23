@@ -155,19 +155,19 @@ public class FFacturation extends JFrame {
 		btnRetour.setBounds(493, 13, 118, 35);
 		getContentPane().add(btnRetour);
 		Login.recupClient();
-		for(Client clienttmp : Login.listeClients) {
+		/*for(Client clienttmp : Login.listeClients) {
 			if(clienttmp.getId_client() != "0") {
 				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
 			}
-		}
+		}*/
 		
-		list.addListSelectionListener(new ListSelectionListener() {
+		/*list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				txtNom.setText(Login.listeClients.get(list.getSelectedIndex()).getNom_client().toUpperCase());
 				txtPrenom.setText(Login.listeClients.get(list.getSelectedIndex()).getPrenom_client());
 				//txtNumRes.setText(Login.listeClients.get(list.getSelectedIndex()));
 				txtMail.setText(Login.listeClients.get(list.getSelectedIndex()).getMail());
 			}
-		});
+		});*/
 	}
 }

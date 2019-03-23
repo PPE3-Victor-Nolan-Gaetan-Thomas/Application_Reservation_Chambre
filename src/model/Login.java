@@ -12,6 +12,7 @@ import java.util.Date;
 import java.sql.CallableStatement;
 
 public class Login {
+	public static ArrayList<String> listeNumClient = new ArrayList<String>();
 	public static ArrayList<TypeChambre> listInfoChambres = new ArrayList<TypeChambre>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
@@ -26,10 +27,9 @@ public class Login {
 		
 		
 		try {
-			CallableStatement state = conn.prepareCall("{CALL recup_client_test()}");
+			CallableStatement state = conn.prepareCall("{CALL recup_client()}");
 			ResultSet resultat = state.executeQuery();
 
-			int id;
 			String id_Client;
 			String nom_Client;
 			String prenom_Client;
@@ -40,16 +40,15 @@ public class Login {
 
 			if (resultat.first()) {
 				do {
-					id = resultat.getInt(1);
-					id_Client = resultat.getString(2);
-					nom_Client = resultat.getString(3);
-					prenom_Client = resultat.getString(4);
-					adresseCP_Client = resultat.getString(5);
-					adresseVille_Client = resultat.getString(6);
-					adresseRue_Client = resultat.getString(7);
-					mailClient = resultat.getString(8);
+					id_Client = resultat.getString(1);
+					nom_Client = resultat.getString(2);
+					prenom_Client = resultat.getString(3);
+					adresseCP_Client = resultat.getString(4);
+					adresseVille_Client = resultat.getString(5);
+					adresseRue_Client = resultat.getString(6);
+					mailClient = resultat.getString(7);
 					
-					Client.listeClients.add(new Client(id, id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
+					Client.listeClients.add(new Client(id_Client, nom_Client, prenom_Client, adresseCP_Client, adresseVille_Client, adresseRue_Client, mailClient));
 					
 				} while (resultat.next());
 
@@ -96,7 +95,7 @@ public class Login {
 			if (resultat.first()) {
 				do {
 					id_Client = resultat.getString(1);
-					Client.listeNumClient.add(id_Client.toString());
+					listeNumClient.add(id_Client.toString());
 				} while (resultat.next());
 
 			}
@@ -377,22 +376,18 @@ public class Login {
 			int idRes;
 			String dateFin;
 			String dateDebut;
-			String typeChambre;
-			String reglement;
+			String idchambre;
 			int idclient;
-			int nbJourRes;
 
 			if (resultat.first()) {
 				do {
 					idRes = resultat.getInt(1);
 					dateFin = resultat.getString(2);
 					dateDebut = resultat.getString(3);
-					typeChambre = resultat.getString(4);
-					reglement = resultat.getString(5);
-					idclient = resultat.getInt(6);
-					nbJourRes = resultat.getInt(7);
+					idchambre = resultat.getString(4);
+					idclient = resultat.getInt(5);
 					
-					Reservation.listeReservation.add(new Reservation(idRes, nbJourRes, dateDebut, dateFin, typeChambre, reglement, idclient));
+					Reservation.listeReservation.add(new Reservation(idRes, dateDebut, dateFin, idchambre, idclient));
 					
 				} while (resultat.next());
 

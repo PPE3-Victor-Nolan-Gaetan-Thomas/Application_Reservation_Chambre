@@ -7,7 +7,6 @@ public class Client {
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
 	public static ArrayList<String> listeNumClient = new ArrayList<String>();
 	
-	private int id;
 	private String id_client;
 	private String nom_client;
 	private String prenom_client;
@@ -17,9 +16,8 @@ public class Client {
 	private String mail;
 	
 	
-	public Client(int id, String id_client, String nom_client, String prenom_client, String cp_client, String ville_client,
+	public Client(String id_client, String nom_client, String prenom_client, String cp_client, String ville_client,
 			String rue_client, String mail) {
-		this.id = id;
 		this.id_client = id_client;
 		this.nom_client = nom_client;
 		this.prenom_client = prenom_client;

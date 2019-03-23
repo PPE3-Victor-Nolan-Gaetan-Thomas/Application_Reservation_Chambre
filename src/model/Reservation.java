@@ -7,43 +7,30 @@ public class Reservation {
 
 	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
 	
-	
 	private int idRes;
-	private int nbJourRes;
 	private String dateDebut;
 	private String dateFin;
-	private String typeChambre;
+	private String idchambre;
 	private int idclient;
 	
 	
 	public Reservation() {}
 
-	public Reservation(int idRes, int nbJourRes, String dateDebut, String dateFin, String typeChambre,
-			String reglement, int pidclient) {
+	public Reservation(int idRes, String dateDebut, String dateFin, String idchambre, int pidclient) {
 		super();
 		this.idRes = idRes;
-		this.nbJourRes = nbJourRes;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
-		this.typeChambre = typeChambre;
+		this.idchambre = idchambre;
 		this.idclient = pidclient;
 	}
 	
-	public Reservation(int idRes, int nbJourRes, String typeChambre,
+	public Reservation(int idRes, int nbJourRes, String idchambre,
 			String reglement, int pidclient) {
 		super();
 		this.idRes = idRes;
-		this.nbJourRes = nbJourRes;
-		this.typeChambre = typeChambre;
+		this.idchambre = idchambre;
 		this.idclient = pidclient;
-	}
-
-	public int getNbJourRes() {
-		return nbJourRes;
-	}
-
-	public void setNbJourRes(int nbJourRes) {
-		this.nbJourRes = nbJourRes;
 	}
 
 	public int getIdRes() {
@@ -54,12 +41,12 @@ public class Reservation {
 		this.idRes = id;
 	}
 
-	public String getTypeChambre() {
-		return typeChambre;
+	public String getidchambre() {
+		return idchambre;
 	}
 
-	public void setTypeChambre(String typeChambre) {
-		this.typeChambre = typeChambre;
+	public void setidchambre(String idchambre) {
+		this.idchambre = idchambre;
 	}
 
 	public String getDateDebut() {

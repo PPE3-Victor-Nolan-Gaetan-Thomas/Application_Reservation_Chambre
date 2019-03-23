@@ -24,18 +24,21 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.MaskFormatter;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 import model.Client;
 import model.Login;
 
 public class FRetirerClient extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNom;
-	private JTextField txtPrenom;
-	private JTextField txtCP;
-	private JTextField txtVille;
-	private JTextField txtRue;
-	private JTextField txtMail;
+	public static JTextField txtNom;
+	public static JTextField txtPrenom;
+	public static JTextField txtCP;
+	public static JTextField txtVille;
+	public static JTextField txtRue;
+	public static JTextField txtMail;
+	public static JLabel lblIdAffichage = new JLabel("");
 	static DefaultListModel DLM = new DefaultListModel();
 
 	/**
@@ -86,7 +89,6 @@ public class FRetirerClient extends JFrame {
 		lblId.setBounds(335, 55, 56, 16);
 		contentPane.add(lblId);
 		
-		JLabel lblIdAffichage = new JLabel("");
 		lblIdAffichage.setBounds(426, 55, 56, 16);
 		contentPane.add(lblIdAffichage);
 		
@@ -166,6 +168,11 @@ public class FRetirerClient extends JFrame {
 				if(!list.isSelectionEmpty()) {
 					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
 						//a faire
+						Login.supprimerClient(Integer.parseInt(Client.listeClients.get(list.getSelectedIndex()).getId_client()));
+						clearChamps();
+						FRetirerClient fr = new FRetirerClient();
+						fr.setVisible(true);
+						dispose();
 					}
 				}
 			}
@@ -199,10 +206,11 @@ public class FRetirerClient extends JFrame {
 			}
 		});
 		
-		
+		list.setModel(DLM);
 		
 	}
 	public static void loadProfile() {
+		DLM.removeAllElements();
 		Login.recupClient();
 		for(Client clienttmp : Client.listeClients) {
 			if(clienttmp.getId_client() != "0") {
@@ -210,4 +218,15 @@ public class FRetirerClient extends JFrame {
 			}
 		}
 	}
+	
+	public static void clearChamps() {
+		lblIdAffichage.setText("");
+		txtNom.setText(null);
+		txtPrenom.setText(null);
+		txtCP.setText(null);
+		txtVille.setText(null);
+		txtRue.setText(null);
+		txtMail.setText(null);
+	}
+	
 }
