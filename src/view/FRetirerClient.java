@@ -40,27 +40,6 @@ public class FRetirerClient extends JFrame {
 	 * Launch the application.
 	 */
 	
-	public static void loadProfile() {
-		DLM.removeAllElements();
-		Login.recupClient();
-		for(Client clienttmp : Client.listeClients) {
-			if(clienttmp.getId_client() != "0") {
-				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
-			}
-		}
-	}
-	
-	public static void clearChamps() {
-		lblIdAffichage.setText("");
-		txtNom.setText(null);
-		txtPrenom.setText(null);
-		txtCP.setText(null);
-		txtVille.setText(null);
-		txtRue.setText(null);
-		txtMail.setText(null);
-	}
-	
-	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -243,6 +222,29 @@ public class FRetirerClient extends JFrame {
 		
 		
 	}
+	
+	public static void loadProfile() {
+		DLM.removeAllElements();
+		Login.recupClient();
+		for(Client clienttmp : Client.listeClients) {
+			if(clienttmp.getId_client() != "0") {
+				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
+			}
+		}
+	}
+	
+	public static void clearChamps() {
+		lblIdAffichage.setText("");
+		txtNom.setText(null);
+		txtPrenom.setText(null);
+		txtCP.setText(null);
+		txtVille.setText(null);
+		txtRue.setText(null);
+		txtMail.setText(null);
+	}
+	
+	
+	
 	
 	
 }
