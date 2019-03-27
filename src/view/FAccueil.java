@@ -64,6 +64,7 @@ public class FAccueil extends JFrame {
 		contentPane.add(btsResChambreMenu);
 		
 		JButton btnFacturationMenu = new JButton("Facturation");
+		btnFacturationMenu.setEnabled(false);
 		btnFacturationMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FFacturation ffac = new FFacturation();

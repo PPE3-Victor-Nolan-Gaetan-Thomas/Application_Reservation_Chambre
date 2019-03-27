@@ -7,11 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.ParseException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -22,9 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.MaskFormatter;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import model.Client;
 import model.Login;
@@ -44,6 +39,29 @@ public class FRetirerClient extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
+	public static void loadProfile() {
+		DLM.removeAllElements();
+		Login.recupClient();
+		for(Client clienttmp : Client.listeClients) {
+			if(clienttmp.getId_client() != "0") {
+				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
+			}
+		}
+	}
+	
+	public static void clearChamps() {
+		lblIdAffichage.setText("");
+		txtNom.setText(null);
+		txtPrenom.setText(null);
+		txtCP.setText(null);
+		txtVille.setText(null);
+		txtRue.setText(null);
+		txtMail.setText(null);
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -159,6 +177,11 @@ public class FRetirerClient extends JFrame {
 		contentPane.add(lblInformations);
 		
 		JButton btnModifier = new JButton("Modifier");
+		btnModifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnModifier.setBounds(335, 256, 147, 79);
 		contentPane.add(btnModifier);
 		
@@ -168,11 +191,10 @@ public class FRetirerClient extends JFrame {
 				if(!list.isSelectionEmpty()) {
 					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
 						//a faire
-						Login.supprimerClient(Integer.parseInt(Client.listeClients.get(list.getSelectedIndex()).getId_client()));
+						int tmp = Integer.parseInt(Client.listeClients.get(list.getSelectedIndex()).getId_client());
+						DLM.removeElementAt(list.getSelectedIndex());
+						Login.supprimerClient(tmp);
 						clearChamps();
-						FRetirerClient fr = new FRetirerClient();
-						fr.setVisible(true);
-						dispose();
 					}
 				}
 			}
@@ -180,53 +202,47 @@ public class FRetirerClient extends JFrame {
 		btnSupprimer.setBounds(505, 256, 147, 79);
 		contentPane.add(btnSupprimer);
 		
-		JButton button = new JButton("Retour");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				FMenuClient fmc = new FMenuClient();
-				fmc.setVisible(true);
-				dispose();
+		JButton btretour = new JButton("Retour");
+		btretour.addActionListener(new ActionListener() {
+			       public void actionPerformed(ActionEvent arg0) {
+				             FMenuClient fmc = new FMenuClient();
+			                 fmc.setVisible(true);
+			                 
+			               //  list.clearSelection();
+				           //  Client.listeClients.clear();
+				           //  DLM.clear();
+				             dispose();
 			}
 		});
-		button.setBackground(Color.ORANGE);
-		button.setBounds(559, 13, 97, 43);
-		contentPane.add(button);
+		btretour.setBackground(Color.ORANGE);
+		btretour.setBounds(559, 13, 97, 43);
+		contentPane.add(btretour);
 		
 		
 		
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				lblIdAffichage.setText(String.valueOf(Client.listeClients.get(list.getSelectedIndex()).getId_client()));
+				Client unclient=null;
+				if(list.getSelectedIndex()>-1) {
+		
+				unclient= Client.listeClients.get(list.getSelectedIndex());
+				
+				lblIdAffichage.setText(unclient.getId_client());
+				txtNom.setText(unclient.getNom_client());
+				txtMail.setText(unclient.getMail());
+				}
+			/* lblIdAffichage.setText(String.valueOf(Client.listeClients.get(list.getSelectedIndex()).getId_client()));
 				txtNom.setText(Client.listeClients.get(list.getSelectedIndex()).getNom_client().toUpperCase());
 				txtPrenom.setText(Client.listeClients.get(list.getSelectedIndex()).getPrenom_client());
 				txtCP.setText(Client.listeClients.get(list.getSelectedIndex()).getCp_client());
 				txtVille.setText(Client.listeClients.get(list.getSelectedIndex()).getVille_client());
 				txtRue.setText(Client.listeClients.get(list.getSelectedIndex()).getRue_client());
-				txtMail.setText(Client.listeClients.get(list.getSelectedIndex()).getMail());
+				txtMail.setText(Client.listeClients.get(list.getSelectedIndex()).getMail());   */
 			}
 		});
 		
-		list.setModel(DLM);
 		
 	}
-	public static void loadProfile() {
-		DLM.removeAllElements();
-		Login.recupClient();
-		for(Client clienttmp : Client.listeClients) {
-			if(clienttmp.getId_client() != "0") {
-				DLM.addElement(clienttmp.getNom_client().toUpperCase() + " " + clienttmp.getPrenom_client());
-			}
-		}
-	}
 	
-	public static void clearChamps() {
-		lblIdAffichage.setText("");
-		txtNom.setText(null);
-		txtPrenom.setText(null);
-		txtCP.setText(null);
-		txtVille.setText(null);
-		txtRue.setText(null);
-		txtMail.setText(null);
-	}
 	
 }

@@ -23,9 +23,7 @@ public class Login {
 	public static void recupClient() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
-		
-		
-		
+	
 		try {
 			CallableStatement state = conn.prepareCall("{CALL recup_client()}");
 			ResultSet resultat = state.executeQuery();
@@ -37,7 +35,7 @@ public class Login {
 			String adresseVille_Client;
 			String adresseRue_Client;
 			String mailClient;
-
+			Client.listeClients.clear();
 			if (resultat.first()) {
 				do {
 					id_Client = resultat.getString(1);
