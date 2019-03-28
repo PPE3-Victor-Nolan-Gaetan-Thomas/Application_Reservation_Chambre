@@ -490,19 +490,42 @@ public class Login {
 		}
 	}
 	
-	public static void supprimerClient(int pId) {
+	public static void supprimerClient(int pId) {//changer en requete préparée
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
-			String idclient = "\"" + pId + "\"";
-			PreparedStatement state = conn.prepareStatement("DELETE FROM client WHERE id_client=" + idclient);
+			PreparedStatement state = conn.prepareStatement("{CALL supprimerClient(?)}");
+			
+			state.setInt(1, pId);
 			state.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.err.println("Erreur lors de la suppression d'un client de la bdd");
 		}
 		
+	}
+	
+	public static void modifierClient(int pId, String pNom, String pPrenom, String pCP, String pVille, String pRue, String pMail) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();//a faire goto
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL modifierClient(?, ?, ?, ?, ?, ?, ?)}");
+			
+			state.setInt(1, pId);
+			state.setString(2, pNom);
+			state.setString(3, pPrenom);
+			state.setString(4, pCP);
+			state.setString(5, pVille);
+			state.setString(6, pRue);
+			state.setString(7, pMail);
+			
+			state.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("Erreur lors de la modification d'un client de la bdd");
+		}
 	}
 	
 	

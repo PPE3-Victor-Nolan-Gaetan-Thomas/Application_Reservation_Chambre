@@ -158,6 +158,14 @@ public class FRetirerClient extends JFrame {
 		JButton btnModifier = new JButton("Modifier");
 		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!list.isSelectionEmpty()) {
+					Login.modifierClient(Integer.parseInt(lblIdAffichage.getText()), txtNom.getText(), txtPrenom.getText(), txtCP.getText(), txtVille.getText(), txtRue.getText(), txtMail.getText());
+					list.clearSelection();
+					clearChamps();
+					FMenuClient fm = new FMenuClient();
+					fm.setVisible(true);
+					dispose();
+				}
 				
 			}
 		});
@@ -169,7 +177,7 @@ public class FRetirerClient extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!list.isSelectionEmpty()) {
 					if(JOptionPane.showConfirmDialog(contentPane, "Etes-vous sur de vouloir supprimer cette réservation ?") == JOptionPane.YES_OPTION) {
-						//a faire
+						
 						int tmp = Integer.parseInt(Client.listeClients.get(list.getSelectedIndex()).getId_client());
 						DLM.removeElementAt(list.getSelectedIndex());
 						Login.supprimerClient(tmp);
@@ -181,21 +189,17 @@ public class FRetirerClient extends JFrame {
 		btnSupprimer.setBounds(505, 256, 147, 79);
 		contentPane.add(btnSupprimer);
 		
-		JButton btretour = new JButton("Retour");
-		btretour.addActionListener(new ActionListener() {
-			       public void actionPerformed(ActionEvent arg0) {
-				             FMenuClient fmc = new FMenuClient();
-			                 fmc.setVisible(true);
-			                 
-			               //  list.clearSelection();
-				           //  Client.listeClients.clear();
-				           //  DLM.clear();
-				             dispose();
+		JButton btnretour = new JButton("Retour");
+		btnretour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FMenuClient fmc = new FMenuClient();
+				fmc.setVisible(true);
+				dispose();
 			}
 		});
-		btretour.setBackground(Color.ORANGE);
-		btretour.setBounds(559, 13, 97, 43);
-		contentPane.add(btretour);
+		btnretour.setBackground(Color.ORANGE);
+		btnretour.setBounds(559, 13, 97, 43);
+		contentPane.add(btnretour);
 		
 		
 		
@@ -208,15 +212,13 @@ public class FRetirerClient extends JFrame {
 				
 				lblIdAffichage.setText(unclient.getId_client());
 				txtNom.setText(unclient.getNom_client());
+				txtPrenom.setText(unclient.getPrenom_client());
+				txtCP.setText(unclient.getCp_client());
+				txtVille.setText(unclient.getVille_client());
+				txtRue.setText(unclient.getRue_client());
 				txtMail.setText(unclient.getMail());
 				}
-			/* lblIdAffichage.setText(String.valueOf(Client.listeClients.get(list.getSelectedIndex()).getId_client()));
-				txtNom.setText(Client.listeClients.get(list.getSelectedIndex()).getNom_client().toUpperCase());
-				txtPrenom.setText(Client.listeClients.get(list.getSelectedIndex()).getPrenom_client());
-				txtCP.setText(Client.listeClients.get(list.getSelectedIndex()).getCp_client());
-				txtVille.setText(Client.listeClients.get(list.getSelectedIndex()).getVille_client());
-				txtRue.setText(Client.listeClients.get(list.getSelectedIndex()).getRue_client());
-				txtMail.setText(Client.listeClients.get(list.getSelectedIndex()).getMail());   */
+			
 			}
 		});
 		
