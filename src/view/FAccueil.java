@@ -79,7 +79,7 @@ public class FAccueil extends JFrame {
 		btnRetourCon.setIcon(new ImageIcon("..\\..\\PPE3\\Application_Reservation_Chambre\\img\\exit.jpg"));
 		btnRetourCon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				dispose();
 				FConnexion fcon = new FConnexion();
 				fcon.setVisible(true);
 			}

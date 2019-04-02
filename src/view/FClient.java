@@ -194,11 +194,11 @@ public class FClient extends JFrame {
 				FReservation fp = new FReservation();
 				
 				if(!fp.newClientByButtonAdd) {
-					setVisible(false);
+					dispose();
 					FMenuClient fmc = new FMenuClient();
 					fmc.setVisible(true);
 				}else {
-					setVisible(false);
+					dispose();
 				}
 				clearChamps();
 			}

@@ -116,17 +116,6 @@ public class FConnexion extends JFrame {
 		contentPane.add(btnQuitter);
 	}
 	
-	public void conn() {//plus utile
-		if(txtIdentifiant.getText().equals("admin") && txtMdp.getPassword().equals("admin")) {
-			lblStatutCon.setText("Accès autorisé");
-			FAccueil acceuil = new FAccueil();
-			acceuil.setVisible(true);
-			setVisible(false);
-		}else {
-			lblStatutCon.setText("Accès refusé");
-		}
-	}
-	
 	public void authentication() {
 		String loginbdd = "";
 		String mdpbdd = "";
