@@ -18,6 +18,7 @@ public class Login {
 	public static ArrayList<TypeChambre> listInfoChambres = new ArrayList<TypeChambre>();
 	public static ArrayList<String> lesDatesDebutOccupation = new ArrayList<String>();
 	public static ArrayList<String> lesDatesFinOccupation = new ArrayList<String>();
+	public static ArrayList<String> lesDatesOccupations = new ArrayList<String>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -294,11 +295,13 @@ public class Login {
 	
 	public static boolean estDisponible(int pNumChambre, Date datedebut, Date datefin) {
 		boolean reponse = false;
-		ArrayList<Date> lesDatesVoulus = new ArrayList<Date>();
+		ArrayList<String> lesDatesVoulus = new ArrayList<String>();
 		lesDatesVoulus.clear();
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf5 = new SimpleDateFormat("yyyy-MM-dd");
+		boolean test = false;
 		
-		String date = datedebut.toString();
+		String date = sdf5.format(datedebut);
 		Date df = null;
 		//recupération de toutes les dates de la période
 		while(!date.equals(datefin.toString())) {
@@ -313,9 +316,37 @@ public class Login {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			lesDatesVoulus.add(df); //toutes les dates sont au format français
+			lesDatesVoulus.add(df.toString()); //toutes les dates sont au format français
 			
 		}
+		
+		for(String dt : lesDatesDebutOccupation) {
+			int i = 0;
+			String datedeb = lesDatesDebutOccupation.get(i);
+			while(!datedeb.equals(lesDatesFinOccupation.get(i))) {
+				
+				try {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Calendar c = Calendar.getInstance();
+					c.setTime(sdf.parse(date));
+					c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
+					date = sdf.format(c.getTime());  // date est la nouvelle date
+					df = sdf2.parse(date);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				lesDatesOccupations.add(df.toString()); //toutes les dates sont au format français
+				i++;
+				
+			}
+		}
+		
+		
+		//debug
+		for(String tmp : lesDatesOccupations) {
+			System.out.println(tmp);
+		}
+		
 		//TODO
 		
 		//verification de s'il existe déja une réservation pour cette date la
@@ -326,13 +357,20 @@ public class Login {
 			e.printStackTrace();
 		}
 		
-		for()
+		for(String datetmp : lesDatesVoulus) {
+			for(String uneDate : lesDatesOccupations) {
+				if(datetmp.equals(uneDate)) {
+					reponse = false;
+					test=true;
+					break;
+				}else {
+					test=false;
+					reponse = true;
+				}
+			}
+			if(test==false){break;}
+		}
 		
-		
-			
-		//verifier si dans la bdd il existe pas déja une chambre réserver à cette date la
-		//si non, ok on peut réserver
-		//si oui, on peux pas
 		
 		
 		

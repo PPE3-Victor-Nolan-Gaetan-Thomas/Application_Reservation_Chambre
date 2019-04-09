@@ -5,24 +5,21 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
-import model.Client;
 import model.Login;
 import model.TypeChambre;
 
@@ -123,36 +120,19 @@ public class FReservation extends JFrame {
 		contentPane.add(combo_type_chambre);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Login.recupIdClients();
-				
-				if(dateFinSejour.getDate() == null || txtNumClient.getText() == null || combo_type_chambre.getSelectedIndex() == -1 || dateDebutSejour.getDate() == null) {
-					JOptionPane.showMessageDialog(contentPane, "Vous devez remplir tout les champs", "Attention", NORMAL);
-				}else {
-					for(String str : Login.listeNumClient) {
-						if(!str.equals(txtNumClient.getText())) {
-							exist = false;
-							System.out.println("Client inconnu");//debug
-						}else {
-							exist = true;
-							java.util.Date jud = dateDebutSejour.getDate();
-							java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-							java.util.Date jud2 = dateFinSejour.getDate();
-							java.text.SimpleDateFormat sdf2 = new java.text.SimpleDateFormat("dd/MM/yyyy");
-							
-							//Login.ajouterReservation(String.valueOf(sdf.format(jud)), String.valueOf(sdf2.format(jud2)), Integer.parseInt(txtNumClient.getText(), //numchambre));
-							break;
-						}
-					}
-					
-					if(exist == false) {
-						JOptionPane.showMessageDialog(contentPane, "Client inconnu", "Attention", NORMAL);
-					}else {
-						resetChamps();
-					}
-					
-					
+				//TODO
+				//recupérer tout les numéros de chambres du type demandé
+				//ensuite vérifier si elles sont disponibles avec une boucle
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String deb = sdf.format(dateDebutSejour.getDate());
+				String fin = sdf.format(dateFinSejour.getDate());
+				try {
+					Date d = sdf.parse(deb);
+					Date f = sdf.parse(fin);
+					Login.estDisponible(0, d, f);
+				} catch (ParseException e) {
+					e.printStackTrace();
 				}
-				
 				
 			}
 		});
