@@ -69,7 +69,9 @@ public class FClient extends JFrame {
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//FPrincipale fp = new FPrincipale();
+				/**
+				 * Verification de l'intégrité des données des champs de saisies
+				 */
 				if(FReservation.newClientByButtonAdd) {
 					if(txtNom.getText().isEmpty() || txtPrenom.getText().isEmpty() || txtCP.getText().isEmpty() || txtVille.getText().isEmpty() || txtRue.getText().isEmpty() || txtMail.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention !", NORMAL);
@@ -146,6 +148,9 @@ public class FClient extends JFrame {
 		txtCP.setColumns(10);
 		txtCP.setBounds(122, 111, 116, 22);
 		contentPane.add(txtCP);
+		/**
+		 * Mise en place d'une vérification de saisie qui autorise uniquement les chiffres
+		 */
 		txtCP.addKeyListener(new KeyAdapter() {
 		    public void keyTyped(KeyEvent e) {
 		        char c = e.getKeyChar();
@@ -173,6 +178,9 @@ public class FClient extends JFrame {
 		txtMail.setBounds(122, 198, 255, 22);
 		contentPane.add(txtMail);
 		
+		/**
+		 * Bouton d'annulation de saisie qui permet de vider les champs
+		 */
 		JButton btnAnnuler = new JButton("Annuler la saisie");
 		btnAnnuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -190,6 +198,9 @@ public class FClient extends JFrame {
 		JButton btnRetour = new JButton("Retour");
 		btnRetour.setBackground(Color.ORANGE);
 		btnRetour.addActionListener(new ActionListener() {
+			/**
+			 * Utilise une variable de type boolean pour savoir ou rediriger lors du clic sur le bouton retour
+			 */
 			public void actionPerformed(ActionEvent e) {
 				FReservation fp = new FReservation();
 				

@@ -12,6 +12,10 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FVisuModifReserv extends JFrame {
 
@@ -50,8 +54,8 @@ public class FVisuModifReserv extends JFrame {
 		contentPane.add(list);
 		
 		JLabel lblModificationsuppression = new JLabel("Modification/\r\nSuppression");
-		lblModificationsuppression.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblModificationsuppression.setBounds(374, 13, 292, 36);
+		lblModificationsuppression.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblModificationsuppression.setBounds(337, 13, 233, 36);
 		contentPane.add(lblModificationsuppression);
 		
 		JLabel label = new JLabel("Num\u00E9ro client : ");
@@ -86,5 +90,25 @@ public class FVisuModifReserv extends JFrame {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(492, 231, 174, 22);
 		contentPane.add(comboBox);
+		
+		JButton btnModifier = new JButton("Modifier");
+		btnModifier.setBounds(347, 302, 160, 59);
+		contentPane.add(btnModifier);
+		
+		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.setBounds(519, 302, 157, 59);
+		contentPane.add(btnSupprimer);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FMenuReservation fmr = new FMenuReservation();
+				fmr.setVisible(true);
+				dispose();
+			}
+		});
+		btnRetour.setBackground(Color.ORANGE);
+		btnRetour.setBounds(582, 13, 97, 36);
+		contentPane.add(btnRetour);
 	}
 }

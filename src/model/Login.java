@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import java.sql.CallableStatement;
@@ -14,6 +16,8 @@ import java.sql.CallableStatement;
 public class Login {
 	public static ArrayList<String> listeNumClient = new ArrayList<String>();
 	public static ArrayList<TypeChambre> listInfoChambres = new ArrayList<TypeChambre>();
+	public static ArrayList<String> lesDatesDebutOccupation = new ArrayList<String>();
+	public static ArrayList<String> lesDatesFinOccupation = new ArrayList<String>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -288,78 +292,54 @@ public class Login {
 		
 	}
 	
-	/*public static void recupInfoChambre() {
-		Connexion con = new Connexion();
-		Connection conn = con.getConn();
+	public static boolean estDisponible(int pNumChambre, Date datedebut, Date datefin) {
+		boolean reponse = false;
+		ArrayList<Date> lesDatesVoulus = new ArrayList<Date>();
+		lesDatesVoulus.clear();
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+		
+		String date = datedebut.toString();
+		Date df = null;
+		//recupération de toutes les dates de la période
+		while(!date.equals(datefin.toString())) {
+			
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar c = Calendar.getInstance();
+				c.setTime(sdf.parse(date));
+				c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
+				date = sdf.format(c.getTime());  // date est la nouvelle date
+				df = sdf2.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			lesDatesVoulus.add(df); //toutes les dates sont au format français
+			
+		}
+		//TODO
+		
+		//verification de s'il existe déja une réservation pour cette date la
 		
 		try {
-			Statement state = conn.createStatement();
-			ResultSet resultat = state.executeQuery("SELECT * FROM chambre");
-			
-			int chambreid;
-			int numerochambre;
-			int typechambre;
-			
-			if (resultat.first()) {
-				do {
-					chambreid = resultat.getInt(1);
-					numerochambre = resultat.getInt(2);
-					typechambre = resultat.getInt(3);
-					
-					Chambre.listChambre.add(new Chambre(chambreid, numerochambre, typechambre));
-				} while (resultat.next());
-
-			}
-			//con.fermerConnexion();
-			state.close();
-			resultat.close();
-
-		} catch (SQLException e) {
+			recupDateOccupationByNumChambre(pNumChambre);
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
-	}*/
-	
-	/*public static float nbJourReservation(String dateDeb, String dateFin) {
+		for()
 		
-		System.out.println(dateDeb);//debug
 		
-		   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		   float res = 0;
-		   try {
-		       Date dateAvant = sdf.parse(dateDeb);
-		       Date dateApres = sdf.parse(dateFin);
-		       long diff = dateApres.getTime() - dateAvant.getTime();
-		       res = (diff / (1000*60*60*24));
-		       System.out.println("Nombre de jours entre les deux dates est: "+res);
-		   } catch (Exception e) {
-		         e.printStackTrace();
-		   }
-		   return res;
-	}*/
-	
-	/*public static void mettreCompteurAJour(int pChambreId, String pTypeChambre, int pNbChambresRestantes) {//goto //procedure
-		Connexion con = new Connexion();
-		Connection conn = con.getConn();
-		
-		if(pTypeChambre.equals("Suite")) {
-			try {
-				Statement state = conn.createStatement();
-				ResultSet resultat = state.executeQuery("UPDATE chambre SET nbChambresRestantes=" + pNbChambresRestantes+1 + "WHERE chambreid=" + pChambreId);
-				
-				listInfoChambres.clear();
-				//recupInfoChambre();
-				recupChambre();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			
-		}else {
-			System.err.println("Problème lors de la mise a jour du nombres de chambres restantes");
-		}
+		//verifier si dans la bdd il existe pas déja une chambre réserver à cette date la
+		//si non, ok on peut réserver
+		//si oui, on peux pas
 		
 		
-	}*/
+		
+		
+		
+		return reponse;
+	}
 	
 	public static void recupReservation() {
 		Connexion con = new Connexion();
@@ -386,6 +366,42 @@ public class Login {
 					idclient = resultat.getInt(5);
 					
 					Reservation.listeReservation.add(new Reservation(idRes, dateDebut, dateFin, idchambre, idclient));
+					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void recupDateOccupationByNumChambre(int pNumChambre) throws ParseException {
+		lesDatesDebutOccupation.clear();
+		lesDatesFinOccupation.clear();
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		
+		
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupDateOccupationByNumChambre(?)}");
+			state.setInt(1, pNumChambre);
+			ResultSet resultat = state.executeQuery();
+			
+			
+			String dateFin;
+			String dateDebut;
+
+			if (resultat.first()) {
+				do {
+					dateFin = resultat.getString(1);
+					dateDebut = resultat.getString(2);
+					
+					lesDatesDebutOccupation.add(dateDebut);
+					lesDatesFinOccupation.add(dateFin);
 					
 				} while (resultat.next());
 

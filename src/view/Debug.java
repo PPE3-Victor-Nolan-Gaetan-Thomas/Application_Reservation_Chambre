@@ -14,6 +14,7 @@ import model.Login;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class Debug extends JFrame {
@@ -59,7 +60,15 @@ public class Debug extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(btnDebug);
 		
-		JButton btnTestNbJour = new JButton("test nb jour entre deux dates");
+		JButton btnTestNbJour = new JButton("test date");
+		btnTestNbJour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String message;
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				message = sdf.format(dateDebut.getDate());
+				JOptionPane.showMessageDialog(contentPane, message, "test", NORMAL);
+			}
+		});
 		
 		btnTestNbJour.setBounds(267, 38, 340, 73);
 		contentPane.add(btnTestNbJour);
