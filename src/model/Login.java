@@ -313,6 +313,9 @@ public class Login {
 				c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
 				date = sdf.format(c.getTime());  // date est la nouvelle date
 				df = sdf2.parse(date);
+				//utiliser un convertisseur manuel pour régler le problème meme si pas opti
+				//le meme que sur la gestion des stocks 
+				 
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
