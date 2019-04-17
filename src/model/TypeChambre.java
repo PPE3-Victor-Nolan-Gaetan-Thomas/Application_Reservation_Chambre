@@ -6,25 +6,25 @@ public class TypeChambre {
 	
 	public static ArrayList<TypeChambre> listTypeChambre = new ArrayList<TypeChambre>();
 	
-	private int chambreid;
+	private int idTypeChambre;
 	private String typeChambre;
+	private double prixChambre;
 	private int nbChambreMax;
-	private int prixChambre;
 	
 	public TypeChambre() {}
 	
-	public TypeChambre(int chambreid, String typeChambre, int nbChambreMax, int prixChambre) {
-		this.chambreid = chambreid;
+	public TypeChambre(int chambreid, String typeChambre, double prixChambre, int nbChambreMax) {
+		this.idTypeChambre = chambreid;
 		this.typeChambre = typeChambre;
 		this.nbChambreMax = nbChambreMax;
 		this.prixChambre = prixChambre;
 	}
 	
-	public int getChambreid() {
-		return chambreid;
+	public int getidTypeChambre() {
+		return idTypeChambre;
 	}
-	public void setChambreid(int chambreid) {
-		this.chambreid = chambreid;
+	public void setidTypeChambre(int chambreid) {
+		this.idTypeChambre = chambreid;
 	}
 	public String getTypeChambre() {
 		return typeChambre;
@@ -38,7 +38,7 @@ public class TypeChambre {
 	public void setNbChambreMax(int nbChambreMax) {
 		this.nbChambreMax = nbChambreMax;
 	}
-	public int getPrixChambre() {
+	public double getPrixChambre() {
 		return prixChambre;
 	}
 	public void setPrixChambre(int prixChambre) {

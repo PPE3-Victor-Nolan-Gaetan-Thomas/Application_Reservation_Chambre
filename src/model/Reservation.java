@@ -10,28 +10,21 @@ public class Reservation {
 	private int idRes;
 	private String dateDebut;
 	private String dateFin;
-	private String idchambre;
+	private int idchambre;
 	private int idclient;
 	
 	
 	public Reservation() {}
 
-	public Reservation(int idRes, String dateDebut, String dateFin, String idchambre, int pidclient) {
+	public Reservation(int idRes, String dateDebut, String dateFin, int pidclient, int idchambre) {
 		super();
 		this.idRes = idRes;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
-		this.idchambre = idchambre;
 		this.idclient = pidclient;
+		this.idchambre = idchambre;
 	}
 	
-	public Reservation(int idRes, int nbJourRes, String idchambre,
-			String reglement, int pidclient) {
-		super();
-		this.idRes = idRes;
-		this.idchambre = idchambre;
-		this.idclient = pidclient;
-	}
 
 	public int getIdRes() {
 		return idRes;
@@ -41,11 +34,11 @@ public class Reservation {
 		this.idRes = id;
 	}
 
-	public String getidchambre() {
+	public int getidchambre() {
 		return idchambre;
 	}
 
-	public void setidchambre(String idchambre) {
+	public void setidchambre(int idchambre) {
 		this.idchambre = idchambre;
 	}
 

@@ -19,6 +19,8 @@ public class Login {
 	public static ArrayList<String> lesDatesDebutOccupation = new ArrayList<String>();
 	public static ArrayList<String> lesDatesFinOccupation = new ArrayList<String>();
 	public static ArrayList<String> lesDatesOccupations = new ArrayList<String>();
+	public static ArrayList<Integer> listNumChambreDeCeType = new ArrayList<Integer>();
+	public static ArrayList<Integer> listNumChambreReserverDeCeType = new ArrayList<Integer>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -121,6 +123,7 @@ public class Login {
 			int idchambre;
 			int numerochambre;
 			int idtypechambre;
+			Chambre.listChambre.clear();
 			
 
 			if (resultat.first()) {
@@ -137,6 +140,41 @@ public class Login {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void recupAllChambreByNumType(int pIdType) {//TODO
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupAllChambreFromSpecifiedType(?)}");
+			state.setInt(1, pIdType);
+			ResultSet resultat = state.executeQuery();
+			
+			int idchambre;
+			int numerochambre;
+			int idtypechambre;
+			Chambre.listChambreDeCeType.clear();
+			
+
+			if (resultat.first()) {
+				do {
+					idchambre = resultat.getInt(1);
+					numerochambre = resultat.getInt(2);
+					idtypechambre = resultat.getInt(3);
+					Chambre.listChambreDeCeType.add(new Chambre(idchambre, numerochambre, idtypechambre));
+				} while (resultat.next());
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	
 	public static void recupTypeChambre() {
 		Connexion con = new Connexion();
@@ -302,19 +340,17 @@ public class Login {
 		boolean test = false;
 		
 		String date = sdf5.format(datedebut);
-		Date df = null;
+		String df = null;
 		//recupération de toutes les dates de la période
 		while(!date.equals(datefin.toString())) {
 			
-			try {
+			try {//TODO
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Calendar c = Calendar.getInstance();
 				c.setTime(sdf.parse(date));
 				c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
 				date = sdf.format(c.getTime());  // date est la nouvelle date
-				df = sdf2.parse(date);
-				//utiliser un convertisseur manuel pour régler le problème meme si pas opti
-				//le meme que sur la gestion des stocks 
+				df = convertEtoF(date);
 				 
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -334,7 +370,7 @@ public class Login {
 					c.setTime(sdf.parse(date));
 					c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
 					date = sdf.format(c.getTime());  // date est la nouvelle date
-					df = sdf2.parse(date);
+					df = convertEtoF(date);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -350,7 +386,6 @@ public class Login {
 			System.out.println(tmp);
 		}
 		
-		//TODO
 		
 		//verification de s'il existe déja une réservation pour cette date la
 		
@@ -395,18 +430,19 @@ public class Login {
 			int idRes;
 			String dateFin;
 			String dateDebut;
-			String idchambre;
+			int idchambre;
 			int idclient;
+			Reservation.listeReservation.clear();
 
 			if (resultat.first()) {
 				do {
 					idRes = resultat.getInt(1);
 					dateFin = resultat.getString(2);
 					dateDebut = resultat.getString(3);
-					idchambre = resultat.getString(4);
-					idclient = resultat.getInt(5);
+					idclient = resultat.getInt(4);
+					idchambre = resultat.getInt(5);
 					
-					Reservation.listeReservation.add(new Reservation(idRes, dateDebut, dateFin, idchambre, idclient));
+					Reservation.listeReservation.add(new Reservation(idRes, dateDebut, dateFin, idclient, idchambre));
 					
 				} while (resultat.next());
 
@@ -475,36 +511,6 @@ public class Login {
 		
 	}
 	
-	public static void recupChambreDispo() {
-		Connexion con = new Connexion();
-		Connection conn = con.getConn();
-		
-		try {
-			PreparedStatement state = conn.prepareStatement("{CALL recupChambreDispo()}");
-			ResultSet resultat = state.executeQuery();
-			
-			int id_chambre;
-			int numerochambre;
-			int id_typechambre;
-			
-
-			if (resultat.first()) {
-				do {
-					id_chambre = resultat.getInt(1);
-					numerochambre = resultat.getInt(2);
-					id_typechambre = resultat.getInt(3);
-					
-					
-					Chambre.listChambreDispo.add(new Chambre(id_chambre, numerochambre, id_typechambre));
-					
-				} while (resultat.next());
-
-			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
 	
 	public static void ajouterClient(String idclient, String nom_client, String prenom_client, String cp_client, String ville_client, String rue_client, String mail) {
 		Connexion con = new Connexion();
@@ -547,7 +553,7 @@ public class Login {
 		}
 	}
 	
-	public static void supprimerClient(int pId) {//changer en requete préparée
+	public static void supprimerClient(int pId) {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
@@ -585,32 +591,13 @@ public class Login {
 		}
 	}
 	
-	
-	
-	/*public static void loginClient(int pID) {
-		Client tmp = new Client(0, "", "", "", "", "");
-		
-		for(Client leClient: listeClients) {
-			if(leClient.getId_client()==pID) {
-				tmp=leClient;
-			}
-		}
-		System.out.println(tmp.getId_client());
-		if (tmp.getId_client()==pID) {
-			if (String.valueOf(FPrincipale.txtPassword.getPassword()).equals(tmp.getMdp_client())) {
-				leTitulaire = tmp.getNom_client()+" "+tmp.getPrenom_client();
-				idClient=tmp.getId_client();
-				//FMesComptes jf=new FMesComptes();
-				//FPrincipal fp = new FPrincipal();
-				//fp.setVisible(false);
-				//jf.setVisible(true);
-			}else {
-				mdpIncorrect = true;
-				
-			}
-		}else {
-			idIncorrect = true;
-		}
-		
-	}*/
+	public static String convertEtoF(String pDateE) {
+		String reponse = null;
+		String jour, mois, annee;
+		annee = pDateE.substring(0, 4);
+		mois = pDateE.substring(5, 7);
+		jour = pDateE.substring(8);
+		reponse = jour + "/" + mois + "/" + annee;
+		return reponse;
+	}
 }

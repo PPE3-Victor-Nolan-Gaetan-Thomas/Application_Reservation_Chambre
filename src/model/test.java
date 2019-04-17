@@ -10,7 +10,8 @@ public class test {
 	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 		//essai();
-		testEstDisponible();
+		//testEstDisponible();
+		System.out.println(Login.convertEtoF("2019-04-10"));
 	}
 	public test() {
 		

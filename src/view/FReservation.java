@@ -5,9 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -20,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import model.Chambre;
 import model.Login;
 import model.TypeChambre;
 
@@ -96,19 +94,7 @@ public class FReservation extends JFrame {
 		contentPane.add(dateDebutSejour);
 		dateDebutSejour.setBounds(167,  139, 174, 22);
 		
-		//goto insert
-		
-		//remplirChampsTypeChambre();
-		
-		//TEMPORAIRE
-		/*
-		combo_type_chambre.addItem("Suite");
-		combo_type_chambre.addItem("Suite Junior");
-		combo_type_chambre.addItem("Prestige");
-		combo_type_chambre.addItem("Executive");
-		combo_type_chambre.addItem("Classic");
-		combo_type_chambre.addItem("Single");
-		*/
+		//remplissage du type de chambre
 		
 		Login.recupTypeChambre();
 		for(TypeChambre tp : TypeChambre.listTypeChambre) {
@@ -120,19 +106,50 @@ public class FReservation extends JFrame {
 		contentPane.add(combo_type_chambre);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				int idtypechambre = 0;
 				//TODO
-				//recupérer tout les numéros de chambres du type demandé
-				//ensuite vérifier si elles sont disponibles avec une boucle
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				String deb = sdf.format(dateDebutSejour.getDate());
-				String fin = sdf.format(dateFinSejour.getDate());
-				try {
-					Date d = sdf.parse(deb);
-					Date f = sdf.parse(fin);
-					Login.estDisponible(0, d, f);
-				} catch (ParseException e) {
-					e.printStackTrace();
+				/*DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+				DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");*/
+				
+				System.out.println(combo_type_chambre.getSelectedItem());
+				if(combo_type_chambre.getSelectedItem().equals("Suite")) {
+					idtypechambre = 1;
+				}else {
+					if(combo_type_chambre.getSelectedItem().equals("Suite Junior")) {
+						idtypechambre = 2;
+					}else {
+						if(combo_type_chambre.getSelectedItem().equals("Chambre Prestige")) {
+							idtypechambre = 3;
+						}else {
+							if(combo_type_chambre.getSelectedItem().equals("Chambre Executive")) {
+								idtypechambre = 4;
+							}else {
+								if(combo_type_chambre.getSelectedItem().equals("Chambre Classic")){
+									idtypechambre = 5;
+								}else {
+									if(combo_type_chambre.getSelectedItem().equals("Chambre Single")) {
+										idtypechambre = 6;
+									}
+								}
+							}
+						}
+					}
 				}
+				
+				System.out.println(idtypechambre);
+				
+				
+				//debug
+				if(idtypechambre != 0) {
+					Login.recupAllChambreByNumType(idtypechambre);
+					for(Chambre tmp : Chambre.listChambreDeCeType) {
+						System.out.println(tmp.getNumerochambre());
+					}
+				}
+				
+				//verifier si une reservation existe ou non
+				
+				
 				
 			}
 		});
