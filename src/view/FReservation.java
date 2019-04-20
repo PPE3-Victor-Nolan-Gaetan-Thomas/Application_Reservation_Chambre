@@ -133,18 +133,18 @@ public class FReservation extends JFrame {
 						}
 					}
 				}
-				
+				//on convertit les dates
 				datd = sdf.format(dateDebutSejour.getDate());
 				datf = sdf.format(dateFinSejour.getDate());
+				
 				//on recherche les chambres disponibles
 				Login.chambreDisponible(idtypechambre);
 				System.out.println(idtypechambre);//debug
 				
 				if(!Chambre.listChambreDispo.isEmpty()) {
-					//verifier que tout les champs sont remplis
 					//if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1)
 				
-					Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getNumerochambre());
+					Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getChambreid());
 				}
 				
 				

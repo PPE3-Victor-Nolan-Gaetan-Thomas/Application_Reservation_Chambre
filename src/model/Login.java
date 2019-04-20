@@ -366,42 +366,33 @@ public class Login {
 	}
 	
 	public static void chambreDisponible(int pIdType) {//TODO
-		Chambre.listChambreDispo.clear();
-		ArrayList<Chambre> listChambreARetirer = new ArrayList<Chambre>();
-		listChambreARetirer.clear();
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
 		
-		recupAllChambreByNumType(pIdType);
-		recupNumChambreDeCeTypeDeChambreDepuisReservation(pIdType);
-		//rempli la liste des chambres dispo
-		if(!listNumChambreReserverDeCeType.isEmpty() && !Chambre.listChambreDeCeType.isEmpty()) {
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupChambreDisponible(?)}");
+			state.setInt(1, pIdType);
+			ResultSet resultat = state.executeQuery();
 			
-			Chambre.listChambreDispo.addAll(0, Chambre.listChambreDeCeType);
-			
-			for(Chambre chambreARetirer : listNumChambreReserverDeCeType) {
-				for(Chambre tmp : Chambre.listChambreDispo) {
-					if(tmp.getNumerochambre() == chambreARetirer.getNumerochambre()) {
-						listChambreARetirer.add(tmp);
-					}
-				}
+			int id_chambre, numerochambre, id_typechambre;
+			Chambre.listChambreDispo.clear();
+
+			if (resultat.first()) {
+				do {
+					id_chambre = resultat.getInt(1);
+					numerochambre = resultat.getInt(2);
+					id_typechambre = resultat.getInt(3);
+					
+					Chambre.listChambreDispo.add(new Chambre(id_chambre, numerochambre, id_typechambre));
+					
+				} while (resultat.next());
+
 			}
-			
-			for(int i=0;i<listChambreARetirer.size();i++) {
-				for(int j=0;j<Chambre.listChambreDispo.size();j++) {
-					if(listChambreARetirer.get(i).getNumerochambre() == Chambre.listChambreDispo.get(j).getNumerochambre()) {
-						Chambre.listChambreDispo.remove(j);
-					}
-				}
-			}
-			
-			
-		}else {
-			for(Chambre c : Chambre.listChambreDeCeType) {
-				Chambre.listChambreDispo.add(c);
-			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		//debug
-		for(Chambre f : Chambre.listChambreDispo)
-			System.out.println(f.getNumerochambre());
 		
 	}
 	
