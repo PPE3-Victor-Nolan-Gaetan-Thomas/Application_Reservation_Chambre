@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -43,7 +44,6 @@ public class FReservation extends JFrame {
 		});
 	}
 	
-	//Instanciation de tout les composants
 	JLabel lblRservation = new JLabel("R\u00E9servation : ");
 	JLabel lblNumClient = new JLabel("Num\u00E9ro client : ");
 	JLabel lblDate = new JLabel("Date arriv\u00E9e : ");
@@ -58,8 +58,6 @@ public class FReservation extends JFrame {
 	private final JButton btnRetour = new JButton("Retour");
 	private static JTextField txtNumClient;
 	
-	
-	//Fin d'instantiation des composants
 
 	/**
 	 * Create the frame.
@@ -107,11 +105,11 @@ public class FReservation extends JFrame {
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int idtypechambre = 0;
+				String datd = null;
+				String datf = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				//TODO
-				/*DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-				DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");*/
 				
-				System.out.println(combo_type_chambre.getSelectedItem());
 				if(combo_type_chambre.getSelectedItem().equals("Suite")) {
 					idtypechambre = 1;
 				}else {
@@ -136,19 +134,18 @@ public class FReservation extends JFrame {
 					}
 				}
 				
-				System.out.println(idtypechambre);
+				datd = sdf.format(dateDebutSejour.getDate());
+				datf = sdf.format(dateFinSejour.getDate());
+				//on recherche les chambres disponibles
+				Login.chambreDisponible(idtypechambre);
+				System.out.println(idtypechambre);//debug
 				
+				if(!Chambre.listChambreDispo.isEmpty()) {
+					//verifier que tout les champs sont remplis
+					//if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1)
 				
-				//debug
-				if(idtypechambre != 0) {
-					Login.recupAllChambreByNumType(idtypechambre);
-					for(Chambre tmp : Chambre.listChambreDeCeType) {
-						System.out.println(tmp.getNumerochambre());
-					}
+					Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getNumerochambre());
 				}
-				
-				//verifier si une reservation existe ou non
-				
 				
 				
 			}
@@ -199,53 +196,7 @@ public class FReservation extends JFrame {
 		
 	}
 	
-	/*public void remplirChampsTypeChambre() {//goto
-		Login.listInfoChambres.clear();
-		Login.recupChambre();
-		int nbChambresRestantes = 0;
-		if(TypeChambre.listTypeChambre.get(0).getNbChambresRestantes() != 0) {
-			System.out.println("Suite" + TypeChambre.listTypeChambre.get(0).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Suite (" + TypeChambre.listTypeChambre.get(0).getNbChambresRestantes() + ")");
-		}else {
-			System.err.println("INFORMATION : euh y a plus de place sorry (suite)");//debug
-		}
-		
-		if(TypeChambre.listTypeChambre.get(1).getNbChambresRestantes() != 0) {
-			System.out.println("Suite junior" + TypeChambre.listTypeChambre.get(1).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Suite junior (" + TypeChambre.listTypeChambre.get(1).getNbChambresRestantes() + ")");
-		}else {
-			System.err.println("INFORMATION : euh y a plus de place sorry (suite junior)");//debug
-		}
-		
-		if(TypeChambre.listTypeChambre.get(2).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre prestige" + TypeChambre.listTypeChambre.get(2).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre prestige (" + TypeChambre.listTypeChambre.get(2).getNbChambresRestantes() + ")");
-		}else {
-			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre prestige)");//debug
-		}
-		
-		if(TypeChambre.listTypeChambre.get(3).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre executive" + TypeChambre.listTypeChambre.get(3).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre executive (" + TypeChambre.listTypeChambre.get(3).getNbChambresRestantes() + ")");
-		}else {
-			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre executive)");//debug
-		}
-		
-		if(TypeChambre.listTypeChambre.get(4).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre classique" + TypeChambre.listTypeChambre.get(4).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre classique (" + TypeChambre.listTypeChambre.get(4).getNbChambresRestantes() + ")");
-		}else {
-			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre classique)");//debug
-		}
-		
-		if(TypeChambre.listTypeChambre.get(5).getNbChambresRestantes() != 0) {
-			System.out.println("Chambre single" + TypeChambre.listTypeChambre.get(5).getNbChambresRestantes());//debug
-			combo_type_chambre.addItem("Chambre single (" + TypeChambre.listTypeChambre.get(5).getNbChambresRestantes() + ")");
-		}else {
-			System.err.println("INFORMATION : euh y a plus de place sorry (Chambre single)");//debug
-		}
-		
-	}*/
+	
 	
 	public void resetChamps() {
 		txtNumClient.setText(null);

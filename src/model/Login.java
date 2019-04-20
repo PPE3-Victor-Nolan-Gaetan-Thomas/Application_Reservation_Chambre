@@ -20,7 +20,8 @@ public class Login {
 	public static ArrayList<String> lesDatesFinOccupation = new ArrayList<String>();
 	public static ArrayList<String> lesDatesOccupations = new ArrayList<String>();
 	public static ArrayList<Integer> listNumChambreDeCeType = new ArrayList<Integer>();
-	public static ArrayList<Integer> listNumChambreReserverDeCeType = new ArrayList<Integer>();
+	public static ArrayList<Chambre> listNumChambreReserverDeCeType = new ArrayList<Chambre>();
+	public static ArrayList<Chambre> lesChambresDisponiblesALaReservation = new ArrayList<Chambre>();
 	public static boolean mdpIncorrect = false;
 	public static boolean idIncorrect = false;
 	public static String leTitulaire ="";
@@ -164,6 +165,39 @@ public class Login {
 					numerochambre = resultat.getInt(2);
 					idtypechambre = resultat.getInt(3);
 					Chambre.listChambreDeCeType.add(new Chambre(idchambre, numerochambre, idtypechambre));
+				} while (resultat.next());
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void  recupNumChambreDeCeTypeDeChambreDepuisReservation(int pidTypeChambre) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupNumChambreDeCeTypeDeChambreDepuisReservation(?)}");
+			state.setInt(1, pidTypeChambre);
+			ResultSet resultat = state.executeQuery();
+			
+			int idchambre;
+			int numerochambre;
+			int idtypechambre;
+			listNumChambreReserverDeCeType.clear();
+			//TODO
+			
+
+			if (resultat.first()) {
+				do {
+					idchambre = resultat.getInt(1);
+					numerochambre = resultat.getInt(2);
+					idtypechambre = resultat.getInt(3);
+					listNumChambreReserverDeCeType.add(new Chambre(idchambre, numerochambre, idtypechambre));
 				} while (resultat.next());
 
 			}
@@ -331,88 +365,48 @@ public class Login {
 		
 	}
 	
+	public static void chambreDisponible(int pIdType) {//TODO
+		Chambre.listChambreDispo.clear();
+		ArrayList<Chambre> listChambreARetirer = new ArrayList<Chambre>();
+		listChambreARetirer.clear();
+		
+		recupAllChambreByNumType(pIdType);
+		recupNumChambreDeCeTypeDeChambreDepuisReservation(pIdType);
+		//rempli la liste des chambres dispo
+		if(!listNumChambreReserverDeCeType.isEmpty() && !Chambre.listChambreDeCeType.isEmpty()) {
+			
+			Chambre.listChambreDispo.addAll(0, Chambre.listChambreDeCeType);
+			
+			for(Chambre chambreARetirer : listNumChambreReserverDeCeType) {
+				for(Chambre tmp : Chambre.listChambreDispo) {
+					if(tmp.getNumerochambre() == chambreARetirer.getNumerochambre()) {
+						listChambreARetirer.add(tmp);
+					}
+				}
+			}
+			
+			for(int i=0;i<listChambreARetirer.size();i++) {
+				for(int j=0;j<Chambre.listChambreDispo.size();j++) {
+					if(listChambreARetirer.get(i).getNumerochambre() == Chambre.listChambreDispo.get(j).getNumerochambre()) {
+						Chambre.listChambreDispo.remove(j);
+					}
+				}
+			}
+			
+			
+		}else {
+			for(Chambre c : Chambre.listChambreDeCeType) {
+				Chambre.listChambreDispo.add(c);
+			}
+		}
+		//debug
+		for(Chambre f : Chambre.listChambreDispo)
+			System.out.println(f.getNumerochambre());
+		
+	}
+	
 	public static boolean estDisponible(int pNumChambre, Date datedebut, Date datefin) {
 		boolean reponse = false;
-		ArrayList<String> lesDatesVoulus = new ArrayList<String>();
-		lesDatesVoulus.clear();
-		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat sdf5 = new SimpleDateFormat("yyyy-MM-dd");
-		boolean test = false;
-		
-		String date = sdf5.format(datedebut);
-		String df = null;
-		//recupération de toutes les dates de la période
-		while(!date.equals(datefin.toString())) {
-			
-			try {//TODO
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Calendar c = Calendar.getInstance();
-				c.setTime(sdf.parse(date));
-				c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
-				date = sdf.format(c.getTime());  // date est la nouvelle date
-				df = convertEtoF(date);
-				 
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			lesDatesVoulus.add(df.toString()); //toutes les dates sont au format français
-			
-		}
-		
-		for(String dt : lesDatesDebutOccupation) {
-			int i = 0;
-			String datedeb = lesDatesDebutOccupation.get(i);
-			while(!datedeb.equals(lesDatesFinOccupation.get(i))) {
-				
-				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					Calendar c = Calendar.getInstance();
-					c.setTime(sdf.parse(date));
-					c.add(Calendar.DATE, 1);  // nombre de jour à ajouter
-					date = sdf.format(c.getTime());  // date est la nouvelle date
-					df = convertEtoF(date);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				lesDatesOccupations.add(df.toString()); //toutes les dates sont au format français
-				i++;
-				
-			}
-		}
-		
-		
-		//debug
-		for(String tmp : lesDatesOccupations) {
-			System.out.println(tmp);
-		}
-		
-		
-		//verification de s'il existe déja une réservation pour cette date la
-		
-		try {
-			recupDateOccupationByNumChambre(pNumChambre);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		for(String datetmp : lesDatesVoulus) {
-			for(String uneDate : lesDatesOccupations) {
-				if(datetmp.equals(uneDate)) {
-					reponse = false;
-					test=true;
-					break;
-				}else {
-					test=false;
-					reponse = true;
-				}
-			}
-			if(test==false){break;}
-		}
-		
-		
-		
-		
-		
 		
 		return reponse;
 	}
@@ -495,14 +489,15 @@ public class Login {
 		Connection conn = con.getConn();
 		
 		try {
-			PreparedStatement state = conn.prepareStatement("INSERT INTO reservation (datedebutoccupation, datefinoccupation, id_client, id_chambre) VALUES(?, ?, ?, ?)");
+			PreparedStatement state = conn.prepareStatement("{CALL ajouterReservation(?, ?, ?, ?)}");
 			
 			state.setString(1, dateDebut);
 			state.setString(2, dateFin);
 			state.setInt(3, id_client);
-			state.setInt(5, id_chambre);
+			state.setInt(4, id_chambre);
 			
 			state.execute();
+			System.out.println("Réservation ajoutée !");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
