@@ -6,27 +6,34 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
-import model.Chambre;
 import model.Login;
 import model.TypeChambre;
+import oracle.jrockit.jfr.parser.ParseException;
 
 public class FReservation extends JFrame {
 
 	private JPanel contentPane;
 	public static boolean newClientByButtonAdd = false;
 	public static boolean exist = true;
+	ArrayList<String> list = new ArrayList<String>();
 	
 	/**
 	 * Launch the application.
@@ -134,18 +141,77 @@ public class FReservation extends JFrame {
 					}
 				}
 				//on convertit les dates
-				datd = sdf.format(dateDebutSejour.getDate());
-				datf = sdf.format(dateFinSejour.getDate());
+//				datd = sdf.format(dateDebutSejour.getDate());
+//				datf = sdf.format(dateFinSejour.getDate());
+				
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+				
+				//try
+				String d1 = sdf2.format(dateDebutSejour.getDate());
+				String d2 = sdf2.format(dateFinSejour.getDate());
+				
+				//debug
+				System.out.println("d1" + d1 + " et d2 : " + d2); //sort le bon format (anglais)
+				
+				Date dateDebut = null;
+				Date dateFin = null;
+				
+				try {
+					dateDebut = sdf2.parse(d1);
+					dateFin = sdf2.parse(d2);
+				} catch (java.text.ParseException e2) {
+					e2.printStackTrace();
+				}
+				
+				System.out.println(dateDebut);//debug
+				System.out.println(dateFin);//debug
+				
+				
+				if(dateDebut.before(dateFin)) {
+					System.out.println("on est dans le if");//debug
+					while(dateDebut.compareTo(dateFin) != 0) {
+						
+						String oldDate = String.valueOf(sdf2.format(dateDebut));
+						System.out.println("Ancienne date : " + oldDate);
+						SimpleDateFormat sdfconv = new SimpleDateFormat("yyyy-MM-dd");
+						Calendar c = Calendar.getInstance();
+						
+						try {
+							c.setTime(sdfconv.parse(oldDate));
+						} catch (java.text.ParseException e1) {
+							e1.printStackTrace();
+						}
+						
+						//on incrémente de 1
+						c.add(Calendar.DAY_OF_MONTH, 1);
+						String newDate = sdfconv.format(c.getTime());
+						System.out.println("Nouvelle date : " + newDate);
+						
+						//on réaffecte la nouvelle date
+						try {
+							dateDebut = sdf2.parse(newDate);
+						} catch (java.text.ParseException e1) {
+							e1.printStackTrace();
+						}
+						
+						try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}//debug
+					}
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "Vous ne pouvez pas réserver dans le passé ...", "Attention", NORMAL);
+				}
+				
 				
 				//on recherche les chambres disponibles
-				Login.chambreDisponible(idtypechambre);
-				System.out.println(idtypechambre);//debug
-				
-				if(!Chambre.listChambreDispo.isEmpty()) {
-					//if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1)
-				
-					Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getChambreid());
-				}
+//				Login.chambreDisponible(idtypechambre);
+//				System.out.println(idtypechambre);//debug
+//				
+//				if(!Chambre.listChambreDispo.isEmpty()) {
+//					//if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1)
+//				
+//					Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getChambreid());
+//				}else {
+//					JOptionPane.showMessageDialog(contentPane, "Attention, ce type de chambre n'est plus disponible.", "Attention", NORMAL);
+//				}
 				
 				
 			}
@@ -196,6 +262,12 @@ public class FReservation extends JFrame {
 		
 	}
 	
+	
+	public static Calendar asCalendar(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	}
 	
 	
 	public void resetChamps() {

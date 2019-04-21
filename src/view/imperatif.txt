@@ -1,6 +1,3 @@
 1 Suite, 4 Junior Suite, 15 Chambres Prestige, 35 Chambres Executive, 35 Chambres Classic, 25 Chambres Single.
 
 modifier la requete de recup de mots de passe
-
-
-changer tout les setVisible(false) en dispose();
