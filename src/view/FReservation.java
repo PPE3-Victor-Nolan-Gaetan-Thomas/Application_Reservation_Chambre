@@ -113,6 +113,8 @@ public class FReservation extends JFrame {
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listDateDejaReserver.clear();
+				listDateVoulu.clear();
+
 				boolean estDispo = false;
 				int idtypechambre = 0;
 				String datd = null;
@@ -239,20 +241,32 @@ public class FReservation extends JFrame {
 					}else {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention", NORMAL);
 					}
-				}else {//ca commence la
+				}else {//ca commence la LA LISTE DES DISPO EST VIDE
 					Login.recupReservationDeCeType(idtypechambre);//TODO
+					
+					//debug
+					for(Reservation a : Reservation.lesReservationsDeCeType)
+						System.out.println(a.getDateDebut() + " + " + a.getDateFin());
+					//fin debug
+					
+					//on créer les variables dates
 					Date dateDebR = null;
 					Date dateFinR = null;
 					Date dateDebV = null;
 					Date dateFV = null;
 					
+					//on attribue les dates de début et de fin voulues 
 					try {
-						dateDebV = sdf.parse(listDateVoulu.get(0));
-						dateFV = sdf.parse(listDateVoulu.get(listDateVoulu.size()-1));
+						dateDebV = sdf2.parse(listDateVoulu.get(0));
+						dateFV = sdf2.parse(listDateVoulu.get(listDateVoulu.size()-1));
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}
 					
+					//on vérifie pour chaque réservation de ce type de chambre si les dates de réservations voulues
+					//correspondent à des dates de réservation existantes
+					//si non, on ajoute une réservation
+					//si oui, on n'ajoute pas de réservation et on dis que c'est occupe pendant cette période
 					for(Reservation res : Reservation.lesReservationsDeCeType) {
 						try {
 							dateDebR = sdf2.parse(res.getDateDebut());
@@ -261,8 +275,17 @@ public class FReservation extends JFrame {
 							e.printStackTrace();
 						}
 						
+						//debug
+						System.out.println("dateDebV : " + String.valueOf(sdf2.format(dateDebV)));
+						System.out.println("dateFV : " + String.valueOf(sdf2.format(dateFV)));
+						System.out.println("dateDebR : " + String.valueOf(sdf2.format(dateDebR)));
+						System.out.println("dateFinR : " + String.valueOf(sdf2.format(dateFinR)));
+						//fin debug
+						
 						if((dateDebV.before(dateDebR) && dateFV.before(dateDebR)) || (dateDebV.after(dateFinR) && dateFV.after(dateFinR))) {
-							Login.ajouterReservation(dateDebV.toString(), dateFV.toString(), Integer.parseInt(txtNumClient.getText()), res.getidchambre());
+							String dd1 = sdf2.format(dateDebV);
+							String dd2 = sdf2.format(dateFV);
+							Login.ajouterReservation(dd1, dd2, Integer.parseInt(txtNumClient.getText()), res.getidchambre());
 							estDispo = true;
 							break;
 						}
@@ -273,6 +296,7 @@ public class FReservation extends JFrame {
 //						resetChamps();
 					}else {
 						JOptionPane.showMessageDialog(contentPane, "Aucune réservation n'est disponible", "Information", NORMAL);
+						System.out.println("Pas de réservation disponible");
 					}
 					
 				}

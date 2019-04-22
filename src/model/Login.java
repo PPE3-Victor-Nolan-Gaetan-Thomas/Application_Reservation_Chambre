@@ -460,8 +460,8 @@ public class Login {
 			if (resultat.first()) {
 				do {
 					idRes = resultat.getInt(1);
-					dateFin = resultat.getString(2);
-					dateDebut = resultat.getString(3);
+					dateDebut = resultat.getString(2);
+					dateFin = resultat.getString(3);
 					idclient = resultat.getInt(4);
 					idchambre = resultat.getInt(5);
 					
