@@ -5,9 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,16 +23,18 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import model.Chambre;
 import model.Login;
+import model.Reservation;
 import model.TypeChambre;
-import oracle.jrockit.jfr.parser.ParseException;
 
 public class FReservation extends JFrame {
 
 	private JPanel contentPane;
 	public static boolean newClientByButtonAdd = false;
 	public static boolean exist = true;
-	ArrayList<String> list = new ArrayList<String>();
+	ArrayList<String> listDateDejaReserver = new ArrayList<String>();
+	ArrayList<String> listDateVoulu = new ArrayList<String>();
 	
 	/**
 	 * Launch the application.
@@ -111,6 +112,8 @@ public class FReservation extends JFrame {
 		contentPane.add(combo_type_chambre);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				listDateDejaReserver.clear();
+				boolean estDispo = false;
 				int idtypechambre = 0;
 				String datd = null;
 				String datf = null;
@@ -140,9 +143,6 @@ public class FReservation extends JFrame {
 						}
 					}
 				}
-				//on convertit les dates
-//				datd = sdf.format(dateDebutSejour.getDate());
-//				datf = sdf.format(dateFinSejour.getDate());
 				
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 				
@@ -166,52 +166,116 @@ public class FReservation extends JFrame {
 				System.out.println(dateDebut);//debug
 				System.out.println(dateFin);//debug
 				
+				/*
+				 * Début du code qui récupère toutes les dates entre deux dates
+				 * */
 				
 				if(dateDebut.before(dateFin)) {
 					System.out.println("on est dans le if");//debug
-					while(dateDebut.compareTo(dateFin) != 0) {
+					
+					listDateVoulu.add(d1);
+					listDateVoulu.add(d2);
+					
+					
+//					while(dateDebut.compareTo(dateFin) != 0) {
 						
-						String oldDate = String.valueOf(sdf2.format(dateDebut));
-						System.out.println("Ancienne date : " + oldDate);
-						SimpleDateFormat sdfconv = new SimpleDateFormat("yyyy-MM-dd");
-						Calendar c = Calendar.getInstance();
-						
-						try {
-							c.setTime(sdfconv.parse(oldDate));
-						} catch (java.text.ParseException e1) {
-							e1.printStackTrace();
-						}
-						
-						//on incrémente de 1
-						c.add(Calendar.DAY_OF_MONTH, 1);
-						String newDate = sdfconv.format(c.getTime());
-						System.out.println("Nouvelle date : " + newDate);
-						
-						//on réaffecte la nouvelle date
-						try {
-							dateDebut = sdf2.parse(newDate);
-						} catch (java.text.ParseException e1) {
-							e1.printStackTrace();
-						}
-						
-						try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}//debug
-					}
+//						String oldDate = String.valueOf(sdf2.format(dateDebut));
+//						SimpleDateFormat sdfconv = new SimpleDateFormat("yyyy-MM-dd");
+//						Calendar c = Calendar.getInstance();
+//						
+//						try {
+//							c.setTime(sdfconv.parse(oldDate));
+//						} catch (java.text.ParseException e1) {
+//							e1.printStackTrace();
+//						}
+//						
+//						//on incrémente de 1
+//						c.add(Calendar.DAY_OF_MONTH, 1);
+//						String newDate = sdfconv.format(c.getTime());
+//						System.out.println("Nouvelle date : " + newDate);//debug
+//						
+//						//on réaffecte la nouvelle date
+//						try {
+//							dateDebut = sdf2.parse(newDate);
+//						} catch (java.text.ParseException e1) {
+//							e1.printStackTrace();
+//						}
+//						listDateVoulu.add(newDate);
+//						try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}//debug
+//					}
 				}else {
 					JOptionPane.showMessageDialog(contentPane, "Vous ne pouvez pas réserver dans le passé ...", "Attention", NORMAL);
 				}
 				
+				/*
+				 * Fin du code qui récupère toutes les dates entre deux dates
+				 * */
+				
+				//debug
+				
+				System.out.println("------------ Affichage de la liste pour debug---------------");
+				for(String d : listDateVoulu)
+					System.out.println(d);
+				
+				//fin debug
+				
 				
 				//on recherche les chambres disponibles
-//				Login.chambreDisponible(idtypechambre);
+				Login.chambreDisponible(idtypechambre);
 //				System.out.println(idtypechambre);//debug
-//				
-//				if(!Chambre.listChambreDispo.isEmpty()) {
-//					//if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1)
-//				
-//					Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getChambreid());
-//				}else {
-//					JOptionPane.showMessageDialog(contentPane, "Attention, ce type de chambre n'est plus disponible.", "Attention", NORMAL);
-//				}
+				
+				
+				if(!Chambre.listChambreDispo.isEmpty()) {
+					if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1) {
+						datd = listDateVoulu.get(0);
+						datf = listDateVoulu.get(listDateVoulu.size()-1);
+						try {
+							Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getChambreid());
+							JOptionPane.showMessageDialog(contentPane, "Ajout réussi", "Information", NORMAL);
+//							resetChamps();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention", NORMAL);
+					}
+				}else {//ca commence la
+					Login.recupReservationDeCeType(idtypechambre);//TODO
+					Date dateDebR = null;
+					Date dateFinR = null;
+					Date dateDebV = null;
+					Date dateFV = null;
+					
+					try {
+						dateDebV = sdf.parse(listDateVoulu.get(0));
+						dateFV = sdf.parse(listDateVoulu.get(listDateVoulu.size()-1));
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					
+					for(Reservation res : Reservation.lesReservationsDeCeType) {
+						try {
+							dateDebR = sdf2.parse(res.getDateDebut());
+							dateFinR = sdf2.parse(res.getDateFin());
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						
+						if((dateDebV.before(dateDebR) && dateFV.before(dateDebR)) || (dateDebV.after(dateFinR) && dateFV.after(dateFinR))) {
+							Login.ajouterReservation(dateDebV.toString(), dateFV.toString(), Integer.parseInt(txtNumClient.getText()), res.getidchambre());
+							estDispo = true;
+							break;
+						}
+						
+					}
+					if(estDispo) {
+						JOptionPane.showMessageDialog(contentPane, "Réservation ajoutée", "Information", NORMAL);
+//						resetChamps();
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Aucune réservation n'est disponible", "Information", NORMAL);
+					}
+					
+				}
 				
 				
 			}

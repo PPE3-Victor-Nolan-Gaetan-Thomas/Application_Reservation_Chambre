@@ -94,7 +94,7 @@ public class Login {
 		
 		try {
 			Statement state = conn.createStatement();
-			ResultSet resultat = state.executeQuery("SELECT idclient FROM client");
+			ResultSet resultat = state.executeQuery("{CALL recupIdClient()}");
 
 			String id_Client;
 
@@ -428,6 +428,44 @@ public class Login {
 					idchambre = resultat.getInt(5);
 					
 					Reservation.listeReservation.add(new Reservation(idRes, dateDebut, dateFin, idclient, idchambre));
+					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void recupReservationDeCeType(int pIdType) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupReservationDeCeType(?)}");
+			state.setInt(1, pIdType);
+			ResultSet resultat = state.executeQuery();
+			
+			int idRes;
+			String dateFin;
+			String dateDebut;
+			int idchambre;
+			int idclient;
+			Reservation.lesReservationsDeCeType.clear();
+
+			if (resultat.first()) {
+				do {
+					idRes = resultat.getInt(1);
+					dateFin = resultat.getString(2);
+					dateDebut = resultat.getString(3);
+					idclient = resultat.getInt(4);
+					idchambre = resultat.getInt(5);
+					
+					Reservation.lesReservationsDeCeType.add(new Reservation(idRes, dateDebut, dateFin, idclient, idchambre));
 					
 				} while (resultat.next());
 

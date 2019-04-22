@@ -6,6 +6,7 @@ public class Reservation {
 	
 
 	public static ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
+	public static ArrayList<Reservation> lesReservationsDeCeType = new ArrayList<Reservation>();
 	
 	private int idRes;
 	private String dateDebut;
