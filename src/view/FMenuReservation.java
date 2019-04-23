@@ -54,8 +54,8 @@ public class FMenuReservation extends JFrame {
 		btnVisuReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FVisuModifReserv fvmr = new FVisuModifReserv();
-				setVisible(false);
 				fvmr.setVisible(true);
+				dispose();
 			}
 		});
 		btnVisuReservation.setBounds(236, 84, 201, 115);
@@ -66,8 +66,8 @@ public class FMenuReservation extends JFrame {
 		btnAjouterReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FReservation fp = new FReservation();
-				setVisible(false);
 				fp.setVisible(true);
+				dispose();
 			}
 		});
 		btnAjouterReservation.setBounds(23, 84, 201, 115);

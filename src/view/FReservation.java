@@ -33,7 +33,6 @@ public class FReservation extends JFrame {
 	private JPanel contentPane;
 	public static boolean newClientByButtonAdd = false;
 	public static boolean exist = true;
-	ArrayList<String> listDateDejaReserver = new ArrayList<String>();
 	ArrayList<String> listDateVoulu = new ArrayList<String>();
 	
 	/**
@@ -112,15 +111,13 @@ public class FReservation extends JFrame {
 		contentPane.add(combo_type_chambre);
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				listDateDejaReserver.clear();
 				listDateVoulu.clear();
+				Chambre.listChambreDispo.clear();
 
-				boolean estDispo = false;
 				int idtypechambre = 0;
 				String datd = null;
 				String datf = null;
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				//TODO
 				
 				if(combo_type_chambre.getSelectedItem().equals("Suite")) {
 					idtypechambre = 1;
@@ -168,9 +165,7 @@ public class FReservation extends JFrame {
 				System.out.println(dateDebut);//debug
 				System.out.println(dateFin);//debug
 				
-				/*
-				 * Début du code qui récupère toutes les dates entre deux dates
-				 * */
+				
 				
 				if(dateDebut.before(dateFin)) {
 					System.out.println("on est dans le if");//debug
@@ -178,40 +173,11 @@ public class FReservation extends JFrame {
 					listDateVoulu.add(d1);
 					listDateVoulu.add(d2);
 					
-					
-//					while(dateDebut.compareTo(dateFin) != 0) {
-						
-//						String oldDate = String.valueOf(sdf2.format(dateDebut));
-//						SimpleDateFormat sdfconv = new SimpleDateFormat("yyyy-MM-dd");
-//						Calendar c = Calendar.getInstance();
-//						
-//						try {
-//							c.setTime(sdfconv.parse(oldDate));
-//						} catch (java.text.ParseException e1) {
-//							e1.printStackTrace();
-//						}
-//						
-//						//on incrémente de 1
-//						c.add(Calendar.DAY_OF_MONTH, 1);
-//						String newDate = sdfconv.format(c.getTime());
-//						System.out.println("Nouvelle date : " + newDate);//debug
-//						
-//						//on réaffecte la nouvelle date
-//						try {
-//							dateDebut = sdf2.parse(newDate);
-//						} catch (java.text.ParseException e1) {
-//							e1.printStackTrace();
-//						}
-//						listDateVoulu.add(newDate);
-//						try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}//debug
-//					}
 				}else {
 					JOptionPane.showMessageDialog(contentPane, "Vous ne pouvez pas réserver dans le passé ...", "Attention", NORMAL);
 				}
 				
-				/*
-				 * Fin du code qui récupère toutes les dates entre deux dates
-				 * */
+				
 				
 				//debug
 				
@@ -223,12 +189,13 @@ public class FReservation extends JFrame {
 				
 				
 				//on recherche les chambres disponibles
-				Login.chambreDisponible(idtypechambre);
+				Login.chambreDisponible(idtypechambre, listDateVoulu.get(0), listDateVoulu.get(listDateVoulu.size()-1));
 //				System.out.println(idtypechambre);//debug
 				
 				//debug
-				for(Chambre c : Chambre.listChambreDispo)
-					System.out.println(c.getChambreid());
+				for(Chambre c : Chambre.listChambreDispo) {
+					System.out.println("Chambre : "  + c.getChambreid());
+				}
 				//findebug
 				
 				
@@ -239,6 +206,8 @@ public class FReservation extends JFrame {
 						try {
 							Login.ajouterReservation(datd, datf, Integer.parseInt(txtNumClient.getText()), Chambre.listChambreDispo.get(0).getChambreid());
 							JOptionPane.showMessageDialog(contentPane, "Ajout réussi", "Information", NORMAL);
+							Chambre.listChambreDispo.clear();
+//							Chambre.listChambreDispo.remove(0);
 //							resetChamps();
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -248,65 +217,7 @@ public class FReservation extends JFrame {
 					}
 				}else {//ca commence la LA LISTE DES DISPO EST VIDE
 					//TODO
-					
-					
-					
-					Login.recupReservationDeCeType(idtypechambre);
-					
-					//debug
-					for(Reservation a : Reservation.lesReservationsDeCeType)
-						System.out.println(a.getDateDebut() + " + " + a.getDateFin());
-					//fin debug
-					
-					//on créer les variables dates
-					Date dateDebR = null;
-					Date dateFinR = null;
-					Date dateDebV = null;
-					Date dateFV = null;
-					
-					//on attribue les dates de début et de fin voulues 
-					try {
-						dateDebV = sdf2.parse(listDateVoulu.get(0));
-						dateFV = sdf2.parse(listDateVoulu.get(listDateVoulu.size()-1));
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-					
-					//on vérifie pour chaque réservation de ce type de chambre si les dates de réservations voulues
-					//correspondent à des dates de réservation existantes
-					//si non, on ajoute une réservation
-					//si oui, on n'ajoute pas de réservation et on dis que c'est occupe pendant cette période
-					for(Reservation res : Reservation.lesReservationsDeCeType) {
-						try {
-							dateDebR = sdf2.parse(res.getDateDebut());
-							dateFinR = sdf2.parse(res.getDateFin());
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-						
-						//debug
-//						System.out.println("dateDebV : " + String.valueOf(sdf2.format(dateDebV)));
-//						System.out.println("dateFV : " + String.valueOf(sdf2.format(dateFV)));
-//						System.out.println("dateDebR : " + String.valueOf(sdf2.format(dateDebR)));
-//						System.out.println("dateFinR : " + String.valueOf(sdf2.format(dateFinR)));
-						//fin debug
-						
-						if((dateDebV.before(dateDebR) && dateFV.before(dateDebR)) || (dateDebV.after(dateFinR) && dateFV.after(dateFinR))) {
-							String dd1 = sdf2.format(dateDebV);
-							String dd2 = sdf2.format(dateFV);
-							Login.ajouterReservation(dd1, dd2, Integer.parseInt(txtNumClient.getText()), res.getidchambre());
-							estDispo = true;
-							break;
-						}else {
-							System.out.println("--------------------le test passe pas ");
-						}
-						
-					}
-					if(estDispo) {
-						JOptionPane.showMessageDialog(contentPane, "Réservation ajoutée", "Information", NORMAL);
-//						resetChamps();
-					}
-					
+					JOptionPane.showMessageDialog(contentPane, "Aucune chambre n'est disponible à ces dates", "Attention", NORMAL);
 				}
 				
 				
@@ -336,9 +247,9 @@ public class FReservation extends JFrame {
 		contentPane.add(btnNouveauClient);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				FMenuReservation fmr = new FMenuReservation();
 				fmr.setVisible(true);
+				dispose();
 			}
 		});
 		btnRetour.setBackground(Color.ORANGE);

@@ -6,6 +6,7 @@ public class Client {
 	
 	public static ArrayList<Client> listeClients = new ArrayList<Client>();
 	public static ArrayList<String> listeNumClient = new ArrayList<String>();
+	public static ArrayList<Client> listClientTemp = new ArrayList<Client>();
 	
 	private String id_client;
 	private String nom_client;

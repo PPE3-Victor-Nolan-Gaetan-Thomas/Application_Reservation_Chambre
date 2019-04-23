@@ -142,6 +142,21 @@ public class Login {
 		}
 	}
 	
+	public static void supprimerReservation(int pIdRes) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL supprimerReservation(?)}");
+			state.setInt(1, pIdRes);
+			state.execute();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public static void recupAllChambreByNumType(int pIdType) {//TODO
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
@@ -365,13 +380,52 @@ public class Login {
 		
 	}
 	
-	public static void chambreDisponible(int pIdType) {//TODO
+	public static void chambreDisponible(int pIdType, String pDateDeb, String pDateFin) {//TODO
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
 		
 		try {
 			PreparedStatement state = conn.prepareStatement("{CALL recupChambreDisponible(?)}");
 			state.setInt(1, pIdType);
+			ResultSet resultat = state.executeQuery();
+			
+			int id_chambre, numerochambre, id_typechambre;
+			Chambre.listChambreDispo.clear();
+
+			if (resultat.first()) {
+				do {
+					id_chambre = resultat.getInt(1);
+					numerochambre = resultat.getInt(2);
+					id_typechambre = resultat.getInt(3);
+					
+					Chambre.listChambreDispo.add(new Chambre(id_chambre, numerochambre, id_typechambre));
+					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+			
+			if(Chambre.listChambreDispo.isEmpty()) {
+				chambreDisponible2(pDateDeb, pDateFin, pIdType);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	public static void chambreDisponible2(String pDateDeb, String pDateFin, int pIdType) {//TODO
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupChambreDispo2(?, ?, ?)}");
+			state.setString(1, pDateDeb);
+			state.setString(2, pDateFin);
+			state.setInt(3, pIdType);
 			ResultSet resultat = state.executeQuery();
 			
 			int id_chambre, numerochambre, id_typechambre;
@@ -396,6 +450,42 @@ public class Login {
 		
 	}
 	
+	public static void recupClientWhereId(String pIdClient) {//TODO
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupClientWhereId(?)}");
+			state.setString(1, pIdClient);
+			ResultSet resultat = state.executeQuery();
+			
+			
+			String id_client, nom_client, prenom_client, cp_client, ville_client, rue_client, mail_client;
+			Client.listClientTemp.clear();
+			if (resultat.first()) {
+				do {
+					id_client = resultat.getString(1);
+					nom_client = resultat.getString(2);
+					prenom_client = resultat.getString(3);
+					cp_client = resultat.getString(4);
+					ville_client = resultat.getString(5);
+					rue_client = resultat.getString(6);
+					mail_client = resultat.getString(7);
+					
+					
+					Client.listClientTemp.add(new Client(id_client, nom_client, prenom_client, cp_client, ville_client, rue_client, mail_client));
+					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public static void recupReservation() {
 		Connexion con = new Connexion();

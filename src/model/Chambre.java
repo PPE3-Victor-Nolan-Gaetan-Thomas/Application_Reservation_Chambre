@@ -6,6 +6,7 @@ public class Chambre {
 	public static ArrayList<Chambre> listChambre = new ArrayList<Chambre>();
 	public static ArrayList<Chambre> listChambreDeCeType = new ArrayList<Chambre>();
 	public static ArrayList<Chambre> listChambreDispo = new ArrayList<Chambre>();
+	public static ArrayList<Chambre> listChambreTemp = new ArrayList<Chambre>();
 	
 	private int chambreid;
 	private int numerochambre;
