@@ -1,21 +1,25 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import com.toedter.calendar.JDateChooser;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.event.ActionListener;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JDateChooser;
+
+import model.Login;
+import model.Reservation;
 
 public class FVisuModifReserv extends JFrame {
 
@@ -37,6 +41,15 @@ public class FVisuModifReserv extends JFrame {
 			}
 		});
 	}
+	
+	static JList list = new JList();
+	static JDateChooser dateChooser = new JDateChooser();
+	static JDateChooser dateChooser_1 = new JDateChooser();
+	static JComboBox comboBox = new JComboBox();
+	static JButton btnModifier = new JButton("Modifier");
+	static JButton btnSupprimer = new JButton("Supprimer");
+	static JButton btnRetour = new JButton("Retour");
+	static DefaultListModel DLM = new DefaultListModel();
 
 	/**
 	 * Create the frame.
@@ -49,9 +62,15 @@ public class FVisuModifReserv extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JList list = new JList();
+		
 		list.setBounds(12, 13, 313, 367);
 		contentPane.add(list);
+		
+		Login.recupReservation();
+		for(Reservation res : Reservation.listeReservation) {
+		//	DLM.addElement();
+		}
+		list.setModel(DLM);
 		
 		JLabel lblModificationsuppression = new JLabel("Modification/\r\nSuppression");
 		lblModificationsuppression.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -71,7 +90,7 @@ public class FVisuModifReserv extends JFrame {
 		label_1.setBounds(337, 140, 126, 16);
 		contentPane.add(label_1);
 		
-		JDateChooser dateChooser = new JDateChooser();
+		
 		dateChooser.setBounds(492, 140, 174, 22);
 		contentPane.add(dateChooser);
 		
@@ -79,7 +98,7 @@ public class FVisuModifReserv extends JFrame {
 		label_2.setBounds(337, 183, 126, 16);
 		contentPane.add(label_2);
 		
-		JDateChooser dateChooser_1 = new JDateChooser();
+		
 		dateChooser_1.setBounds(492, 183, 174, 22);
 		contentPane.add(dateChooser_1);
 		
@@ -87,19 +106,19 @@ public class FVisuModifReserv extends JFrame {
 		label_3.setBounds(337, 234, 126, 16);
 		contentPane.add(label_3);
 		
-		JComboBox comboBox = new JComboBox();
+		
 		comboBox.setBounds(492, 231, 174, 22);
 		contentPane.add(comboBox);
 		
-		JButton btnModifier = new JButton("Modifier");
+		
 		btnModifier.setBounds(347, 302, 160, 59);
 		contentPane.add(btnModifier);
 		
-		JButton btnSupprimer = new JButton("Supprimer");
+		
 		btnSupprimer.setBounds(519, 302, 157, 59);
 		contentPane.add(btnSupprimer);
 		
-		JButton btnRetour = new JButton("Retour");
+		
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FMenuReservation fmr = new FMenuReservation();

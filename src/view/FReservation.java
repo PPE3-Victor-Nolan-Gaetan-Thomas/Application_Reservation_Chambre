@@ -226,6 +226,11 @@ public class FReservation extends JFrame {
 				Login.chambreDisponible(idtypechambre);
 //				System.out.println(idtypechambre);//debug
 				
+				//debug
+				for(Chambre c : Chambre.listChambreDispo)
+					System.out.println(c.getChambreid());
+				//findebug
+				
 				
 				if(!Chambre.listChambreDispo.isEmpty()) {
 					if(!txtNumClient.getText().equals("") && (dateDebutSejour.getDate()!=null) && (dateFinSejour.getDate()!=null) && combo_type_chambre.getSelectedIndex()!=-1) {
@@ -242,7 +247,11 @@ public class FReservation extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Veuillez remplir tout les champs", "Attention", NORMAL);
 					}
 				}else {//ca commence la LA LISTE DES DISPO EST VIDE
-					Login.recupReservationDeCeType(idtypechambre);//TODO
+					//TODO
+					
+					
+					
+					Login.recupReservationDeCeType(idtypechambre);
 					
 					//debug
 					for(Reservation a : Reservation.lesReservationsDeCeType)
@@ -276,10 +285,10 @@ public class FReservation extends JFrame {
 						}
 						
 						//debug
-						System.out.println("dateDebV : " + String.valueOf(sdf2.format(dateDebV)));
-						System.out.println("dateFV : " + String.valueOf(sdf2.format(dateFV)));
-						System.out.println("dateDebR : " + String.valueOf(sdf2.format(dateDebR)));
-						System.out.println("dateFinR : " + String.valueOf(sdf2.format(dateFinR)));
+//						System.out.println("dateDebV : " + String.valueOf(sdf2.format(dateDebV)));
+//						System.out.println("dateFV : " + String.valueOf(sdf2.format(dateFV)));
+//						System.out.println("dateDebR : " + String.valueOf(sdf2.format(dateDebR)));
+//						System.out.println("dateFinR : " + String.valueOf(sdf2.format(dateFinR)));
 						//fin debug
 						
 						if((dateDebV.before(dateDebR) && dateFV.before(dateDebR)) || (dateDebV.after(dateFinR) && dateFV.after(dateFinR))) {
@@ -288,15 +297,14 @@ public class FReservation extends JFrame {
 							Login.ajouterReservation(dd1, dd2, Integer.parseInt(txtNumClient.getText()), res.getidchambre());
 							estDispo = true;
 							break;
+						}else {
+							System.out.println("--------------------le test passe pas ");
 						}
 						
 					}
 					if(estDispo) {
 						JOptionPane.showMessageDialog(contentPane, "Réservation ajoutée", "Information", NORMAL);
 //						resetChamps();
-					}else {
-						JOptionPane.showMessageDialog(contentPane, "Aucune réservation n'est disponible", "Information", NORMAL);
-						System.out.println("Pas de réservation disponible");
 					}
 					
 				}

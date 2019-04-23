@@ -396,11 +396,6 @@ public class Login {
 		
 	}
 	
-	public static boolean estDisponible(int pNumChambre, Date datedebut, Date datefin) {
-		boolean reponse = false;
-		
-		return reponse;
-	}
 	
 	public static void recupReservation() {
 		Connexion con = new Connexion();

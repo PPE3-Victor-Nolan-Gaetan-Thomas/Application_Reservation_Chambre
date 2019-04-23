@@ -31,7 +31,7 @@ public class test {
 		try {
 			Date d1 = sdf.parse(date1);
 			Date d2 = sdf.parse(date2);
-			Login.estDisponible(0, d1, d2);
+		//	Login.estDisponible(0, d1, d2);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
