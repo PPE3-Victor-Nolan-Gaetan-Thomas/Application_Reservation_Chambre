@@ -76,7 +76,11 @@ public class FVisuModifReserv extends JFrame {
 		contentPane.add(list);
 		
 		Login.recupReservation();
-		Login.recupClient();
+//		for(Reservation r : Reservation.listeReservation)
+//			System.out.println(r.getidchambre());
+//		Login.recupClient();
+//		for(Client c : Client.listeClients)
+//			System.out.println(c.getNom_client());
 //		Login.recupChambre();
 		for(Reservation res : Reservation.listeReservation) {
 //			String nomClient = null;
@@ -131,23 +135,40 @@ public class FVisuModifReserv extends JFrame {
 			comboBoxTypeChambre.addItem(tp.getTypeChambre());
 		comboBoxTypeChambre.setSelectedItem(null);
 		
+		list.addListSelectionListener(new ListSelectionListener() {//TODO list
+			public void valueChanged(ListSelectionEvent e) {
+				Date d = null;
+				Date f = null;
+				try {
+					d = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateDebut());
+					f = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateFin());
+				} catch (ParseException e1) {e1.printStackTrace();}
+				
+				txtNumClient.setText(Client.listClientTemp.get(0).getId_client());
+				dtArrivee.setDate(d);
+				dtDepart.setDate(f);
+			}
+		});
+		
 		
 		btnModifier.setBounds(347, 302, 160, 59);
 		contentPane.add(btnModifier);
-//		btnSupprimer.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				if(list.getSelectedIndex()!=-1) {
-//					int id_res_a_suppr = Reservation.listeReservation.get(list.getSelectedIndex()).getIdRes();
-//					Login.supprimerReservation(id_res_a_suppr);
-//					FMenuReservation fmr = new FMenuReservation();
-//					fmr.setVisible(true);
-//					dispose();
-//				}else {
-//					JOptionPane.showMessageDialog(contentPane, "Aucune réservation sélectionnée", "Attention", NORMAL);
-//				}
-//				
-//			}
-//		});
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(list.getSelectedIndex()!=-1) {
+					int id_res_a_suppr = Reservation.listeReservation.get(list.getSelectedIndex()).getIdRes();
+					Login.supprimerReservation(id_res_a_suppr);					
+					JOptionPane.showMessageDialog(contentPane, "Réservation supprimée", "Information", NORMAL);
+					FMenuReservation fmr = new FMenuReservation();
+					fmr.setVisible(true);
+					dispose();
+					DLM.clear();
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "Aucune réservation sélectionnée", "Attention", NORMAL);
+				}
+				
+			}
+		});
 		
 		
 		btnSupprimer.setBounds(519, 302, 157, 59);
@@ -165,26 +186,6 @@ public class FVisuModifReserv extends JFrame {
 		btnRetour.setBackground(Color.ORANGE);
 		btnRetour.setBounds(582, 13, 97, 36);
 		contentPane.add(btnRetour);
-		
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				Date debtmp = null;
-				Date fintmp = null;
-				if(list.getSelectedIndex()>-1) {
-					try {
-						debtmp = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateDebut());
-						fintmp = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateFin());
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-					txtNumClient.setText(Client.listClientTemp.get(list.getSelectedIndex()).getId_client());
-					dtArrivee.setDate(debtmp);
-					dtDepart.setDate(fintmp);
-					//comboBoxTypeChambre.setSelectedIndex();
-				}
-				
-			}
-		});
 		
 	}
 }
