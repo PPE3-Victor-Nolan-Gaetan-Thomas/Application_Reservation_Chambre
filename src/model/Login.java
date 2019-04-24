@@ -487,6 +487,52 @@ public class Login {
 		
 	}
 	
+	public static void modifierReservation(int pIdRes, String pDateDeb, String pDateFin) {
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			System.out.println(pIdRes);
+			PreparedStatement state = conn.prepareStatement("{CALL modifierReservation(?, ?, ?)}");
+			state.setInt(1, pIdRes);
+			state.setString(2, pDateDeb);
+			state.setString(3, pDateFin);
+			
+			state.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static int recupTypeResByIdChambre(String pIdChambre) {//TODO 
+		int rep = 0;
+		Connexion con = new Connexion();
+		Connection conn = con.getConn();
+		
+		try {
+			PreparedStatement state = conn.prepareStatement("{CALL recupTypeResByIdChambre(?)}");
+			state.setString(1, pIdChambre);
+			ResultSet resultat = state.executeQuery();
+			
+			
+			Client.listClientTemp.clear();
+			if (resultat.first()) {
+				do {
+					rep = resultat.getInt(1);					
+				} while (resultat.next());
+
+			}
+			//con.fermerConnexion();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rep;
+		
+	}
+	
 	public static void recupReservation() {
 		Connexion con = new Connexion();
 		Connection conn = con.getConn();
@@ -507,8 +553,8 @@ public class Login {
 			if (resultat.first()) {
 				do {
 					idRes = resultat.getInt(1);
-					dateFin = resultat.getString(2);
-					dateDebut = resultat.getString(3);
+					dateDebut = resultat.getString(2);
+					dateFin = resultat.getString(3);
 					idclient = resultat.getInt(4);
 					idchambre = resultat.getInt(5);
 					

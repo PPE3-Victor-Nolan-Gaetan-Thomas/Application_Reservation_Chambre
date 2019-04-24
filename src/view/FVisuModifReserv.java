@@ -32,7 +32,7 @@ import model.TypeChambre;
 public class FVisuModifReserv extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNumClient;
+	static JTextField txtNumClient;
 
 	/**
 	 * Launch the application.
@@ -106,6 +106,7 @@ public class FVisuModifReserv extends JFrame {
 		txtNumClient.setColumns(10);
 		txtNumClient.setBounds(492, 92, 174, 22);
 		contentPane.add(txtNumClient);
+		txtNumClient.setEnabled(false);
 		
 		JLabel label_1 = new JLabel("Date arriv\u00E9e : ");
 		label_1.setBounds(337, 140, 126, 16);
@@ -137,16 +138,39 @@ public class FVisuModifReserv extends JFrame {
 		
 		list.addListSelectionListener(new ListSelectionListener() {//TODO list
 			public void valueChanged(ListSelectionEvent e) {
-				Date d = null;
-				Date f = null;
-				try {
-					d = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateDebut());
-					f = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateFin());
-				} catch (ParseException e1) {e1.printStackTrace();}
-				
-				txtNumClient.setText(Client.listClientTemp.get(0).getId_client());
-				dtArrivee.setDate(d);
-				dtDepart.setDate(f);
+				if(list.getSelectedIndex()!=-1) {
+					Date d = null;
+					Date f = null;
+//					int idtype = Login.recupTypeResByIdChambre(Integer.parseInt(Reservation.listeReservation.get(list.getSelectedIndex()).getIdRes()));
+					try {
+						d = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateDebut());
+						f = sdf.parse(Reservation.listeReservation.get(list.getSelectedIndex()).getDateFin());
+					} catch (ParseException e1) {e1.printStackTrace();}
+					
+					txtNumClient.setText(Client.listClientTemp.get(0).getId_client());
+					dtArrivee.setDate(d);
+					dtDepart.setDate(f);
+				}
+			}
+		});
+		btnModifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				if(txtNumClient.getText()!="" && dtArrivee.getDate()!=null && dtDepart.getDate()!=null) {
+					if(dtArrivee.getDate().before(dtDepart.getDate())) {
+						Login.modifierReservation(Reservation.listeReservation.get(list.getSelectedIndex()).getIdRes(), sdf.format(dtArrivee.getDate()), sdf.format(dtDepart.getDate()));
+						JOptionPane.showMessageDialog(contentPane, "Réservation modifiée", "Information", NORMAL);
+						list.clearSelection();
+						FMenuReservation fmr = new FMenuReservation();
+						fmr.setVisible(true);
+						dispose();
+						DLM.clear();
+						resetChamps();
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Vous ne pouvez pas réserver dans le passé ...", "Attention", NORMAL);
+					}
+					
+				}
 			}
 		});
 		
@@ -187,5 +211,11 @@ public class FVisuModifReserv extends JFrame {
 		btnRetour.setBounds(582, 13, 97, 36);
 		contentPane.add(btnRetour);
 		
+	}
+	public static void resetChamps() {
+		txtNumClient.setText(null);
+		dtArrivee.setDate(null);
+		dtDepart.setDate(null);
+		comboBoxTypeChambre.setSelectedIndex(-1);
 	}
 }
