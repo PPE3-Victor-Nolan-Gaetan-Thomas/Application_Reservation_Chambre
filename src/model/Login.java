@@ -238,6 +238,7 @@ public class Login {
 			int nbChambreMax;
 			int prixChambre;
 			
+			TypeChambre.listTypeChambre.clear();
 
 			if (resultat.first()) {
 				do {

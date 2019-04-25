@@ -29,7 +29,7 @@ public class Connexion {
         this.nomBDD = "eastmaster";
         this.login = "root";
         this.mdp = "";
-        this.url = "127.0.0.1";//127.0.0.1 172.29.104.5
+        this.url = "172.29.104.45";//127.0.0.1 172.29.104.5
         
         // Ici, la bdd est en local donc pas de danger. Par contre, si on est en prod, remove les identifiants pour les mettre dans un autre fichier (pour Github)
         
